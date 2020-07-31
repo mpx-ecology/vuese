@@ -7,7 +7,7 @@
     "module": "esnext",
     "allowJs": false,
     "noUnusedLocals": true,
-    "noImplicitAny": true,
+    // "noImplicitAny": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "strictNullChecks": true,

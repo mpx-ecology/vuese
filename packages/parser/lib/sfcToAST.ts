@@ -13,6 +13,7 @@ export interface AstResult {
   sourceType?: string
   jsAst?: bt.File
   templateAst?: object
+  styleSource?: string
   jsSource: string
   templateSource: string
 }
@@ -24,7 +25,7 @@ export function sfcToAST(
 ): AstResult {
   const plugins = getBabelParserPlugins(babelParserPlugins)
   const sfc = parseComponent(source)
-  const res: AstResult = { jsSource: '', templateSource: '' }
+  const res: AstResult = { jsSource: '', templateSource: '', styleSource: '' }
   if (sfc.script) {
     if (!sfc.script.content && sfc.script.src) {
       // Src Imports
@@ -66,6 +67,22 @@ export function sfcToAST(
     res.templateAst = compile(sfc.template.content, {
       comments: true
     }).ast
+  }
+  if (sfc.styles.length > 0) {
+    sfc.styles.map(style => {
+      if (!style.content && style.src) {
+        if (basedir) {
+          try {
+            res.styleSource +=
+              '\n' + fs.readFileSync(path.resolve(basedir, style.src), 'utf-8')
+          } catch (e) {
+            console.error(e)
+          }
+        }
+      } else {
+        res.styleSource += '\n' + style.content
+      }
+    })
   }
   return res
 }

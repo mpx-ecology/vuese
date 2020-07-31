@@ -13,9 +13,10 @@ export interface MarkdownResult {
 
 export default function(
   renderRes: RenderResult,
-  parserRes: ParserResult
+  parserRes: ParserResult,
+  initialMd: string
 ): MarkdownResult | null {
-  const mdTemplate = genMarkdownTpl(parserRes)
+  const mdTemplate = genMarkdownTpl(parserRes, initialMd)
 
   // Indicates that this component has no documentable content
   if (!mdTemplate) return null

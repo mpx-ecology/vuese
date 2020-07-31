@@ -20,7 +20,7 @@ export function determineChildren(
   if (!lastParamNode || !bt.isIdentifier(lastParamNode)) return
 
   // Get the binding of the context within the scope of the render function
-  let contextBinding = null
+  let contextBinding
   const bindingKeys = Object.keys(functionPath.scope.bindings)
   for (let i = 0; i < bindingKeys.length; i++) {
     if (bindingKeys[i] === lastParamNode.name) {

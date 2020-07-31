@@ -1,14 +1,7 @@
 import { ParserResult } from '@vuese/parser'
 
-export default function(parserRes: ParserResult) {
-  const desc = parserRes.componentDesc
-  let templateStr = '# [name]\n\n'
-
-  if (desc && desc.default.length) {
-    templateStr += `${desc.default.join(' ')}\n\n`
-  }
-  const forceGenerate = desc && desc.vuese && parserRes.name
-  const original = templateStr
+export default function(parserRes: ParserResult, initialMd: string) {
+  let templateStr = initialMd
 
   templateStr += parserRes.props ? genBaseTemplate('props') : ''
   templateStr += parserRes.events ? genBaseTemplate('events') : ''
@@ -18,8 +11,9 @@ export default function(parserRes: ParserResult) {
   templateStr += parserRes.mixIns ? genBaseTemplate('mixIns') : ''
   templateStr += parserRes.data ? genBaseTemplate('data') : ''
   templateStr += parserRes.watch ? genBaseTemplate('watch') : ''
+  templateStr += parserRes.externalClasses ? genBaseTemplate('externalClasses') : ''
 
-  return !forceGenerate && original === templateStr ? '' : templateStr
+  return templateStr
 }
 
 function genBaseTemplate(label: string) {

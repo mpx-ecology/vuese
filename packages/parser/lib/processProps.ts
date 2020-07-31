@@ -45,7 +45,7 @@ export function processPropValue(
         return
       }
       const n = node.key.name
-      if (n === 'default') {
+      if (n === 'default' || n === 'value') {
         if (!hasFunctionTypeDef(result.type)) {
           if (bt.isObjectMethod(node)) {
             // Using functionExpression instead of ObjectMethod

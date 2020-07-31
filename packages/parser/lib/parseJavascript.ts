@@ -10,7 +10,8 @@ import {
   DataResult,
   MixInResult,
   SlotResult,
-  WatchResult
+  WatchResult,
+  ExternalClassesResult
 } from '@vuese/parser'
 import { getValueFromGenerate, isVueOption, computesFromStore } from './helper'
 import {
@@ -25,6 +26,9 @@ import { determineChildren } from './processRenderFunction'
 import { Seen } from './seen'
 
 // const vueComponentVisitor =
+
+const MPX_CREATE_COMPONENT = 'createComponent'
+const MPX_CREATE_PAGE = 'createPage'
 
 export function parseJavascript(
   ast: bt.File,
@@ -57,17 +61,39 @@ export function parseJavascript(
         onSlot,
         onMixIn,
         onData,
-        onWatch
+        onWatch,
+        onExternalClasses
       } = options
       // Processing name
-
       if (isVueOption(path, 'name', componentLevel)) {
         const componentName = (path.node.value as bt.StringLiteral).value
         if (onName) onName(componentName)
       }
 
+      // Processing externalClasses for miniapp
+      if (
+        onExternalClasses &&
+        isVueOption(path, 'externalClasses', componentLevel)
+      ) {
+        const valuePath = path.get('value')
+
+        if (bt.isArrayExpression(valuePath.node)) {
+          const elementsPath = path.get('value.elements')
+          ;(elementsPath as NodePath[]).forEach(elePath => {
+            const commentsRes: CommentResult = getComments(elePath.node)
+            if (onExternalClasses) {
+              const externalClassesResult: ExternalClassesResult = {
+                name: (elePath.node as any).value,
+                describe: commentsRes.default
+              }
+              onExternalClasses(externalClassesResult)
+            }
+          })
+        }
+      }
+
       // Processing props
-      if (onProp && isVueOption(path, 'props', componentLevel)) {
+      if (onProp && isVueOption(path, 'props|properties', componentLevel)) {
         const valuePath = path.get('value')
 
         if (bt.isArrayExpression(valuePath.node)) {
@@ -123,9 +149,8 @@ export function parseJavascript(
         const properties = (path.node
           .value as bt.ObjectExpression).properties.filter(
           n => bt.isObjectMethod(n) || bt.isObjectProperty(n)
-        ) as (bt.ObjectMethod | bt.ObjectProperty)[]
-
-        properties.forEach(node => {
+        ) as bt.ObjectMethod | bt.ObjectProperty[]
+        ;(properties as bt.ObjectProperty[]).forEach(node => {
           const commentsRes: CommentResult = getComments(node)
           const isFromStore: boolean = computesFromStore(node)
 
@@ -142,6 +167,12 @@ export function parseJavascript(
         })
       }
 
+      // TODO: data 的注解
+      // if (onData && isVueOption(path, 'data', componentLevel)) {
+      //   if (options.isMpx) {
+
+      //   } else if ()
+      // }
       if (
         onData &&
         isVueOption(path, 'data', componentLevel) &&
@@ -528,6 +559,23 @@ export function parseJavascript(
           }
         }
       })
+    },
+    CallExpression(rootPath: NodePath<bt.CallExpression>) {
+      if (
+        bt.isIdentifier(rootPath.node.callee) &&
+        (rootPath.node.callee.name === MPX_CREATE_COMPONENT ||
+          rootPath.node.callee.name === MPX_CREATE_PAGE)
+      ) {
+        const mpxOptsDef = rootPath.node.arguments && rootPath.node.arguments[0]
+        if (bt.isObjectExpression(mpxOptsDef)) {
+          // const traversePath = rootPath.get('expression.arguments')[0] as NodePath<bt.ObjectExpression>
+          rootPath.traverse({
+            ObjectExpression(path: NodePath<bt.ObjectExpression>) {
+              path.traverse(vueComponentVisitor)
+            }
+          })
+        }
+      }
     }
   })
 }

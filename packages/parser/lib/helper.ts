@@ -13,6 +13,7 @@ export function isVueComponent(
   const node = path.node
   return (
     bt.isExportDefaultDeclaration(node) ||
+    bt.isCallExpression(node) ||
     bt.isVariableDeclarator(node) ||
     (bt.isReturnStatement(node) && componentLevel === 1)
   )
@@ -27,6 +28,7 @@ export function isVueOption(
   optionsName: string,
   componentLevel: number
 ): boolean {
+  const optionsNames = optionsName.split('|')
   if (
     isValidObjectProperty(path.node) &&
     path.parentPath &&
@@ -34,7 +36,7 @@ export function isVueOption(
     isVueComponent(path.parentPath.parentPath, componentLevel)
   ) {
     // General component options
-    return path.node.key.name === optionsName
+    return optionsNames.includes(path.node.key.name)
   } else if (
     isValidObjectProperty(path.node) &&
     path.parentPath &&
@@ -46,7 +48,7 @@ export function isVueOption(
     bt.isDecorator(path.parentPath.parentPath.parentPath.node)
   ) {
     // options in ts @Component({...})
-    return path.node.key.name === optionsName
+    return optionsNames.includes(path.node.key.name)
   }
   return false
 }

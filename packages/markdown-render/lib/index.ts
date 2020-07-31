@@ -7,7 +7,8 @@ import {
   DataResult,
   MethodResult,
   ComputedResult,
-  WatchResult
+  WatchResult,
+  ExternalClassesResult
 } from '@vuese/parser'
 import renderMarkdown, { MarkdownResult } from './renderMarkdown'
 
@@ -22,6 +23,7 @@ interface RenderOptions {
   mixIns: string[]
   data: string[]
   watch: string[]
+  externalClasses: string[]
 }
 
 export interface RenderResult {
@@ -32,7 +34,8 @@ export interface RenderResult {
   computed?: string
   mixIns?: string
   data?: string
-  watch?: string
+  watch?: string,
+  externalClasses?: string
 }
 
 export class Render {
@@ -50,7 +53,8 @@ export class Render {
         computed: ['Computed', 'Type', 'Description', 'From Store'],
         mixIns: ['MixIn'],
         data: ['Name', 'Type', 'Description', 'Default'],
-        watch: ['Name', 'Description', 'Parameters']
+        watch: ['Name', 'Description', 'Parameters'],
+        externalClasses: ['Name', 'Description']
       },
       this.options
     )
@@ -65,7 +69,8 @@ export class Render {
       mixIns,
       data,
       computed,
-      watch
+      watch,
+      externalClasses
     } = this.parserResult
     const md: RenderResult = {}
     if (props) {
@@ -91,6 +96,9 @@ export class Render {
     }
     if (watch) {
       md.watch = this.watchRender(watch)
+    }
+    if (externalClasses) {
+      md.externalClasses = this.externalClassesRender(externalClasses)
     }
 
     return md
@@ -391,6 +399,25 @@ export class Render {
     return code
   }
 
+  externalClassesRender(externalClassRes: ExternalClassesResult[]) {
+    const externalClassesConfig = (this.options as RenderOptions).externalClasses
+    let code = this.renderTabelHeader(externalClassesConfig)
+    externalClassRes.forEach((externalClass: ExternalClassesResult) => {
+      const row: string[] = []
+      for (let i = 0; i < externalClassesConfig.length; i++) {
+        if (externalClassesConfig[i] === 'Name') {
+          row.push(externalClass.name)
+        } else if (externalClassesConfig[i] === 'Description') {
+          row.push(externalClass.describe.length > 0 ? externalClass.describe.join(' ') : '-')
+        } else {
+          row.push('-')
+        }
+      }
+      code += this.renderTabelRow(row)
+    })
+    return code
+  }
+
   renderTabelHeader(header: string[]): string {
     const headerString = this.renderTabelRow(header)
     const splitLine = this.renderSplitLine(header.length)
@@ -409,8 +436,8 @@ export class Render {
     return line + '|'
   }
 
-  renderMarkdown(): MarkdownResult | null {
-    return renderMarkdown(this.render(), this.parserResult)
+  renderMarkdown(initialMd = ''): MarkdownResult | null {
+    return renderMarkdown(this.render(), this.parserResult, initialMd)
   }
 }
 

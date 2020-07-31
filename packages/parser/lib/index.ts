@@ -108,7 +108,13 @@ export interface SlotResult {
   target: 'template' | 'script'
 }
 
+export interface ExternalClassesResult {
+  name: string
+  describe: string[]
+}
+
 export interface ParserOptions {
+  isMpx?: boolean
   onProp?: {
     (propsRes: PropsResult): void
   }
@@ -139,6 +145,9 @@ export interface ParserOptions {
   onWatch?: {
     (watch: WatchResult): void
   }
+  onExternalClasses?: {
+    (externalClasses: ExternalClassesResult): void
+  }
   babelParserPlugins?: BabelParserPlugins
   basedir?: string
   includeSyncEvent?: boolean
@@ -155,6 +164,7 @@ export interface ParserResult {
   watch?: WatchResult[]
   name?: string
   componentDesc?: CommentResult
+  externalClasses?: ExternalClassesResult[]
 }
 
 export function parser(
@@ -193,6 +203,11 @@ export function parser(
     },
     onWatch(watchRes: WatchResult) {
       ;(res.watch || (res.watch = [])).push(watchRes)
+    },
+    onExternalClasses(externalClassesRes: ExternalClassesResult) {
+      ;(res.externalClasses || (res.externalClasses = [])).push(
+        externalClassesRes
+      )
     }
   }
 
