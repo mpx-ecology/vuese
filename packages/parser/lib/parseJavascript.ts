@@ -11,7 +11,8 @@ import {
   MixInResult,
   SlotResult,
   WatchResult,
-  ExternalClassesResult
+  ExternalClassesResult,
+  EventNameMap
 } from '@vuese/parser'
 import { getValueFromGenerate, isVueOption, computesFromStore } from './helper'
 import {
@@ -38,6 +39,7 @@ export function parseJavascript(
 ): void {
   // backward compatibility
   const seenSlot = new Seen()
+  const eventNameMap: EventNameMap = {}
   let exportDefaultReferencePath: unknown = null
   let componentLevel = 0
   const vueComponentVisitor = {
@@ -337,7 +339,8 @@ export function parseJavascript(
             path,
             seenEvent,
             options,
-            parentExpressionStatementNode
+            parentExpressionStatementNode,
+            eventNameMap
           )
         }
       } else if (
@@ -576,6 +579,18 @@ export function parseJavascript(
           })
         }
       }
+    },
+    VariableDeclaration(rootPath: NodePath<bt.VariableDeclaration>) {
+      rootPath.node.declarations.forEach(declaration => {
+        // collect EVENT_ variables
+        if (bt.isVariableDeclarator(declaration)) {
+          const eventReg = /^EVENT_/
+          const { id, init } = declaration
+          if (eventReg.test((id as any).name)) {
+            eventNameMap[(id as any).name] = (init as any).value
+          }
+        }
+      })
     }
   })
 }
@@ -584,7 +599,8 @@ export function processEmitCallExpression(
   path: NodePath<bt.CallExpression>,
   seenEvent: Seen,
   options: ParserOptions,
-  parentExpressionStatementNodePath: NodePath<bt.Node>
+  parentExpressionStatementNodePath: NodePath<bt.Node>,
+  eventNameMap: EventNameMap = {}
 ): void {
   const node = path.node
   const { onEvent, includeSyncEvent } = options
@@ -600,7 +616,7 @@ export function processEmitCallExpression(
       result.name = firstArg.value
     } else {
       if (bt.isIdentifier(firstArg)) {
-        result.name = '`' + firstArg.name + '`'
+        result.name = eventNameMap[firstArg.name] ? eventNameMap[firstArg.name] : '`' + firstArg.name + '`'
       }
     }
   }

@@ -47,6 +47,10 @@ type ParserPlugin =
   | 'nullishCoalescingOperator'
 export type BabelParserPlugins = { [key in ParserPlugin]?: boolean }
 
+export interface EventNameMap {
+  [key: string]: string
+}
+
 export interface PropsResult {
   type: PropType
   name: string
