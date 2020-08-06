@@ -1,5 +1,5 @@
 {
-  "name": "@vuese/parser",
+  "name": "@didi/vuese-parser",
   "version": "2.9.1",
   "description": "Vue file parser for automatic document generation",
   "keywords": [
@@ -10,7 +10,6 @@
   "author": "HcySunYang <HcySunYang@outlook.com>",
   "homepage": "https://github.com/vuese/vuese/tree/master/packages/parser#readme",
   "license": "MIT",
-  "main": "lib/index.ts",
   "types": "dist/index.d.ts",
   "files": [
     "dist"

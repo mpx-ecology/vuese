@@ -1,5 +1,5 @@
 {
-  "name": "@vuese/markdown-render",
+  "name": "@didi/vuese-markdown-render",
   "version": "2.10.1",
   "description": "Render raw markdown string according to AST",
   "keywords": [
@@ -10,7 +10,6 @@
   "author": "HcySunYang <HcySunYang@outlook.com>",
   "homepage": "https://github.com/vuese/vuese/tree/master/packages/markdown-render#readme",
   "license": "MIT",
-  "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
