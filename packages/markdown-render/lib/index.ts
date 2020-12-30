@@ -11,11 +11,12 @@ import {
   ExternalClassesResult
 } from '@vuese/parser'
 import renderMarkdown, { MarkdownResult } from './renderMarkdown'
+import { propsHeadOptions, PropOption } from './config'
 
 export { MarkdownResult }
 
 interface RenderOptions {
-  props: string[]
+  props: PropOption[]
   slots: string[]
   events: string[]
   methods: string[]
@@ -38,15 +39,18 @@ export interface RenderResult {
   externalClasses?: string
 }
 
+
+
 export class Render {
+  public tableHeadLang = 'en'
   constructor(
     public parserResult: ParserResult,
-    public options?: RenderOptions
+    public options?: RenderOptions,
   ) {
     this.options = Object.assign(
       {},
       {
-        props: ['Name', 'Description', 'Type', 'Required', 'Default'],
+        props: propsHeadOptions,
         events: ['Event Name', 'Description', 'Parameters'],
         slots: ['Name', 'Description', 'Default Slot Content'],
         methods: ['Method', 'Description', 'Parameters'],
@@ -106,65 +110,88 @@ export class Render {
 
   propRender(propsRes: PropsResult[]) {
     const propConfig = (this.options as RenderOptions).props
-    let code = this.renderTabelHeader(propConfig)
-    propsRes.forEach((prop: PropsResult) => {
+    let code = this.renderTabelHeader(propConfig.map(prop => prop[this.tableHeadLang]))
+    for (const propRes of propsRes) {
       const row: string[] = []
-      for (let i = 0; i < propConfig.length; i++) {
-        if (propConfig[i] === 'Name') {
-          row.push(prop.name)
-        } else if (propConfig[i] === 'Description') {
-          let desc: string[] = ['-']
-          if (prop.describe && prop.describe.length) {
-            desc = prop.describe
-            if (prop.validatorDesc) {
-              desc = prop.describe.concat(prop.validatorDesc)
+      for(const propHead of propConfig) {
+        switch(propHead.type) {
+          case 'name':
+            row.push(propRes.name)
+            break
+          case 'wx':
+          case 'ali':
+          case 'web':
+          case 'required':
+            if(Array.isArray(propRes.describe)) {
+              row.push('-')
+            } else {
+              const key = propRes.describe?.[propHead.type][0]
+              row.push(key === 'true' ? '✔': '-')
             }
-          }
-          row.push(desc.join(' '))
-        } else if (propConfig[i] === 'Type') {
-          if (prop.typeDesc) {
-            row.push(prop.typeDesc.join(' '))
-          } else if (!prop.type) {
-            row.push('—')
-          } else if (typeof prop.type === 'string') {
-            row.push(`\`${prop.type}\``)
-          } else if (Array.isArray(prop.type)) {
-            row.push(
-              prop.type
-                .map(t => `\`${t}\` / `)
-                .join(' ')
-                .slice(0, -3)
-            )
-          } else {
+            break
+          case 'describe':
+            let desc: string[] = ['-']
+            if(Array.isArray(propRes.describe)) {
+              if(propRes.describe.length) {
+                desc = propRes.describe
+              } 
+            } else {
+              desc = propRes.describe?.describe as string[]
+            }
+            if(propRes.validatorDesc) {
+              if(desc[0] === '-') {
+                desc = propRes.validatorDesc
+              } else {
+                desc = desc.concat(propRes.validatorDesc)
+              }
+            }
+            row.push(desc.join(' '))
+            break
+          case 'type':
+            if (propRes.typeDesc) {
+              row.push(propRes.typeDesc.join(' '))
+            } else if (!propRes.type) {
+              row.push('—')
+            } else if (typeof propRes.type === 'string') {
+              row.push(`\`${propRes.type}\``)
+            } else if (Array.isArray(propRes.type)) {
+              row.push(
+                propRes.type
+                  .map(t => `\`${t}\` / `)
+                  .join(' ')
+                  .slice(0, -3)
+              )
+            } else {
+              row.push('-')
+            }
+            break
+          case 'default':
+            if (propRes.defaultDesc) {
+              row.push(propRes.defaultDesc.join(' '))
+            } else if (propRes.default) {
+              row.push(
+                typeof propRes.default === 'object'
+                  ? JSON.stringify(propRes.default)
+                  : propRes.default
+              )
+            } else {
+              row.push('-')
+            }
+            break
+          case 'optional':
+            if(Array.isArray(propRes.describe)) {
+              row.push('-')
+            } else {
+              const optionalValues = propRes.describe?.optional[0].split(' ').join(',') as string
+              row.push(optionalValues)
+            }
+            break
+          default:
             row.push('-')
-          }
-        } else if (propConfig[i] === 'Required') {
-          if (typeof prop.required === 'undefined') {
-            row.push('`false`')
-          } else if (typeof prop.required === 'boolean') {
-            row.push(`\`${String(prop.required)}\``)
-          } else {
-            row.push('-')
-          }
-        } else if (propConfig[i] === 'Default') {
-          if (prop.defaultDesc) {
-            row.push(prop.defaultDesc.join(' '))
-          } else if (prop.default) {
-            row.push(
-              typeof prop.default === 'object'
-                ? JSON.stringify(prop.default)
-                : prop.default
-            )
-          } else {
-            row.push('-')
-          }
-        } else {
-          row.push('-')
         }
       }
       code += this.renderTabelRow(row)
-    })
-
+    }
     return code
   }
 
@@ -436,7 +463,8 @@ export class Render {
     return line + '|'
   }
 
-  renderMarkdown(initialMd = ''): MarkdownResult | null {
+  renderMarkdown(lang = 'en', initialMd = ''): MarkdownResult | null {
+    this.tableHeadLang = lang
     return renderMarkdown(this.render(), this.parserResult, initialMd)
   }
 }
