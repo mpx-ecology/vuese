@@ -115,10 +115,11 @@ export function parseJavascript(
                   ? propPath.node.key.name
                   : propPath.node.key.value
                 const propValueNode = propPath.node.value
+                const describe = getComments(propPath.node)
                 const result: PropsResult = {
                   name,
                   type: null,
-                  describe: getComments(propPath.node).default
+                  describe: describe.default.length ? describe.default : describe
                 }
 
                 processPropValue(propValueNode, result, source)

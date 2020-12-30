@@ -60,7 +60,7 @@ export interface PropsResult {
   defaultDesc?: string[]
   validator?: string
   validatorDesc?: string[]
-  describe?: string[]
+  describe?: string[] | CommentResult
 }
 
 export interface EventResult {
