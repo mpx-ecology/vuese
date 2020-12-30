@@ -125,7 +125,7 @@ export class Render {
             if(Array.isArray(propRes.describe)) {
               row.push('-')
             } else {
-              const key = propRes.describe?.[propHead.type][0]
+              const key = (propRes.describe as any)[propHead.type][0]
               row.push(key === 'true' ? '✔': '-')
             }
             break
@@ -136,7 +136,7 @@ export class Render {
                 desc = propRes.describe
               } 
             } else {
-              desc = propRes.describe?.describe as string[]
+              desc = (propRes.describe as any).describe as string[]
             }
             if(propRes.validatorDesc) {
               if(desc[0] === '-') {
@@ -182,7 +182,7 @@ export class Render {
             if(Array.isArray(propRes.describe)) {
               row.push('-')
             } else {
-              const optionalValues = propRes.describe?.optional[0].split(' ').join(',') as string
+              const optionalValues = (propRes.describe as any).optional[0].split(' ').join(',') as string
               row.push(optionalValues)
             }
             break
