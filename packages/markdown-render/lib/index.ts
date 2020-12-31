@@ -127,7 +127,7 @@ export class Render {
             } else {
               const key = (propRes.describe as any)[propHead.type]
               if(key) {
-                row.push(key === 'true' ? '✔': '-')
+                row.push(key[0] === 'true' ? '✔': '-')
               } else {
                 row.push('-')
               }
