@@ -125,8 +125,12 @@ export class Render {
             if(Array.isArray(propRes.describe)) {
               row.push('-')
             } else {
-              const key = (propRes.describe as any)[propHead.type][0]
-              row.push(key === 'true' ? '✔': '-')
+              const key = (propRes.describe as any)[propHead.type]
+              if(key) {
+                row.push(key === 'true' ? '✔': '-')
+              } else {
+                row.push('-')
+              }
             }
             break
           case 'describe':
@@ -136,7 +140,8 @@ export class Render {
                 desc = propRes.describe
               } 
             } else {
-              desc = (propRes.describe as any).describe as string[]
+              const describe = (propRes.describe as any).describe as string[]
+              desc = describe || desc
             }
             if(propRes.validatorDesc) {
               if(desc[0] === '-') {
@@ -182,8 +187,13 @@ export class Render {
             if(Array.isArray(propRes.describe)) {
               row.push('-')
             } else {
-              const optionalValues = (propRes.describe as any).optional[0].split(' ').join(',') as string
-              row.push(optionalValues)
+              const optional = (propRes.describe as any).optional
+              if (optional) {
+                const optionalValues = (propRes.describe as any).optional[0].split(' ').join(',') as string
+                row.push(optionalValues)
+              } else {
+                row.push('-')
+              }
             }
             break
           default:
