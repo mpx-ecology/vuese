@@ -189,7 +189,7 @@ export class Render {
             } else {
               const optional = (propRes.describe as any).optional
               if (optional) {
-                const optionalValues = (propRes.describe as any).optional[0].split(' ').join(',') as string
+                const optionalValues = (propRes.describe as any).optional[0] as string
                 row.push(optionalValues)
               } else {
                 row.push('-')
