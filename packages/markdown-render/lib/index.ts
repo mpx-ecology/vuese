@@ -121,7 +121,7 @@ export class Render {
           case 'wx':
           case 'ali':
           case 'web':
-          case 'required':
+          // case 'required':
             if(Array.isArray(propRes.describe)) {
               row.push('-')
             } else {

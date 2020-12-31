@@ -34,11 +34,11 @@ export const propsHeadOptions: PropOption[] = [
     zh: '类型',
     en: 'Type'
   },
-  {
-    type: 'required',
-    zh: '必需值',
-    en: 'Required'
-  },
+  // {
+  //   type: 'required',
+  //   zh: '必需值',
+  //   en: 'Required'
+  // },
   {
     type: 'optional',
     zh: '可选值',
