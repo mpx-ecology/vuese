@@ -16,7 +16,7 @@
     "contributors:generate": "all-contributors generate",
     "vuese-cli": "./packages/cli/bin/index.js",
     "lerna-tsc": "lerna run tsc",
-    "release": "lerna publish"
+    "release": "yarn build && lerna publish"
   },
   "dependencies": {
     "@babel/generator": "^7.10.3",
