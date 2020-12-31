@@ -11,12 +11,12 @@ import {
   ExternalClassesResult
 } from '@vuese/parser'
 import renderMarkdown, { MarkdownResult } from './renderMarkdown'
-import { propsHeadOptions, PropOption } from './config'
+import { propsHeadOptions, HeadOption } from './config'
 
 export { MarkdownResult }
 
 interface RenderOptions {
-  props: PropOption[]
+  props: HeadOption[]
   slots: string[]
   events: string[]
   methods: string[]
@@ -133,15 +133,15 @@ export class Render {
               }
             }
             break
-          case 'describe':
+          case 'description':
             let desc: string[] = ['-']
             if(Array.isArray(propRes.describe)) {
               if(propRes.describe.length) {
                 desc = propRes.describe
               } 
             } else {
-              const describe = (propRes.describe as any).describe as string[]
-              desc = describe || desc
+              const description = (propRes.describe as any).description as string[]
+              desc = description || desc
             }
             if(propRes.validatorDesc) {
               if(desc[0] === '-') {

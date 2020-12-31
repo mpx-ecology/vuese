@@ -1,9 +1,9 @@
-export interface PropOption {
+export interface HeadOption {
   type: string
   zh: string
   en: string
 }
-export const propsHeadOptions: PropOption[] = [
+export const propsHeadOptions: HeadOption[] = [
   {
     type: 'name',
     zh: '参数',
@@ -25,9 +25,9 @@ export const propsHeadOptions: PropOption[] = [
     en: 'Alipay'
   },
   {
-    type: 'describe',
+    type: 'description',
     zh: '说明',
-    en: 'Describe'
+    en: 'Description'
   },
   {
     type: 'type',
@@ -49,4 +49,30 @@ export const propsHeadOptions: PropOption[] = [
     zh: '默认值',
     en: 'Default'
   }
+]
+
+export const slotsHeadOptions: HeadOption[] = [
+  {
+    type: 'name',
+    zh: '参数',
+    en: 'Name'
+  },
+  {
+    type: 'description',
+    zh: '参数',
+    en: 'Description'
+  },
+  {
+    type: 'default',
+    zh: '默认插槽内容',
+    en: 'Default Slot Content'
+  },
+]
+
+export const mixinsHeadOptions: HeadOption[] = [
+  {
+    type: 'name',
+    zh: '参数',
+    en: 'Name'
+  },
 ]
