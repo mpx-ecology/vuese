@@ -185,6 +185,9 @@ export function parser(
       res.componentDesc = desc
     },
     onProp(propsRes: PropsResult) {
+      if (typeof propsRes.describe === 'object' && (propsRes.describe as CommentResult).dosHide) {
+        return
+      }
       ;(res.props || (res.props = [])).push(propsRes)
     },
     onEvent(eventsRes: EventResult) {
@@ -197,7 +200,7 @@ export function parser(
       ;(res.mixIns || (res.mixIns = [])).push(mixInRes)
     },
     onMethod(methodRes: MethodResult) {
-      ;(res.methods || (res.methods = [])).push(methodRes)
+      (res.methods || (res.methods = [])).push(methodRes)
     },
     onComputed(computedRes: ComputedResult) {
       ;(res.computed || (res.computed = [])).push(computedRes)
