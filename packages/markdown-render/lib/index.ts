@@ -287,21 +287,24 @@ export class Render {
 
   methodRender(methodsRes: MethodResult[]) {
     const methodConfig = (this.options as RenderOptions).methods
-    let code = this.renderTabelHeader(methodConfig)
+    // let code = this.renderTabelHeader(methodConfig)
+    const codeArr: string[][] = []
+    let maxParamsLength = 1
     methodsRes.forEach((method: MethodResult) => {
       const row: string[] = []
       for (let i = 0; i < methodConfig.length; i++) {
         if (methodConfig[i] === 'Method') {
           row.push(method.name)
         } else if (methodConfig[i] === 'Description') {
-          if (method.describe) {
+          if (method.describe && method.describe.length) {
             row.push(method.describe.join(' '))
           } else {
             row.push('-')
           }
         } else if (methodConfig[i] === 'Parameters') {
           if (method.argumentsDesc) {
-            row.push(method.argumentsDesc.join(' '))
+            maxParamsLength = Math.max(method.argumentsDesc.length, maxParamsLength)
+            row.push(...method.argumentsDesc)
           } else {
             row.push('-')
           }
@@ -309,9 +312,19 @@ export class Render {
           row.push('-')
         }
       }
-      code += this.renderTabelRow(row)
+      codeArr.push(row)
     })
-
+    if (maxParamsLength > 1) {
+      let startIndex = methodConfig.indexOf('Parameters')
+      for (let i = 0; i < maxParamsLength; i++) {
+        methodConfig[startIndex] = 'Parameters ' + (i + 1)
+        startIndex++
+      }
+    }
+    let code = this.renderTabelHeader(methodConfig);
+    codeArr.forEach(row => {
+      code += this.renderTabelRow(row, methodConfig.length)
+    })
     return code
   }
 
@@ -461,8 +474,14 @@ export class Render {
     return headerString + splitLine + '\n'
   }
 
-  renderTabelRow(row: string[]): string {
-    return row.map(n => `|${n}`).join('') + '|\n'
+  renderTabelRow(row: string[], length?: number): string {
+    let result =  row.map(n => {
+      return `|${n}`
+    }).join('')
+    if (length && row.length < length) {
+      result = result + '|-'.repeat(length - row.length)
+    }
+    return result + '|\n'
   }
 
   renderSplitLine(num: number): string {
