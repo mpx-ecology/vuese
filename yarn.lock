@@ -3961,6 +3961,11 @@ git-config-path@^1.0.1:
     fs-exists-sync "^0.1.0"
     homedir-polyfill "^1.0.0"
 
+git-cz@^4.7.6:
+  version "4.7.6"
+  resolved "http://artifactory.intra.xiaojukeji.com:80/artifactory/api/npm/npm/git-cz/download/git-cz-4.7.6.tgz#1250c486f01724e801a630b848fd8786f7e67e90"
+  integrity sha1-ElDEhvAXJOgBpjC4SP2HhvfmfpA=
+
 git-raw-commits@2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/git-raw-commits/-/git-raw-commits-2.0.0.tgz#d92addf74440c14bcc5c83ecce3fb7f8a79118b5"
