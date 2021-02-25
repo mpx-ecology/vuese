@@ -25,7 +25,8 @@ import { processDataValue } from './processData'
 import { processEventName, getEmitDecorator } from './processEvents'
 import { determineChildren } from './processRenderFunction'
 import { Seen } from './seen'
-
+import { resolve as pathResolve } from 'path'
+import { findImportDeclaration } from './test'
 // const vueComponentVisitor =
 
 const MPX_CREATE_COMPONENT = 'createComponent'
@@ -42,6 +43,9 @@ export function parseJavascript(
   const eventNameMap: EventNameMap = {}
   let exportDefaultReferencePath: unknown = null
   let componentLevel = 0
+  const importDeclarationMap: {
+    [key: string]: string
+  } = {}
   const vueComponentVisitor = {
     Decorator(path: NodePath<bt.Decorator>): void {
       if (
@@ -135,10 +139,16 @@ export function parseJavascript(
       if (onMixIn && isVueOption(path, 'mixins', componentLevel)) {
         const properties = (path.node.value as bt.ArrayExpression).elements
 
-        properties.forEach(mixIn => {
-          const result: MixInResult = {
-            mixIn: (mixIn as bt.Identifier).name
+        properties.forEach((mixIn: bt.Identifier) => {
+          let mixInpath = importDeclarationMap[mixIn.name]
+          if (mixInpath === importDeclarationMap[mixIn.name] && mixInpath[0] === '.') {
+            mixInpath = pathResolve(options.basedir as string, mixInpath)
           }
+          const result: MixInResult = {
+            mixIn: mixIn.name
+          }
+          const ast = findImportDeclaration(mixInpath, mixIn.name)
+          parseJavascript(ast as any, seenEvent, options, source = '')
           onMixIn(result)
         })
       }
@@ -510,6 +520,13 @@ export function parseJavascript(
     }
   }
   traverse(ast, {
+    ImportDeclaration(rootPath) {
+      const sourcePath = rootPath.node.source.value
+      const specifiers = rootPath.node.specifiers
+      specifiers.map(item => {
+        importDeclarationMap[item.local.name] = sourcePath
+      })
+    },
     Program(path) {
       exportDefaultReferencePath = getExportDefaultReferencePath(path)
     },
