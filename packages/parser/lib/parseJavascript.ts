@@ -8,7 +8,7 @@ import {
   MethodResult,
   ComputedResult,
   DataResult,
-  MixInResult,
+  // MixInResult,
   SlotResult,
   WatchResult,
   ExternalClassesResult,
@@ -26,7 +26,7 @@ import { processEventName, getEmitDecorator } from './processEvents'
 import { determineChildren } from './processRenderFunction'
 import { Seen } from './seen'
 import { resolve as pathResolve } from 'path'
-import { findImportDeclaration } from './test'
+import { findImportDeclaration } from './processMixins'
 // const vueComponentVisitor =
 
 const MPX_CREATE_COMPONENT = 'createComponent'
@@ -144,12 +144,13 @@ export function parseJavascript(
           if (mixInpath === importDeclarationMap[mixIn.name] && mixInpath[0] === '.') {
             mixInpath = pathResolve(options.basedir as string, mixInpath)
           }
-          const result: MixInResult = {
-            mixIn: mixIn.name
-          }
+          // const result: MixInResult = {
+          //   mixIn: mixIn.name
+          // }
           const ast = findImportDeclaration(mixInpath, mixIn.name)
-          parseJavascript(ast as any, seenEvent, options, source = '')
-          onMixIn(result)
+          const _options = { ...options }
+          _options.basedir = mixInpath
+          parseJavascript(ast as any, seenEvent, _options, source = '')
         })
       }
 

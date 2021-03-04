@@ -5,19 +5,18 @@ import * as bt from '@babel/types'
 import * as fs from 'fs'
 
 export function findImportDeclaration(filePath, name) {
-  filePath = '/Users/didi/zc-work/mpx-cube-ui/src/common/mixins/test.ts'
   filePath = normalizePath(filePath)
-  console.log(filePath)
   const content = fs.readFileSync(filePath, 'utf-8')
   const ast = babelParse(content, {
-    sourceType: 'module'
+    sourceType: 'module',
+    plugins: ['typescript', 'jsx']
   })
   return traverseAst(ast, name, filePath)
 }
 
 function traverseAst(ast, name, filePath) {
   const variableResult = {}
-  let exportedResult
+  let exportedResult = {}
   traverse(ast, {
     // let a = xxx
     VariableDeclaration(rootPath: NodePath<bt.VariableDeclaration>) {
@@ -67,6 +66,8 @@ function traverseAst(ast, name, filePath) {
     if (exportedResult.originName === 'default') {
       return findDefaultImportDeclaration(filePath)
     }
+  } else if (exportedResult.type === 'exportVariable') {
+    return variableResult[name]
   }
 
   return ast
