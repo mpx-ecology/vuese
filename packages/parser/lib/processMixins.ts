@@ -16,7 +16,7 @@ export function findImportDeclaration(filePath, name) {
 
 function traverseAst(ast, name, filePath) {
   const variableResult = {}
-  let exportedResult = {}
+  let exportedResult
   traverse(ast, {
     // let a = xxx
     VariableDeclaration(rootPath: NodePath<bt.VariableDeclaration>) {
@@ -59,14 +59,14 @@ function traverseAst(ast, name, filePath) {
     }
   })
 
-  if (exportedResult.type === 'exportFrom') {
+  if (exportedResult && exportedResult.type === 'exportFrom') {
     filePath = pathResolve(filePath.slice(0, filePath.lastIndexOf('/')), exportedResult.from)
     filePath = normalizePath(filePath)
 
     if (exportedResult.originName === 'default') {
       return findDefaultImportDeclaration(filePath)
     }
-  } else if (exportedResult.type === 'exportVariable') {
+  } else if (exportedResult && exportedResult.type === 'exportVariable') {
     return variableResult[name]
   }
 
