@@ -3,6 +3,7 @@ import traverse, { NodePath } from '@babel/traverse'
 import { resolve as pathResolve } from 'path'
 import * as bt from '@babel/types'
 import * as fs from 'fs'
+import { ParserResult } from './index'
 
 export function findImportDeclaration(filePath, name) {
   filePath = normalizePath(filePath)
@@ -83,7 +84,7 @@ function findDefaultImportDeclaration(filePath) {
   return ast
 }
 
-function normalizePath(filePath) {
+function normalizePath(filePath): string {
   if (/index$/.test(filePath)) {
     filePath = filePath.slice(0, filePath.length - 6)
   }
@@ -101,4 +102,42 @@ function normalizePath(filePath) {
     filePath = _filePath
   }
   return filePath
+}
+
+interface OptionLevelArrType {
+  [key: string]: number
+}
+
+export function mergeMixinsOptions(parserRes: ParserResult): void {
+  // 只需要处理 props、methods、events
+  // 基于 vue mergeOptions。若组件与 mixins 键名冲突，取组件内键值对，舍弃 mixins 内容
+  const { props = [], methods = [], events = [] } = parserRes;
+  const removeOptions = [props, methods, events]
+
+  removeOptions.forEach(option => {
+      const optionLevelArr: OptionLevelArrType[] = []
+      option.forEach((item, index: number) => {
+          const level = item.level
+          if (!optionLevelArr[level]) optionLevelArr[level] = {}
+          const obj = optionLevelArr[level]
+          obj[item.name] = index
+      });
+
+      const saveObj = {}
+      const removeIndex: number[] = []
+      optionLevelArr.forEach(item => {
+          Object.keys(item).forEach(key => {
+              if (saveObj[key]) {
+                  removeIndex.push(item[key])
+              } else {
+                  saveObj[key] = item[key]
+              }
+          })
+      })
+      removeIndex.sort((a, b) => a - b)
+
+      removeIndex.forEach((item, index) => {
+          option.splice(item - index, 1)
+      })
+  })
 }

@@ -17,3 +17,5 @@ export interface ParserResult {
   externalClasses?: ExternalClassesResult[]
 }
 ```
+
+基于 vue2.x mergeOptions 策略

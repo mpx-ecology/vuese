@@ -32,6 +32,11 @@ import { findImportDeclaration } from './processMixins'
 const MPX_CREATE_COMPONENT = 'createComponent'
 const MPX_CREATE_PAGE = 'createPage'
 
+let level = 0
+export function setOptionsLevel(num: number): void {
+  level = num
+}
+
 export function parseJavascript(
   ast: bt.File,
   seenEvent: Seen,
@@ -123,7 +128,8 @@ export function parseJavascript(
                 const result: PropsResult = {
                   name,
                   type: null,
-                  describe: describe.default.length ? describe.default : describe
+                  describe: describe.default.length ? describe.default : describe,
+                  level
                 }
 
                 processPropValue(propValueNode, result, source)
@@ -144,13 +150,13 @@ export function parseJavascript(
           if (mixInpath === importDeclarationMap[mixIn.name] && mixInpath[0] === '.') {
             mixInpath = pathResolve(options.basedir as string, mixInpath)
           }
-          // const result: MixInResult = {
-          //   mixIn: mixIn.name
-          // }
           const ast = findImportDeclaration(mixInpath, mixIn.name)
           const _options = { ...options }
           _options.basedir = mixInpath
+
+          setOptionsLevel(level + 1)
           parseJavascript(ast as any, seenEvent, _options, source = '')
+          setOptionsLevel(level - 1)
         })
       }
 
@@ -254,7 +260,8 @@ export function parseJavascript(
             const result: MethodResult = {
               name: node.key.name,
               describe: commentsRes.default,
-              argumentsDesc: commentsRes.arg
+              argumentsDesc: commentsRes.arg,
+              level
             }
             onMethod(result)
           }
@@ -445,7 +452,8 @@ export function parseJavascript(
         const result: EventResult = {
           name: '',
           isSync: false,
-          syncProp: ''
+          syncProp: '',
+          level
         }
         const args = (emitDecorator.expression as bt.CallExpression).arguments
         if (args && args.length && bt.isStringLiteral(args[0])) {

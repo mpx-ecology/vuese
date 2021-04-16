@@ -1,8 +1,9 @@
 import { sfcToAST } from './sfcToAST'
-import { parseJavascript } from './parseJavascript'
+import { parseJavascript, setOptionsLevel } from './parseJavascript'
 import { parseTemplate } from './parseTemplate'
 import { CommentResult } from './jscomments'
 import { Seen } from './seen'
+import { mergeMixinsOptions } from './processMixins'
 
 export * from './sfcToAST'
 export * from './parseJavascript'
@@ -61,6 +62,7 @@ export interface PropsResult {
   validator?: string
   validatorDesc?: string[]
   describe?: string[] | CommentResult
+  level?: number
 }
 
 export interface EventResult {
@@ -69,12 +71,14 @@ export interface EventResult {
   syncProp: string
   describe?: string[]
   argumentsDesc?: string[]
+  level?: number
 }
 
 export interface MethodResult {
   name: string
   describe?: string[]
   argumentsDesc?: string[]
+  level?: number
 }
 
 export interface ComputedResult {
@@ -118,7 +122,7 @@ export interface ExternalClassesResult {
 }
 
 export interface ParserOptions {
-  isMpx?: boolean
+  isMpx?: boolean,
   onProp?: {
     (propsRes: PropsResult): void
   }
@@ -221,10 +225,12 @@ export function parser(
   const finallyOptions: ParserOptions = { ...defaultOptions, ...options }
   const seenEvent = new Seen()
   if (astRes.jsAst) {
+    setOptionsLevel(0)
     parseJavascript(astRes.jsAst, seenEvent, finallyOptions, astRes.jsSource)
   }
   if (astRes.templateAst) {
     parseTemplate(astRes.templateAst, seenEvent, finallyOptions)
   }
+  mergeMixinsOptions(res)
   return res
 }
