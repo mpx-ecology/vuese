@@ -114,6 +114,7 @@ interface OptionLevelArrType {
   [key: string]: number
 }
 
+// 触发发布
 export function mergeMixinsOptions(parserRes: ParserResult): void {
   // 只需要处理 props、methods、events
   // 基于 vue mergeOptions。若组件与 mixins 键名冲突，取组件内键值对，舍弃 mixins 内容
