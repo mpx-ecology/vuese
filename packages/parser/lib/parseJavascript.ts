@@ -150,9 +150,10 @@ export function parseJavascript(
           if (mixInpath === importDeclarationMap[mixIn.name] && mixInpath[0] === '.') {
             mixInpath = pathResolve(options.basedir as string, mixInpath)
           }
-          const ast = findImportDeclaration(mixInpath, mixIn.name)
+          const { ast, filePath } = findImportDeclaration(mixInpath, mixIn.name);
+
           const _options = { ...options }
-          _options.basedir = mixInpath
+          _options.basedir = pathResolve(mixInpath, filePath)
 
           setOptionsLevel(level + 1)
           parseJavascript(ast as any, seenEvent, _options, source = '')

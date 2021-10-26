@@ -71,7 +71,10 @@ function traverseAst(ast, name, filePath) {
     return variableResult[name]
   }
 
-  return ast
+  return {
+    ast,
+    filePath
+  }
 }
 
 function findDefaultImportDeclaration(filePath) {
@@ -81,7 +84,10 @@ function findDefaultImportDeclaration(filePath) {
     sourceType: 'module',
     plugins: ['typescript', 'jsx']
   })
-  return ast
+  return {
+    ast,
+    filePath
+  }
 }
 
 function normalizePath(filePath): string {
