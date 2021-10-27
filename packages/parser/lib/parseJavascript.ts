@@ -153,7 +153,7 @@ export function parseJavascript(
           const { ast, filePath } = findImportDeclaration(mixInpath, mixIn.name);
 
           const _options = { ...options }
-          _options.basedir = pathResolve(mixInpath, filePath)
+          _options.basedir = pathResolve(filePath, '../')
 
           setOptionsLevel(level + 1)
           parseJavascript(ast as any, seenEvent, _options, source = '')
