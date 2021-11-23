@@ -10,21 +10,6 @@ export const propsHeadOptions: HeadOption[] = [
     en: 'Name'
   },
   {
-    type: 'wx',
-    zh: '微信',
-    en: 'WeChat'
-  },
-  {
-    type: 'web',
-    zh: 'H5',
-    en: 'H5'
-  },
-  {
-    type: 'ali',
-    zh: '支付宝',
-    en: 'Alipay'
-  },
-  {
     type: 'description',
     zh: '说明',
     en: 'Description'
@@ -48,6 +33,21 @@ export const propsHeadOptions: HeadOption[] = [
     type: 'default',
     zh: '默认值',
     en: 'Default'
+  },
+  {
+    type: 'wx',
+    zh: '微信',
+    en: 'WeChat'
+  },
+  {
+    type: 'web',
+    zh: 'web',
+    en: 'web'
+  },
+  {
+    type: 'ali',
+    zh: '支付宝',
+    en: 'Alipay'
   }
 ]
 
@@ -64,7 +64,7 @@ export const slotsHeadOptions: HeadOption[] = [
   },
   {
     type: 'default',
-    zh: '默认插槽内容',
+    zh: '默认值',
     en: 'Default Slot Content'
   },
 ]
