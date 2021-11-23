@@ -53,8 +53,8 @@ export class Render {
         props: propsHeadOptions,
         events: ['Event Name', 'Description', 'Parameters'],
         slots: ['Name', 'Description', 'Default Slot Content'],
-        methods: ['Method', 'Description', 'Parameters'],
-        computed: ['Computed', 'Type', 'Description', 'From Store'],
+        methods: ['Name', 'Description', 'Parameters'],
+        computed: ['Name', 'Type', 'Description', 'From Store'],
         mixIns: ['MixIn'],
         data: ['Name', 'Type', 'Description', 'Default'],
         watch: ['Name', 'Description', 'Parameters'],
@@ -110,11 +110,12 @@ export class Render {
 
   propRender(propsRes: PropsResult[]) {
     const propConfig = (this.options as RenderOptions).props
-    let code = this.renderTabelHeader(propConfig.map(prop => prop[this.tableHeadLang]))
+    let code = this.renderTabelHeader(propConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
     for (const propRes of propsRes) {
       const row: string[] = []
       for(const propHead of propConfig) {
-        switch(propHead.type) {
+        const type = typeof propHead === 'object' ? propHead['type'] : propHead
+        switch(type) {
           case 'name':
             row.push(propRes.name)
             break
@@ -207,7 +208,7 @@ export class Render {
 
   slotRender(slotsRes: SlotResult[]) {
     const slotConfig = (this.options as RenderOptions).slots
-    let code = this.renderTabelHeader(slotConfig)
+    let code = this.renderTabelHeader(slotConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
 
     // If the template and script contain slots with the same name,
     // only the slots in the template are rendered
@@ -231,22 +232,27 @@ export class Render {
     slotsRes.forEach((slot: SlotResult) => {
       const row: string[] = []
       for (let i = 0; i < slotConfig.length; i++) {
-        if (slotConfig[i] === 'Name') {
-          row.push(slot.name)
-        } else if (slotConfig[i] === 'Description') {
-          if (slot.describe) {
-            row.push(slot.describe)
-          } else {
+        const type = typeof slotConfig[i] === 'object' ? slotConfig[i]['type'] : slotConfig[i]
+        switch (type) {
+          case 'Name':
+            row.push(slot.name)
+            break
+          case 'Description':
+            if (slot.describe) {
+              row.push(slot.describe)
+            } else {
+              row.push('-')
+            }
+            break
+          case 'Default Slot Content':
+            if (slot.backerDesc) {
+              row.push(slot.backerDesc)
+            } else {
+              row.push('-')
+            }
+            break
+          default:
             row.push('-')
-          }
-        } else if (slotConfig[i] === 'Default Slot Content') {
-          if (slot.backerDesc) {
-            row.push(slot.backerDesc)
-          } else {
-            row.push('-')
-          }
-        } else {
-          row.push('-')
         }
       }
       code += this.renderTabelRow(row)
@@ -257,26 +263,32 @@ export class Render {
 
   eventRender(propsRes: EventResult[]) {
     const eventConfig = (this.options as RenderOptions).events
-    let code = this.renderTabelHeader(eventConfig)
+    let code = this.renderTabelHeader(eventConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
+
     propsRes.forEach((event: EventResult) => {
       const row: string[] = []
       for (let i = 0; i < eventConfig.length; i++) {
-        if (eventConfig[i] === 'Event Name') {
-          row.push(event.name)
-        } else if (eventConfig[i] === 'Description') {
-          if (event.describe && event.describe.length) {
-            row.push(event.describe.join(' '))
-          } else {
+        const type = typeof eventConfig[i] === 'object' ? eventConfig[i]['type'] : eventConfig[i]
+        switch (type) {
+          case 'Name':
+            row.push(event.name)
+            break
+          case 'Description':
+            if (event.describe && event.describe.length) {
+              row.push(event.describe.join(' '))
+            } else {
+              row.push('-')
+            }
+            break
+          case 'Parameters':
+            if (event.argumentsDesc) {
+              row.push(event.argumentsDesc.join(' '))
+            } else {
+              row.push('-')
+            }
+            break
+          default:
             row.push('-')
-          }
-        } else if (eventConfig[i] === 'Parameters') {
-          if (event.argumentsDesc) {
-            row.push(event.argumentsDesc.join(' '))
-          } else {
-            row.push('-')
-          }
-        } else {
-          row.push('-')
         }
       }
       code += this.renderTabelRow(row)
@@ -293,23 +305,28 @@ export class Render {
     methodsRes.forEach((method: MethodResult) => {
       const row: string[] = []
       for (let i = 0; i < methodConfig.length; i++) {
-        if (methodConfig[i] === 'Method') {
-          row.push(method.name)
-        } else if (methodConfig[i] === 'Description') {
-          if (method.describe && method.describe.length) {
-            row.push(method.describe.join(' '))
-          } else {
+        const type = typeof methodConfig[i] === 'object' ? methodConfig[i]['type'] : methodConfig[i]
+        switch (type) {
+          case 'Name':
+            row.push(method.name)
+            break
+          case 'Description':
+            if (method.describe && method.describe.length) {
+              row.push(method.describe.join(' '))
+            } else {
+              row.push('-')
+            }
+            break
+          case 'Parameters':
+            if (method.argumentsDesc) {
+              maxParamsLength = Math.max(method.argumentsDesc.length, maxParamsLength)
+              row.push(...method.argumentsDesc)
+            } else {
+              row.push('-')
+            }
+            break
+          default:
             row.push('-')
-          }
-        } else if (methodConfig[i] === 'Parameters') {
-          if (method.argumentsDesc) {
-            maxParamsLength = Math.max(method.argumentsDesc.length, maxParamsLength)
-            row.push(...method.argumentsDesc)
-          } else {
-            row.push('-')
-          }
-        } else {
-          row.push('-')
         }
       }
       codeArr.push(row)
@@ -321,7 +338,8 @@ export class Render {
         startIndex++
       }
     }
-    let code = this.renderTabelHeader(methodConfig);
+    let code = this.renderTabelHeader(methodConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
+
     codeArr.forEach(row => {
       code += this.renderTabelRow(row, methodConfig.length)
     })
@@ -330,33 +348,40 @@ export class Render {
 
   computedRender(computedRes: ComputedResult[]) {
     const computedConfig = (this.options as RenderOptions).computed
-    let code = this.renderTabelHeader(computedConfig)
+    let code = this.renderTabelHeader(computedConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
+
     computedRes.forEach((computed: ComputedResult) => {
       const row: string[] = []
       for (let i = 0; i < computedConfig.length; i++) {
-        if (computedConfig[i] === 'Computed') {
-          row.push(computed.name)
-        } else if (computedConfig[i] === 'Type') {
-          if (computed.type) {
-            row.push(`\`${computed.type.join(' ')}\``)
-            row.push()
-          } else {
+        const type = typeof computedConfig[i] === 'object' ? computedConfig[i]['type'] : computedConfig[i]
+        switch (type) {
+          case 'Name':
+            row.push(computed.name)
+            break
+          case 'Type':
+            if (computed.type) {
+              row.push(`\`${computed.type.join(' ')}\``)
+              row.push()
+            } else {
+              row.push('-')
+            }
+            break
+          case 'Description':
+            if (computed.describe) {
+              row.push(computed.describe.join(' '))
+            } else {
+              row.push('-')
+            }
+            break
+          case 'From Store':
+            if (computed.isFromStore) {
+              row.push('Yes')
+            } else {
+              row.push('No')
+            }
+            break
+          default:
             row.push('-')
-          }
-        } else if (computedConfig[i] === 'Description') {
-          if (computed.describe) {
-            row.push(computed.describe.join(' '))
-          } else {
-            row.push('-')
-          }
-        } else if (computedConfig[i] === 'From Store') {
-          if (computed.isFromStore) {
-            row.push('Yes')
-          } else {
-            row.push('No')
-          }
-        } else {
-          row.push('-')
         }
       }
       code += this.renderTabelRow(row)
@@ -367,14 +392,18 @@ export class Render {
 
   mixInRender(mixInsRes: MixInResult[]) {
     const mixInsConfig = (this.options as RenderOptions).mixIns
-    let code = this.renderTabelHeader(mixInsConfig)
+    let code = this.renderTabelHeader(mixInsConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
+
     mixInsRes.forEach((mixIn: MixInResult) => {
       const row: string[] = []
       for (let i = 0; i < mixInsConfig.length; i++) {
-        if (mixInsConfig[i] === 'MixIn') {
-          row.push(mixIn.mixIn)
-        } else {
-          row.push('-')
+        const type = typeof mixInsConfig[i] === 'object' ? mixInsConfig[i]['type'] : mixInsConfig[i]
+        switch (type) {
+          case 'MixIn':
+            row.push(mixIn.mixIn)
+            break
+          default:
+            row.push('-')
         }
       }
       code += this.renderTabelRow(row)
@@ -385,32 +414,38 @@ export class Render {
 
   dataRender(dataRes: DataResult[]) {
     const dataConfig = (this.options as RenderOptions).data
-    let code = this.renderTabelHeader(dataConfig)
+    let code = this.renderTabelHeader(dataConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
+
     dataRes.forEach((data: DataResult) => {
       const row: string[] = []
       for (let i = 0; i < dataConfig.length; i++) {
-        if (dataConfig[i] === 'Name') {
-          row.push(data.name)
-        } else if (dataConfig[i] === 'Description') {
-          if (data.describe) {
-            row.push(data.describe.join(' '))
-          } else {
+        const type = typeof dataConfig[i] === 'object' ? dataConfig[i]['type'] : dataConfig[i]
+        switch (type) {
+          case 'Name':
+            row.push(data.name)
+            break
+          case 'Description':
+            if (data.describe) {
+              row.push(data.describe.join(' '))
+            } else {
+              row.push('-')
+            }
+            break
+          case 'Type':
+            if (data.type.length > 0) {
+              row.push(`\`${data.type}\``)
+            } else {
+              row.push('—')
+            }
+            break
+          case 'Default':
+            if (data.default) {
+              row.push(data.default)
+            } else {
+              row.push('-')
+            }
+          default:
             row.push('-')
-          }
-        } else if (dataConfig[i] === 'Type') {
-          if (data.type.length > 0) {
-            row.push(`\`${data.type}\``)
-          } else {
-            row.push('—')
-          }
-        } else if (dataConfig[i] === 'Default') {
-          if (data.default) {
-            row.push(data.default)
-          } else {
-            row.push('-')
-          }
-        } else {
-          row.push('-')
         }
       }
       code += this.renderTabelRow(row)
@@ -421,26 +456,32 @@ export class Render {
 
   watchRender(watchRes: WatchResult[]) {
     const watchConfig = (this.options as RenderOptions).watch
-    let code = this.renderTabelHeader(watchConfig)
+    let code = this.renderTabelHeader(watchConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
+
     watchRes.forEach((watch: WatchResult) => {
       const row: string[] = []
       for (let i = 0; i < watchConfig.length; i++) {
-        if (watchConfig[i] === 'Name') {
-          row.push(watch.name)
-        } else if (watchConfig[i] === 'Description') {
-          if (watch.describe) {
-            row.push(watch.describe.join(' '))
-          } else {
+        const type = typeof watchConfig[i] === 'object' ? watchConfig[i]['type'] : watchConfig[i]
+        switch (type) {
+          case 'Name':
+            row.push(watch.name)
+            break
+          case 'Description':
+            if (watch.describe) {
+              row.push(watch.describe.join(' '))
+            } else {
+              row.push('-')
+            }
+            break
+          case 'Parameters':
+            if (watch.argumentsDesc) {
+              row.push(watch.argumentsDesc.join(' '))
+            } else {
+              row.push('-')
+            }
+            break
+          default:
             row.push('-')
-          }
-        } else if (watchConfig[i] === 'Parameters') {
-          if (watch.argumentsDesc) {
-            row.push(watch.argumentsDesc.join(' '))
-          } else {
-            row.push('-')
-          }
-        } else {
-          row.push('-')
         }
       }
       code += this.renderTabelRow(row)
@@ -451,16 +492,21 @@ export class Render {
 
   externalClassesRender(externalClassRes: ExternalClassesResult[]) {
     const externalClassesConfig = (this.options as RenderOptions).externalClasses
-    let code = this.renderTabelHeader(externalClassesConfig)
+    let code = this.renderTabelHeader(externalClassesConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
+
     externalClassRes.forEach((externalClass: ExternalClassesResult) => {
       const row: string[] = []
       for (let i = 0; i < externalClassesConfig.length; i++) {
-        if (externalClassesConfig[i] === 'Name') {
-          row.push(externalClass.name)
-        } else if (externalClassesConfig[i] === 'Description') {
-          row.push(externalClass.describe.length > 0 ? externalClass.describe.join(' ') : '-')
-        } else {
-          row.push('-')
+        const type = typeof externalClassesConfig[i] === 'object' ? externalClassesConfig[i]['type'] : externalClassesConfig[i]
+        switch (type) {
+          case 'Name':
+            row.push(externalClass.name)
+            break
+          case 'Description':
+            row.push(externalClass.describe.length > 0 ? externalClass.describe.join(' ') : '-')
+            break
+          default:
+            row.push('-')
         }
       }
       code += this.renderTabelRow(row)
