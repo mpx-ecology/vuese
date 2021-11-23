@@ -116,12 +116,12 @@ export class Render {
       for(const propHead of propConfig) {
         const type = typeof propHead === 'object' ? propHead['type'] : propHead
         switch(type) {
-          case 'name':
+          case 'Name':
             row.push(propRes.name)
             break
-          case 'wx':
-          case 'ali':
-          case 'web':
+          case 'Wx':
+          case 'Ali':
+          case 'Web':
           // case 'required':
             if(Array.isArray(propRes.describe)) {
               row.push('-')
@@ -134,7 +134,7 @@ export class Render {
               }
             }
             break
-          case 'description':
+          case 'Description':
             let desc: string[] = ['-']
             if(Array.isArray(propRes.describe)) {
               if(propRes.describe.length) {
@@ -153,7 +153,7 @@ export class Render {
             }
             row.push(desc.join(' '))
             break
-          case 'type':
+          case 'Type':
             if (propRes.typeDesc) {
               row.push(propRes.typeDesc.join(' '))
             } else if (!propRes.type) {
@@ -171,7 +171,7 @@ export class Render {
               row.push('-')
             }
             break
-          case 'default':
+          case 'Default':
             if (propRes.defaultDesc) {
               row.push(propRes.defaultDesc.join(' '))
             } else if (propRes.default) {
@@ -184,7 +184,7 @@ export class Render {
               row.push('-')
             }
             break
-          case 'optional':
+          case 'Optional':
             if(Array.isArray(propRes.describe)) {
               row.push('-')
             } else {
