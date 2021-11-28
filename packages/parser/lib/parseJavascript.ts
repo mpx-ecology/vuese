@@ -26,6 +26,7 @@ import { processEventName, getEmitDecorator } from './processEvents'
 import { determineChildren } from './processRenderFunction'
 import { Seen } from './seen'
 import { resolve as pathResolve } from 'path'
+import * as fs from 'fs'
 import { findImportDeclaration } from './processMixins'
 // const vueComponentVisitor =
 
@@ -150,13 +151,15 @@ export function parseJavascript(
           if (mixInpath === importDeclarationMap[mixIn.name] && mixInpath[0] === '.') {
             mixInpath = pathResolve(options.basedir as string, mixInpath)
           }
+
           const { ast, filePath } = findImportDeclaration(mixInpath, mixIn.name);
+          const _source = fs.readFileSync(filePath, 'utf-8')
 
           const _options = { ...options }
           _options.basedir = pathResolve(filePath, '../')
 
           setOptionsLevel(level + 1)
-          parseJavascript(ast as any, seenEvent, _options, source = '')
+          parseJavascript(ast as any, seenEvent, _options, _source)
           setOptionsLevel(level - 1)
         })
       }
