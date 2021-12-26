@@ -123,15 +123,19 @@ export function mergeMixinsOptions(parserRes: ParserResult): void {
 
   removeOptions.forEach(option => {
       const optionLevelArr: OptionLevelArrType[] = []
+      const saveObj = {}
+      const removeIndex: number[] = []
       option.forEach((item, index: number) => {
           const level = item.level
           if (!optionLevelArr[level]) optionLevelArr[level] = {}
           const obj = optionLevelArr[level]
-          obj[item.name] = index
+          if (obj[item.name] || obj[item.name] === 0) {
+            removeIndex.push(obj[item.name])
+          } else {
+            obj[item.name] = index
+          }
       });
 
-      const saveObj = {}
-      const removeIndex: number[] = []
       optionLevelArr.forEach(item => {
           Object.keys(item).forEach(key => {
               if (saveObj[key]) {
