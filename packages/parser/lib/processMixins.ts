@@ -4,6 +4,7 @@ import { resolve as pathResolve } from 'path'
 import * as bt from '@babel/types'
 import * as fs from 'fs'
 import { ParserResult } from './index'
+import { normalizePath } from './helper'
 
 export function findImportDeclaration(filePath, name) {
   filePath = normalizePath(filePath)
@@ -88,26 +89,6 @@ function findDefaultImportDeclaration(filePath) {
     ast,
     filePath
   }
-}
-
-function normalizePath(filePath): string {
-  if (/index$/.test(filePath)) {
-    filePath = filePath.slice(0, filePath.length - 6)
-  }
-
-  if (!fs.existsSync(filePath)) {
-    const _filePath = filePath + '.ts'
-    filePath = fs.existsSync(_filePath) ? _filePath : (filePath + '.js')
-  }
-
-  if (fs.statSync(filePath).isDirectory()) {
-    let _filePath = filePath + '/index.ts'
-    if (!fs.existsSync(_filePath)) {
-      _filePath = filePath +'/index.js'
-    }
-    filePath = _filePath
-  }
-  return filePath
 }
 
 interface OptionLevelArrType {

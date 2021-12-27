@@ -1,6 +1,7 @@
 import generate from '@babel/generator'
 import { NodePath, Node } from '@babel/traverse'
 import * as bt from '@babel/types'
+import * as fs from 'fs'
 /**
  * If a node satisfies the following conditions, then we will use this node as a Vue component.
  * 1. It is a default export
@@ -116,4 +117,24 @@ export function getLiteralValue(node: bt.Node): string {
     data = node.value.toString()
   }
   return data
+}
+
+export function normalizePath(filePath): string {
+  if (/index$/.test(filePath)) {
+    filePath = filePath.slice(0, filePath.length - 6)
+  }
+
+  if (!fs.existsSync(filePath)) {
+    const _filePath = filePath + '.ts'
+    filePath = fs.existsSync(_filePath) ? _filePath : (filePath + '.js')
+  }
+
+  if (fs.statSync(filePath).isDirectory()) {
+    let _filePath = filePath + '/index.ts'
+    if (!fs.existsSync(_filePath)) {
+      _filePath = filePath +'/index.js'
+    }
+    filePath = _filePath
+  }
+  return filePath
 }
