@@ -87,7 +87,7 @@ export function sfcToAST(
   return res
 }
 
-function getBabelParserPlugins(plugins?: BabelParserPlugins): pluginKeys[] {
+export function getBabelParserPlugins(plugins?: BabelParserPlugins): pluginKeys[] {
   const defaultBabelParserPlugins: BabelParserPlugins = {
     objectRestSpread: true,
     dynamicImport: true,

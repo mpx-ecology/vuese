@@ -1,6 +1,8 @@
+
 import traverse, { NodePath } from '@babel/traverse'
 import * as bt from '@babel/types'
-import { getComments, CommentResult, getComponentDescribe } from './jscomments'
+// getComponentDescribe from './jscomments'
+import { getComments, CommentResult } from './jscomments'
 import {
   PropsResult,
   ParserOptions,
@@ -28,10 +30,10 @@ import { Seen } from './seen'
 import { resolve as pathResolve } from 'path'
 import * as fs from 'fs'
 import { findImportDeclaration } from './processMixins'
-// const vueComponentVisitor =
 
 const MPX_CREATE_COMPONENT = 'createComponent'
 const MPX_CREATE_PAGE = 'createPage'
+const MPX_GET_MIXIN = 'getMixin'
 
 let level = 0
 export function setOptionsLevel(num: number): void {
@@ -43,12 +45,12 @@ export function parseJavascript(
   seenEvent: Seen,
   options: ParserOptions,
   source = ''
-): void {
+) {
   // backward compatibility
   const seenSlot = new Seen()
   const eventNameMap: EventNameMap = {}
-  let exportDefaultReferencePath: unknown = null
-  let componentLevel = 0
+  // let exportDefaultReferencePath: unknown = null
+  const componentLevel = 0
   const importDeclarationMap: {
     [key: string]: string
   } = {}
@@ -532,6 +534,7 @@ export function parseJavascript(
       }
     }
   }
+  let _helpCreateName = ''
   traverse(ast, {
     ImportDeclaration(rootPath) {
       const sourcePath = rootPath.node.source.value
@@ -540,75 +543,23 @@ export function parseJavascript(
         importDeclarationMap[item.local.name] = sourcePath
       })
     },
-    Program(path) {
-      exportDefaultReferencePath = getExportDefaultReferencePath(path)
-    },
-    ExportDefaultDeclaration(rootPath: NodePath<bt.ExportDefaultDeclaration>) {
-      // Get a description of the component
-      // if it is
-      let traversePath:
-        | NodePath<bt.VariableDeclarator>
-        | NodePath<bt.ReturnStatement>
-        | NodePath<bt.ExportDefaultDeclaration> = rootPath
-      if (
-        isObject(exportDefaultReferencePath) &&
-        (bt.isVariableDeclarator(exportDefaultReferencePath) ||
-          bt.isReturnStatement(exportDefaultReferencePath))
-      ) {
-        traversePath = (exportDefaultReferencePath as any) as
-          | NodePath<bt.VariableDeclarator>
-          | NodePath<bt.ReturnStatement>
-      }
-
-      if (bt.isExportDefaultDeclaration(traversePath) && options.onDesc)
-        options.onDesc(getComponentDescribe(rootPath.node))
-      traversePath.traverse({
-        ObjectExpression: {
-          enter(path: NodePath<bt.ObjectExpression>): void {
-            componentLevel++
-            if (componentLevel === 1) {
-              if (bt.isVariableDeclarator(traversePath) && options.onDesc) {
-                const comments = getComments(traversePath.parentPath.node)
-                options.onDesc(comments)
-              } else if (bt.isReturnStatement(traversePath) && options.onDesc) {
-                const comments = getComments(traversePath.node)
-                options.onDesc(comments)
-              }
-              path.traverse(vueComponentVisitor)
-            }
-          },
-          exit(): void {
-            componentLevel--
-          }
-        },
-        ClassBody: {
-          enter(path: NodePath<bt.ClassBody>): void {
-            componentLevel++
-            if (componentLevel === 1) {
-              path.traverse(vueComponentVisitor)
-            }
-          },
-          exit(): void {
-            componentLevel--
-          }
-        }
-      })
-    },
     CallExpression(rootPath: NodePath<bt.CallExpression>) {
-      if (
-        bt.isIdentifier(rootPath.node.callee) &&
-        (rootPath.node.callee.name === MPX_CREATE_COMPONENT ||
-          rootPath.node.callee.name === MPX_CREATE_PAGE)
-      ) {
+      const callee = rootPath.node.callee
+      if (!bt.isIdentifier(callee)) return
+      const isHelpCreate = importDeclarationMap[callee.name].includes('helper/create-component')
+      const mpxCreateOptions = [MPX_CREATE_COMPONENT, MPX_CREATE_PAGE, MPX_GET_MIXIN]
+      if (mpxCreateOptions.includes(callee.name) || isHelpCreate) {
         const mpxOptsDef = rootPath.node.arguments && rootPath.node.arguments[0]
         if (bt.isObjectExpression(mpxOptsDef)) {
-          // const traversePath = rootPath.get('expression.arguments')[0] as NodePath<bt.ObjectExpression>
           rootPath.traverse({
             ObjectExpression(path: NodePath<bt.ObjectExpression>) {
               path.traverse(vueComponentVisitor)
             }
           })
         }
+      }
+      if (isHelpCreate) {
+        _helpCreateName = callee.name
       }
     },
     VariableDeclaration(rootPath: NodePath<bt.VariableDeclaration>) {
@@ -624,6 +575,7 @@ export function parseJavascript(
       })
     }
   })
+  return _helpCreateName
 }
 
 export function processEmitCallExpression(
@@ -667,35 +619,35 @@ export function processEmitCallExpression(
  * @param {NodePath<bt.Program>} programPath
  * @returns {(NodePath<bt.Node> | null)}
  */
-function getExportDefaultReferencePath(
-  programPath: NodePath<bt.Program>
-): NodePath<bt.Node> | null {
-  const bindings = programPath.scope.bindings
-  let exportDefaultReferencePath: NodePath<bt.Node> | null = null
-  Object.keys(bindings).forEach(key => {
-    bindings[key].referencePaths.forEach(path => {
-      if (
-        bt.isExportDefaultDeclaration(path.parent) ||
-        (bt.isCallExpression(path.parentPath) &&
-          bt.isExportDefaultDeclaration(path.parentPath.parentPath))
-      ) {
-        exportDefaultReferencePath = bindings[key].path
-        // return ReturnStatement instead of FunctionDeclaration just keep consistency for a component, especially when extract
-        // its comments
-        if (bt.isFunctionDeclaration(exportDefaultReferencePath)) {
-          exportDefaultReferencePath.traverse({
-            ReturnStatement(path) {
-              exportDefaultReferencePath = path as NodePath<bt.Node>
-              path.skip()
-            }
-          })
-        }
-      }
-    })
-  })
-  return exportDefaultReferencePath
-}
+// function getExportDefaultReferencePath(
+//   programPath: NodePath<bt.Program>
+// ): NodePath<bt.Node> | null {
+//   const bindings = programPath.scope.bindings
+//   let exportDefaultReferencePath: NodePath<bt.Node> | null = null
+//   Object.keys(bindings).forEach(key => {
+//     bindings[key].referencePaths.forEach(path => {
+//       if (
+//         bt.isExportDefaultDeclaration(path.parent) ||
+//         (bt.isCallExpression(path.parentPath) &&
+//           bt.isExportDefaultDeclaration(path.parentPath.parentPath))
+//       ) {
+//         exportDefaultReferencePath = bindings[key].path
+//         // return ReturnStatement instead of FunctionDeclaration just keep consistency for a component, especially when extract
+//         // its comments
+//         if (bt.isFunctionDeclaration(exportDefaultReferencePath)) {
+//           exportDefaultReferencePath.traverse({
+//             ReturnStatement(path) {
+//               exportDefaultReferencePath = path as NodePath<bt.Node>
+//               path.skip()
+//             }
+//           })
+//         }
+//       }
+//     })
+//   })
+//   return exportDefaultReferencePath
+// }
 
-function isObject(obj: any): obj is object {
-  return obj !== null && typeof obj === 'object'
-}
+// function isObject(obj: any): obj is object {
+//   return obj !== null && typeof obj === 'object'
+// }

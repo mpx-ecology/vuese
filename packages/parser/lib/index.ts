@@ -1,4 +1,5 @@
 import { sfcToAST } from './sfcToAST'
+import { scriptToAst } from './scriptToAST'
 import { parseJavascript, setOptionsLevel } from './parseJavascript'
 import { parseTemplate } from './parseTemplate'
 import { CommentResult } from './jscomments'
@@ -10,6 +11,10 @@ export * from './parseJavascript'
 export * from './parseTemplate'
 export * from './helper'
 export * from './jscomments'
+export * from './getExportFileConfig'
+export {
+  mergeMixinsOptions
+}
 
 export type PropType = string | string[] | null
 
@@ -122,7 +127,13 @@ export interface ExternalClassesResult {
 }
 
 export interface ParserOptions {
-  isMpx?: boolean,
+  isMpx?: boolean
+  isMixin?: boolean
+  filepath?: string
+  fnMixins?: Record<string, {
+    mixins: string[],
+    vueseRes: ParserResult
+  }>
   onProp?: {
     (propsRes: PropsResult): void
   }
@@ -179,7 +190,12 @@ export function parser(
   source: string,
   options: ParserOptions = {}
 ): ParserResult {
-  const astRes = sfcToAST(source, options.babelParserPlugins, options.basedir)
+  let astRes
+  if (options.isMixin) {
+    astRes = scriptToAst(source, options)
+  } else {
+    astRes = sfcToAST(source, options.babelParserPlugins, options.basedir)
+  }
   const res: ParserResult = {}
   const defaultOptions: ParserOptions = {
     onName(name: string) {
@@ -224,13 +240,25 @@ export function parser(
 
   const finallyOptions: ParserOptions = { ...defaultOptions, ...options }
   const seenEvent = new Seen()
+  let helpCreateName = ''
   if (astRes.jsAst) {
     setOptionsLevel(0)
-    parseJavascript(astRes.jsAst, seenEvent, finallyOptions, astRes.jsSource)
+    helpCreateName = parseJavascript(astRes.jsAst, seenEvent, finallyOptions, astRes.jsSource)
   }
   if (astRes.templateAst) {
     parseTemplate(astRes.templateAst, seenEvent, finallyOptions)
   }
   mergeMixinsOptions(res)
+  if (helpCreateName) {
+    const vueseRes = options.fnMixins![helpCreateName].vueseRes
+    const keys = { props: '', methods: '', events: '' }
+    Object.keys(keys).forEach(key => {
+      if (res[key]) {
+        res[key] = [...vueseRes[key], ...res[key]]
+      } else {
+        res[key] = vueseRes[key]
+      }
+    })
+  }
   return res
 }
