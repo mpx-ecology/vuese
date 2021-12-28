@@ -21,7 +21,7 @@ export function parseTemplate(
     for (const [attr, value] of Object.entries(templateAst.attrsMap)) {
       if (
         (attr.startsWith('v-on:') || attr.startsWith('@')) &&
-        /\$emit\(.*?\)/.test(value as string)
+        /triggerEvent\(.*?\)/.test(value as string)
       ) {
         try {
           const astFile = babelParse(value as string)
@@ -136,8 +136,8 @@ function parseExpression(
     CallExpression(path: NodePath<bt.CallExpression>) {
       const node = path.node
 
-      // $emit()
-      if (bt.isIdentifier(node.callee) && node.callee.name === '$emit') {
+      // 原 $emit()，小程序改为 triggerEvent
+      if (bt.isIdentifier(node.callee) && node.callee.name === 'triggerEvent') {
         const parentExpressionStatementNodePath = path.findParent(path =>
           bt.isExpressionStatement(path)
         )

@@ -349,11 +349,11 @@ export function parseJavascript(
     CallExpression(path: NodePath<bt.CallExpression>): void {
       const node = path.node
 
-      // $emit()
+      // 原 $emit()，小程序改为 triggerEvent
       if (
         bt.isMemberExpression(node.callee) &&
         bt.isIdentifier(node.callee.property) &&
-        node.callee.property.name === '$emit'
+        node.callee.property.name === 'triggerEvent'
       ) {
         // for performance issue only check when it is like a `$emit` CallExpression
         const parentExpressionStatementNode = path.findParent(path =>
@@ -546,7 +546,10 @@ export function parseJavascript(
     CallExpression(rootPath: NodePath<bt.CallExpression>) {
       const callee = rootPath.node.callee
       if (!bt.isIdentifier(callee)) return
-      const isHelpCreate = importDeclarationMap[callee.name].includes('helper/create-component')
+      let isHelpCreate
+      if (importDeclarationMap[callee.name]) {
+        isHelpCreate = importDeclarationMap[callee.name].includes('helper/create-component')
+      }
       const mpxCreateOptions = [MPX_CREATE_COMPONENT, MPX_CREATE_PAGE, MPX_GET_MIXIN]
       if (mpxCreateOptions.includes(callee.name) || isHelpCreate) {
         const mpxOptsDef = rootPath.node.arguments && rootPath.node.arguments[0]
