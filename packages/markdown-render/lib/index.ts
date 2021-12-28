@@ -51,7 +51,7 @@ export class Render {
       {},
       {
         props: propsHeadOptions,
-        events: ['Event Name', 'Description', 'Parameters'],
+        events: ['Name', 'Description', 'Parameters'],
         slots: ['Name', 'Description', 'Default Slot Content'],
         methods: ['Name', 'Description', 'Parameters'],
         computed: ['Name', 'Type', 'Description', 'From Store'],
