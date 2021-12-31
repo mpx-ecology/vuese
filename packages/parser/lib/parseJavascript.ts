@@ -267,6 +267,7 @@ export function parseJavascript(
               name: node.key.name,
               describe: commentsRes.default,
               argumentsDesc: commentsRes.arg,
+              returnDesc: commentsRes.return,
               level
             }
             onMethod(result)

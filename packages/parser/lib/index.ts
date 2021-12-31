@@ -83,6 +83,7 @@ export interface MethodResult {
   name: string
   describe?: string[]
   argumentsDesc?: string[]
+  returnDesc?: string[]
   level?: number
 }
 

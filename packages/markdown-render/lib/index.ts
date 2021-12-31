@@ -325,6 +325,13 @@ export class Render {
               row.push('-')
             }
             break
+          case 'Return':
+              if (method.returnDesc && method.returnDesc.length) {
+                row.push(method.returnDesc.join(' '))
+              } else {
+                row.push('-')
+              }
+              break
           default:
             row.push('-')
         }
@@ -332,10 +339,26 @@ export class Render {
       codeArr.push(row)
     })
     if (maxParamsLength > 1) {
-      let startIndex = methodConfig.indexOf('Parameters')
-      for (let i = 0; i < maxParamsLength; i++) {
-        methodConfig[startIndex] = 'Parameters ' + (i + 1)
-        startIndex++
+      let startIndex = -1
+      for (let i = 0; i < methodConfig.length; i++) {
+        if (typeof methodConfig[i] === 'object') {
+          if (methodConfig[i]['type'] === 'Parameters') {
+            startIndex = i
+            break
+          }
+        } else {
+          if (methodConfig[i] === 'Parameters') {
+            startIndex === i
+            break
+          }
+        }
+      }
+      if (startIndex >= 0) {
+        const arr: string[] = []
+        for (let i = 0; i < maxParamsLength; i++) {
+          arr.push('Parameters ' + (i + 1));
+        }
+        methodConfig.splice(startIndex, 1, ...arr)
       }
     }
     let code = this.renderTabelHeader(methodConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
