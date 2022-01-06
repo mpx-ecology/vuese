@@ -25,6 +25,7 @@ interface RenderOptions {
   data: string[]
   watch: string[]
   externalClasses: string[]
+  name?: string
 }
 
 export interface RenderResult {
@@ -281,8 +282,24 @@ export class Render {
             }
             break
           case 'Parameters':
-            if (event.argumentsDesc) {
-              row.push(event.argumentsDesc.join(' '))
+            let arr = event.argumentsDesc
+            if (arr) {
+              const fileName = this.options!.name
+              if (fileName) {
+                arr = arr.filter((item, index)=> {
+                  let fileOnlyName = item.match(/(?<=(\@fileOnly\()).*(?=(\)))/)
+                  if (fileOnlyName) {
+                    fileOnlyName = fileOnlyName[0].split(',')
+                    return fileOnlyName.indexOf(fileName) > -1
+                  } else {
+                    return true
+                  }
+                })
+              }
+              arr = arr.map(item => {
+                  return item.replace(/\@fileOnly\(.*?\)\s/, '')
+              })
+              row.push(arr.join(' '));
             } else {
               row.push('-')
             }
@@ -298,7 +315,7 @@ export class Render {
   }
 
   methodRender(methodsRes: MethodResult[]) {
-    const methodConfig = (this.options as RenderOptions).methods
+    const methodConfig = [...(this.options as RenderOptions).methods]
     // let code = this.renderTabelHeader(methodConfig)
     const codeArr: string[][] = []
     let maxParamsLength = 1
@@ -361,6 +378,13 @@ export class Render {
         methodConfig.splice(startIndex, 1, ...arr)
       }
     }
+    const configLength = methodConfig.length
+    codeArr.forEach(item => {
+      const diff = configLength - item.length
+      if (diff) {
+        item.splice(item.length - 1, 0, ...(new Array(diff) as string[]).fill('-'))
+      }
+    })
     let code = this.renderTabelHeader(methodConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
 
     codeArr.forEach(row => {

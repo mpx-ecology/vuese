@@ -261,5 +261,6 @@ export function parser(
       }
     })
   }
+  mergeMixinsOptions(res)
   return res
 }
