@@ -6,7 +6,10 @@ import * as fs from 'fs'
 import { ParserResult } from './index'
 import { normalizePath } from './helper'
 
-export function findImportDeclaration(filePath, name) {
+export function findImportDeclaration(filePath: string, name: string): {
+  ast:  bt.File
+  filePath: string
+} {
   filePath = normalizePath(filePath)
   const content = fs.readFileSync(filePath, 'utf-8')
   const ast = babelParse(content, {
@@ -16,7 +19,10 @@ export function findImportDeclaration(filePath, name) {
   return traverseAst(ast, name, filePath)
 }
 
-function traverseAst(ast, name, filePath) {
+function traverseAst(ast: bt.File, name: string, filePath: string): {
+  ast:  bt.File
+  filePath: string
+} {
   const variableResult = {}
   let exportedResult
   traverse(ast, {
@@ -78,7 +84,10 @@ function traverseAst(ast, name, filePath) {
   }
 }
 
-function findDefaultImportDeclaration(filePath) {
+function findDefaultImportDeclaration(filePath: string): {
+  ast:  bt.File
+  filePath: string
+} {
   filePath = normalizePath(filePath)
   const content = fs.readFileSync(filePath, 'utf-8')
   const ast = babelParse(content, {

@@ -45,7 +45,7 @@ export function parseJavascript(
   seenEvent: Seen,
   options: ParserOptions,
   source = ''
-) {
+): string {
   // backward compatibility
   const seenSlot = new Seen()
   const eventNameMap: EventNameMap = {}

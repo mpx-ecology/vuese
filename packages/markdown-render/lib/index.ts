@@ -19,7 +19,7 @@ interface RenderOptions {
   props: HeadOption[]
   slots: string[]
   events: string[]
-  methods: string[]
+  methods: string[] | HeadOption[]
   computed: string[]
   mixIns: string[]
   data: string[]
@@ -46,7 +46,7 @@ export class Render {
   public tableHeadLang = 'en'
   constructor(
     public parserResult: ParserResult,
-    public options?: RenderOptions,
+    public options: RenderOptions = {} as RenderOptions,
   ) {
     this.options = Object.assign(
       {},
@@ -109,7 +109,7 @@ export class Render {
     return md
   }
 
-  propRender(propsRes: PropsResult[]) {
+  propRender(propsRes: PropsResult[]): string {
     const propConfig = (this.options as RenderOptions).props
     let code = this.renderTabelHeader(propConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
     for (const propRes of propsRes) {
@@ -207,7 +207,7 @@ export class Render {
     return code
   }
 
-  slotRender(slotsRes: SlotResult[]) {
+  slotRender(slotsRes: SlotResult[]): string {
     const slotConfig = (this.options as RenderOptions).slots
     let code = this.renderTabelHeader(slotConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
 
@@ -262,7 +262,7 @@ export class Render {
     return code
   }
 
-  eventRender(propsRes: EventResult[]) {
+  eventRender(propsRes: EventResult[]): string {
     const eventConfig = (this.options as RenderOptions).events
     let code = this.renderTabelHeader(eventConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
 
@@ -284,9 +284,9 @@ export class Render {
           case 'Parameters':
             let arr = event.argumentsDesc
             if (arr) {
-              const fileName = this.options!.name
+              const fileName = this.options.name
               if (fileName) {
-                arr = arr.filter((item, index)=> {
+                arr = arr.filter(item => {
                   let fileOnlyName = item.match(/(?<=(\@fileOnly\()).*(?=(\)))/)
                   if (fileOnlyName) {
                     fileOnlyName = fileOnlyName[0].split(',')
@@ -314,7 +314,7 @@ export class Render {
     return code
   }
 
-  methodRender(methodsRes: MethodResult[]) {
+  methodRender(this: Render, methodsRes: MethodResult[]): string {
     const methodConfig = [...(this.options as RenderOptions).methods]
     // let code = this.renderTabelHeader(methodConfig)
     const codeArr: string[][] = []
@@ -371,9 +371,20 @@ export class Render {
         }
       }
       if (startIndex >= 0) {
-        const arr: string[] = []
+        const arr: (string|HeadOption)[] = []
+        const methodParametersConfig = methodConfig[startIndex]
         for (let i = 0; i < maxParamsLength; i++) {
-          arr.push('Parameters ' + (i + 1));
+          if (typeof methodParametersConfig === 'object') {
+            const obj = {
+              en: `${methodParametersConfig.en} ${i + 1}`,
+              zh: `${methodParametersConfig.zh} ${i + 1}`,
+              type: methodParametersConfig.zh
+            }
+            arr.push(obj)
+          } else {
+            // string 写法
+            arr.push(`${methodParametersConfig} ${i + 1}`)
+          }
         }
         methodConfig.splice(startIndex, 1, ...arr)
       }
@@ -393,7 +404,7 @@ export class Render {
     return code
   }
 
-  computedRender(computedRes: ComputedResult[]) {
+  computedRender(computedRes: ComputedResult[]): string {
     const computedConfig = (this.options as RenderOptions).computed
     let code = this.renderTabelHeader(computedConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
 
@@ -437,7 +448,7 @@ export class Render {
     return code
   }
 
-  mixInRender(mixInsRes: MixInResult[]) {
+  mixInRender(mixInsRes: MixInResult[]): string {
     const mixInsConfig = (this.options as RenderOptions).mixIns
     let code = this.renderTabelHeader(mixInsConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
 
@@ -459,7 +470,7 @@ export class Render {
     return code
   }
 
-  dataRender(dataRes: DataResult[]) {
+  dataRender(dataRes: DataResult[]): string {
     const dataConfig = (this.options as RenderOptions).data
     let code = this.renderTabelHeader(dataConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
 
@@ -501,7 +512,7 @@ export class Render {
     return code
   }
 
-  watchRender(watchRes: WatchResult[]) {
+  watchRender(watchRes: WatchResult[]): string {
     const watchConfig = (this.options as RenderOptions).watch
     let code = this.renderTabelHeader(watchConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
 
@@ -537,7 +548,7 @@ export class Render {
     return code
   }
 
-  externalClassesRender(externalClassRes: ExternalClassesResult[]) {
+  externalClassesRender(externalClassRes: ExternalClassesResult[]): string {
     const externalClassesConfig = (this.options as RenderOptions).externalClasses
     let code = this.renderTabelHeader(externalClassesConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
 

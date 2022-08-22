@@ -4,7 +4,12 @@ import traverse from '@babel/traverse'
 import { join as pathJoin, dirname as pathDirname } from 'path'
 import { normalizePath } from './helper'
 
-export function getExportFileConfig(mixinEntry) {
+type Mixins = {
+  name: string
+  path: string
+}[]
+
+export function getExportFileConfig(mixinEntry: string): Mixins {
   const content = fs.readFileSync(mixinEntry, 'utf-8')
   const ast = babelParse(content, {
     sourceType: 'module',
@@ -13,11 +18,8 @@ export function getExportFileConfig(mixinEntry) {
   return traverseAst(ast, mixinEntry)
 }
 
-function traverseAst(ast, filepath) {
-  const mixins: {
-    name: string
-    path: string
-  }[] = []
+function traverseAst(ast, filepath): Mixins {
+  const mixins: Mixins = []
   traverse(ast, {
     ExportNamedDeclaration(rootPath) {
       let name = ''

@@ -250,8 +250,8 @@ export function parser(
     parseTemplate(astRes.templateAst, seenEvent, finallyOptions)
   }
   mergeMixinsOptions(res)
-  if (helpCreateName) {
-    const vueseRes = options.fnMixins![helpCreateName].vueseRes
+  if (helpCreateName && options.fnMixins) {
+    const vueseRes = options.fnMixins[helpCreateName].vueseRes
     const keys = { props: '', methods: '', events: '' }
     Object.keys(keys).forEach(key => {
       if (res[key]) {
