@@ -365,7 +365,7 @@ export class Render {
           }
         } else {
           if (methodConfig[i] === 'Parameters') {
-            startIndex === i
+            startIndex = i
             break
           }
         }
