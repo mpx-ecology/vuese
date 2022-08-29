@@ -30,9 +30,11 @@ export function processEventName(
     allComments = getComments(cnodePath.getSibling(prevPathKey).node, true)
     result.describe = allComments.default
     result.argumentsDesc = allComments.arg
+    result.version = allComments.version
   } else {
     result.describe = allComments.default
     result.argumentsDesc = allComments.arg
+    result.version = allComments.version
   }
 }
 

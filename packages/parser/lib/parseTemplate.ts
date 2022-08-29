@@ -42,7 +42,8 @@ export function parseTemplate(
         backerDesc: '',
         bindings: {},
         scoped: false,
-        target: 'template'
+        target: 'template',
+        version: []
       }
       slot.bindings = extractAndFilterAttr(templateAst.attrsMap)
       if (slot.bindings.name) {
@@ -73,8 +74,12 @@ export function parseTemplate(
             el.isComment &&
             !(parent.tag === 'slot' && parent.children[0] === el)
           ) {
-            slot.describe = el.text.trim()
-            break
+            if (el.text.includes('@version')) {
+              slot.version = [el.text.trim().replace('@version ', '')]
+            } else {
+                slot.describe = el.text.trim();
+                break
+            }
           }
         }
 

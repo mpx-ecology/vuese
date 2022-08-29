@@ -40,8 +40,6 @@ export interface RenderResult {
   externalClasses?: string
 }
 
-
-
 export class Render {
   public tableHeadLang = 'en'
   constructor(
@@ -118,7 +116,7 @@ export class Render {
         const type = typeof propHead === 'object' ? propHead['type'] : propHead
         switch(type) {
           case 'Name':
-            row.push(propRes.name)
+            this.processName(row, propRes)
             break
           case 'Wx':
           case 'Ali':
@@ -236,7 +234,7 @@ export class Render {
         const type = typeof slotConfig[i] === 'object' ? slotConfig[i]['type'] : slotConfig[i]
         switch (type) {
           case 'Name':
-            row.push(slot.name)
+            this.processName(row, slot)
             break
           case 'Description':
             if (slot.describe) {
@@ -262,20 +260,20 @@ export class Render {
     return code
   }
 
-  eventRender(propsRes: EventResult[]): string {
+  eventRender(eventsRes: EventResult[]): string {
     const eventConfig = (this.options as RenderOptions).events
     let code = this.renderTabelHeader(eventConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
 
-    propsRes.forEach((event: EventResult) => {
+    eventsRes.forEach((event: EventResult) => {
       const row: string[] = []
       for (let i = 0; i < eventConfig.length; i++) {
         const type = typeof eventConfig[i] === 'object' ? eventConfig[i]['type'] : eventConfig[i]
         switch (type) {
           case 'Name':
-            row.push(event.name)
+            this.processName(row, event)
             break
           case 'Description':
-            if (event.describe && event.describe.length) {
+            if (Array.isArray(event.describe) && event.describe.length) {
               row.push(event.describe.join(' '))
             } else {
               row.push('-')
@@ -325,10 +323,10 @@ export class Render {
         const type = typeof methodConfig[i] === 'object' ? methodConfig[i]['type'] : methodConfig[i]
         switch (type) {
           case 'Name':
-            row.push(method.name)
+            this.processName(row, method)
             break
           case 'Description':
-            if (method.describe && method.describe.length) {
+            if (Array.isArray(method.describe) && method.describe.length) {
               row.push(method.describe.join(' '))
             } else {
               row.push('-')
@@ -570,6 +568,18 @@ export class Render {
       code += this.renderTabelRow(row)
     })
     return code
+  }
+
+  processName(row: string[], res: {
+    name: string,
+    version?: string[]
+  }): void {
+    const version = res.version && res.version.length ? res.version[0] : false
+    if (version) {
+      row.push(`<p style="white-space:nowrap"><span>${res.name}</span><sup style="display:inline-block;border:1px solid #ccc;padding:0px 5px;margin-left:5px;border-radius:7px;transform:scale(.8);">${version}</sup></p>`)
+    } else {
+      row.push(res.name);
+    }
   }
 
   renderTabelHeader(header: string[]): string {

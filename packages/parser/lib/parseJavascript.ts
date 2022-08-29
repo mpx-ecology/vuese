@@ -132,6 +132,7 @@ export function parseJavascript(
                   name,
                   type: null,
                   describe: describe.default.length ? describe.default : describe,
+                  version: describe.version,
                   level
                 }
 
@@ -268,6 +269,7 @@ export function parseJavascript(
               describe: commentsRes.default,
               argumentsDesc: commentsRes.arg,
               returnDesc: commentsRes.return,
+              version: commentsRes.version,
               level
             }
             onMethod(result)
@@ -391,7 +393,8 @@ export function parseJavascript(
             : '',
           bindings: {},
           scoped: true,
-          target: 'script'
+          target: 'script',
+          version: slotsComments.version
         }
 
         options.onSlot(scopedSlots)
@@ -438,7 +441,8 @@ export function parseJavascript(
         const result: MethodResult = {
           name: (node.key as bt.Identifier).name,
           describe: commentsRes.default,
-          argumentsDesc: commentsRes.arg
+          argumentsDesc: commentsRes.arg,
+          version: commentsRes.version
         }
         if (options.onMethod) options.onMethod(result)
       }
@@ -460,7 +464,8 @@ export function parseJavascript(
           name: '',
           isSync: false,
           syncProp: '',
-          level
+          level,
+          version: []
         }
         const args = (emitDecorator.expression as bt.CallExpression).arguments
         if (args && args.length && bt.isStringLiteral(args[0])) {
@@ -595,7 +600,9 @@ export function processEmitCallExpression(
   const result: EventResult = {
     name: '',
     isSync: false,
-    syncProp: ''
+    syncProp: '',
+    level,
+    version: []
   }
   const firstArg = args[0]
   if (firstArg) {

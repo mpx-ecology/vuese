@@ -57,34 +57,32 @@ export interface EventNameMap {
   [key: string]: string
 }
 
-export interface PropsResult {
-  type: PropType
+interface CommonResult {
   name: string
+  level?: number
+  describe?: string[] | CommentResult
+  version?: string[]
+}
+
+export interface PropsResult extends CommonResult {
+  type: PropType
   typeDesc?: string[]
   required?: boolean
   default?: string
   defaultDesc?: string[]
   validator?: string
   validatorDesc?: string[]
-  describe?: string[] | CommentResult
-  level?: number
 }
 
-export interface EventResult {
-  name: string
+export interface EventResult extends CommonResult {
   isSync: boolean
   syncProp: string
-  describe?: string[]
   argumentsDesc?: string[]
-  level?: number
 }
 
-export interface MethodResult {
-  name: string
-  describe?: string[]
+export interface MethodResult extends CommonResult {
   argumentsDesc?: string[]
   returnDesc?: string[]
-  level?: number
 }
 
 export interface ComputedResult {
@@ -119,7 +117,8 @@ export interface SlotResult {
   backerDesc: string
   bindings: AttrsMap
   scoped: boolean
-  target: 'template' | 'script'
+  target: 'template' | 'script',
+  version?: string[]
 }
 
 export interface ExternalClassesResult {
