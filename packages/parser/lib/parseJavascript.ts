@@ -136,7 +136,7 @@ export function parseJavascript(
                   level
                 }
 
-                processPropValue(propValueNode, result, source)
+                processPropValue(propValueNode, result, source, options)
 
                 onProp(result)
               }

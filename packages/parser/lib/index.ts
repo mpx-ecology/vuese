@@ -1,4 +1,5 @@
 import { sfcToAST } from './sfcToAST'
+import type { AstResult } from './sfcToAST'
 import { scriptToAst } from './scriptToAST'
 import { parseJavascript, setOptionsLevel } from './parseJavascript'
 import { parseTemplate } from './parseTemplate'
@@ -130,6 +131,7 @@ export interface ParserOptions {
   isMpx?: boolean
   isMixin?: boolean
   filepath?: string
+  jsFilePath?: string
   fnMixins?: Record<string, {
     mixins: string[],
     vueseRes: ParserResult
@@ -190,12 +192,13 @@ export function parser(
   source: string,
   options: ParserOptions = {}
 ): ParserResult {
-  let astRes
+  let astRes: AstResult
   if (options.isMixin) {
     astRes = scriptToAst(source, options)
   } else {
     astRes = sfcToAST(source, options.babelParserPlugins, options.basedir)
   }
+  options.jsFilePath = astRes.jsFilePath
   const res: ParserResult = {}
   const defaultOptions: ParserOptions = {
     onName(name: string) {

@@ -1,13 +1,15 @@
 import generate from '@babel/generator'
 import * as bt from '@babel/types'
 import { getComments } from './jscomments'
-import { PropType, PropsResult } from './index'
+import { PropType, PropsResult, ParserOptions } from './index'
 import { runFunction } from './helper'
+import { processTsType } from './processTsType'
 
 export function processPropValue(
   propValueNode: bt.Node,
   result: PropsResult,
-  source: string
+  source: string,
+  options?: ParserOptions
 ): void {
   if (isAllowPropsType(propValueNode)) {
     result.type = getTypeByTypeNode(propValueNode)
@@ -58,6 +60,9 @@ export function processPropValue(
             result.default = runFunction(r)
           } else if (bt.isFunction(node.value)) {
             result.default = runFunction(node.value)
+          } else if (bt.isTSAsExpression(node.value)) {
+            if (!options || !options.jsFilePath) return
+            processTsType(node.value, options, source)
           } else {
             let start = node.value.start || 0
             let end = node.value.end || 0

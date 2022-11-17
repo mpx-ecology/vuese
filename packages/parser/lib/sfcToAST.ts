@@ -15,6 +15,7 @@ export interface AstResult {
   templateAst?: object
   styleSource?: string
   jsSource: string
+  jsFilePath: string
   templateSource: string
 }
 
@@ -25,11 +26,12 @@ export function sfcToAST(
 ): AstResult {
   const plugins = getBabelParserPlugins(babelParserPlugins)
   const sfc = parseComponent(source)
-  const res: AstResult = { jsSource: '', templateSource: '', styleSource: '' }
+  const res: AstResult = { jsFilePath: '', jsSource: '', templateSource: '', styleSource: '' }
   if (sfc.script) {
     if (!sfc.script.content && sfc.script.src) {
       // Src Imports
       if (basedir) {
+        res.jsFilePath = path.resolve(basedir, sfc.script.src)
         try {
           sfc.script.content = fs.readFileSync(
             path.resolve(basedir, sfc.script.src),
