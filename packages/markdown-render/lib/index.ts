@@ -1,5 +1,6 @@
 import {
   ParserResult,
+  TsTypeResult,
   MixInResult,
   PropsResult,
   SlotResult,
@@ -17,6 +18,7 @@ export { MarkdownResult }
 
 interface RenderOptions {
   props: HeadOption[]
+  tsType: string[]
   slots: string[]
   events: string[]
   methods: string[] | HeadOption[]
@@ -30,6 +32,7 @@ interface RenderOptions {
 
 export interface RenderResult {
   props?: string
+  tsType?: string
   slots?: string
   events?: string
   methods?: string
@@ -50,6 +53,7 @@ export class Render {
       {},
       {
         props: propsHeadOptions,
+        tsType: ['Name', 'Type'],
         events: ['Name', 'Description', 'Parameters'],
         slots: ['Name', 'Description', 'Default Slot Content'],
         methods: ['Name', 'Description', 'Parameters'],
@@ -66,6 +70,7 @@ export class Render {
   render(): RenderResult {
     const {
       props,
+      tsType,
       slots,
       events,
       methods,
@@ -78,6 +83,9 @@ export class Render {
     const md: RenderResult = {}
     if (props) {
       md.props = this.propRender(props)
+    }
+    if (tsType) {
+      md.tsType = this.tsTypeRender(tsType)
     }
     if (slots) {
       md.slots = this.slotRender(slots)
@@ -205,6 +213,18 @@ export class Render {
     return code
   }
 
+  tsTypeRender(tsTypeRes: TsTypeResult[]): string {
+    const tsTypeConfig = (this.options as RenderOptions).tsType
+    let code = this.renderTabelHeader(tsTypeConfig.map(item => item))
+
+    tsTypeRes.forEach((tsType: TsTypeResult) => {
+      const row = [tsType.name, tsType.type]
+      code += this.renderTabelRow(row)
+    })
+
+    return code
+  }
+
   slotRender(slotsRes: SlotResult[]): string {
     const slotConfig = (this.options as RenderOptions).slots
     let code = this.renderTabelHeader(slotConfig.map(item => typeof item === 'object' ? item[this.tableHeadLang]: item))
@@ -285,10 +305,10 @@ export class Render {
               const fileName = this.options.name
               if (fileName) {
                 arr = arr.filter(item => {
-                  let fileOnlyName = item.match(/(?<=(\@fileOnly\()).*(?=(\)))/)
+                  const fileOnlyName = item.match(/(?<=(\@fileOnly\()).*(?=(\)))/)
                   if (fileOnlyName) {
-                    fileOnlyName = fileOnlyName[0].split(',')
-                    return fileOnlyName.indexOf(fileName) > -1
+                    const _fileOnlyName = fileOnlyName[0].split(',')
+                    return _fileOnlyName.indexOf(fileName) > -1
                   } else {
                     return true
                   }

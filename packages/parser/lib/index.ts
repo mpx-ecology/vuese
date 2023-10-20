@@ -2,10 +2,12 @@ import { sfcToAST } from './sfcToAST'
 import type { AstResult } from './sfcToAST'
 import { scriptToAst } from './scriptToAST'
 import { parseJavascript, setOptionsLevel } from './parseJavascript'
+import { setTypedocProject } from './processTsType'
 import { parseTemplate } from './parseTemplate'
 import { CommentResult } from './jscomments'
 import { Seen } from './seen'
 import { mergeMixinsOptions } from './processMixins'
+import Typedoc from 'typedoc'
 
 export * from './sfcToAST'
 export * from './parseJavascript'
@@ -13,6 +15,7 @@ export * from './parseTemplate'
 export * from './helper'
 export * from './jscomments'
 export * from './getExportFileConfig'
+export * from './processTsType'
 export {
   mergeMixinsOptions
 }
@@ -73,6 +76,12 @@ export interface PropsResult extends CommonResult {
   defaultDesc?: string[]
   validator?: string
   validatorDesc?: string[]
+  tsInfo?: TsTypeResult[]
+}
+
+export interface TsTypeResult {
+  name: string
+  type: string
 }
 
 export interface EventResult extends CommonResult {
@@ -136,9 +145,13 @@ export interface ParserOptions {
     mixins: string[],
     vueseRes: ParserResult
   }>
+  typedocProject?: Typedoc.Models.ProjectReflection
   onProp?: {
     (propsRes: PropsResult): void
   }
+  onTsType? : {
+    (tsTypeRes: TsTypeResult[]): void
+  },
   onEvent?: {
     (eventRes: EventResult): void
   }
@@ -176,6 +189,7 @@ export interface ParserOptions {
 
 export interface ParserResult {
   props?: PropsResult[]
+  tsType?: TsTypeResult[]
   events?: EventResult[]
   slots?: SlotResult[]
   mixIns?: MixInResult[]
@@ -192,6 +206,7 @@ export function parser(
   source: string,
   options: ParserOptions = {}
 ): ParserResult {
+  setTypedocProject(options.typedocProject)
   let astRes: AstResult
   if (options.isMixin) {
     astRes = scriptToAst(source, options)
@@ -212,6 +227,9 @@ export function parser(
         return
       }
       ;(res.props || (res.props = [])).push(propsRes)
+    },
+    onTsType(tsType: TsTypeResult[]) {
+      ;(res.tsType || (res.tsType = [])).push(...tsType)
     },
     onEvent(eventsRes: EventResult) {
       ;(res.events || (res.events = [])).push(eventsRes)
@@ -251,10 +269,21 @@ export function parser(
   if (astRes.templateAst) {
     parseTemplate(astRes.templateAst, seenEvent, finallyOptions)
   }
+  if (res.tsType?.length) {
+    const arr = res.tsType
+    for (let i = 0; i < arr.length - 1; i++) {
+        for (let j = i + 1; j < arr.length; j++) {
+            if (arr[i].name == arr[j].name) {
+                arr.splice(j, 1)
+                j--
+            }
+        }
+    }
+}
   mergeMixinsOptions(res)
   if (helpCreateName && options.fnMixins) {
     const vueseRes = options.fnMixins[helpCreateName].vueseRes
-    const keys = { props: '', methods: '', events: '' }
+    const keys = { props: '', methods: '', events: '', tsType: '' };
     Object.keys(keys).forEach(key => {
       if (res[key]) {
         res[key] = [...vueseRes[key], ...res[key]]

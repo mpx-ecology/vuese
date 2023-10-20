@@ -4,6 +4,7 @@ export default function(parserRes: ParserResult, initialMd: string): string {
   let templateStr = initialMd
 
   templateStr += parserRes.props ? genBaseTemplate('props') : ''
+  templateStr += parserRes.tsType ? genBaseTemplate('tsType') : ''
   templateStr += parserRes.events ? genBaseTemplate('events') : ''
   templateStr += parserRes.slots ? genBaseTemplate('slots') : ''
   templateStr += parserRes.methods ? genBaseTemplate('methods') : ''

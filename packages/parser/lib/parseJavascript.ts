@@ -1,4 +1,3 @@
-
 import traverse, { NodePath } from '@babel/traverse'
 import * as bt from '@babel/types'
 // getComponentDescribe from './jscomments'
@@ -69,6 +68,7 @@ export function parseJavascript(
     ObjectProperty(path: NodePath<bt.ObjectProperty>): void {
       const {
         onProp,
+        onTsType,
         onMethod,
         onComputed,
         onName,
@@ -131,13 +131,15 @@ export function parseJavascript(
                 const result: PropsResult = {
                   name,
                   type: null,
-                  describe: describe.default.length ? describe.default : describe,
+                  describe: describe,
                   version: describe.version,
                   level
                 }
 
                 processPropValue(propValueNode, result, source, options)
-
+                if (result.tsInfo && onTsType) {
+                  onTsType(result.tsInfo)
+                }
                 onProp(result)
               }
             }
@@ -458,7 +460,7 @@ export function parseJavascript(
       }
 
       // @Emit
-      const emitDecorator = getEmitDecorator(node.decorators)
+      const emitDecorator = getEmitDecorator(node.decorators || null)
       if (emitDecorator) {
         const result: EventResult = {
           name: '',
@@ -516,7 +518,7 @@ export function parseJavascript(
         ) {
           // ctx.$slots().xxx
           slotName = grandPath.node.property.name
-          const superNode = grandPath.parentPath.node
+          const superNode = grandPath.parentPath?.node
           slotsComments = bt.isExpressionStatement(superNode)
             ? getComments(superNode)
             : getComments(grandPath.node)

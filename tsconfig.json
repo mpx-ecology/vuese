@@ -2,11 +2,12 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "sourceMap": true,
+    "sourceMap": false,
     "target": "esnext",
     "module": "esnext",
     "allowJs": false,
     "noUnusedLocals": true,
+    "noEmitOnError": true,
     // "noImplicitAny": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
@@ -24,6 +25,7 @@
       "@vuese/markdown-render": ["packages/markdown-render/lib"]
     }
   },
+  
   "include": [
     "packages/declarations.d.ts",
     "packages/**/index.d.ts",

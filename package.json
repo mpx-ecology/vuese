@@ -19,10 +19,13 @@
     "release": "yarn build && lerna publish"
   },
   "dependencies": {
-    "@babel/generator": "^7.10.3",
-    "@babel/parser": "^7.10.3",
-    "@babel/traverse": "^7.10.3",
-    "@babel/types": "^7.3.0",
+    "@babel/generator": "7.10.3",
+    "@babel/parser": "7.10.3",
+    "@babel/traverse": "7.10.3",
+    "@babel/types": "7.3.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "typedoc": "^0.25.2",
     "typedoc-plugin-missing-exports": "^2.1.0",
     "vue-template-compiler": "^2.6.11"
@@ -51,9 +54,8 @@
     "lint-staged": "^7.3.0",
     "markdown-toc": "^1.2.0",
     "prettier": "^1.14.3",
-    "rollup": "^1.1.0",
-    "rollup-plugin-auto-external": "^2.0.0",
-    "rollup-plugin-typescript2": "^0.19.0",
+    "rollup": "2",
+    "rollup-plugin-typescript2": "^0.36.0",
     "ts-jest": "^23.10.1",
     "typescript": "^5.2.2"
   },

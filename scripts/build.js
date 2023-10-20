@@ -33,7 +33,6 @@ async function makeBuild() {
     if (pkgMeta.private) return
     await fs.remove(`${pkgDir}/dist`)
     await execa('rollup', ['-c', '--environment', `PKG_DIR:${pkgDirName}`], {
-      stdio: 'inherit'
     })
 
     const dtsOutDir = `${pkgDir}/${pkgMeta.types}`

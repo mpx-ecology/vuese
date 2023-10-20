@@ -18,17 +18,18 @@ export function processPropValue(
 
     const allPropNodes = propValueNode.properties
 
-    const typeNode: any[] = allPropNodes.filter((node: any) => {
+    const optionalTypesNode: any[] = []
+    const typeNode: any[] = []
+    const otherNodes: any = []
+
+    allPropNodes.forEach((node: any) => {
       if (node.key.name === 'type') {
-        return true
+        typeNode.push(node)
+      } else if (node.key.name === 'optionalTypes') {
+        optionalTypesNode.push(node)
+      } else {
+        otherNodes.push(node)
       }
-      return false
-    })
-    const otherNodes = allPropNodes.filter((node: any) => {
-      if (node.key.name !== 'type') {
-        return true
-      }
-      return false
     })
 
     // Prioritize `type` before processing `default`.
@@ -41,6 +42,7 @@ export function processPropValue(
         result.typeDesc = typeDesc
       }
     }
+
     // Processing props's default value
     otherNodes.forEach(node => {
       if (bt.isSpreadElement(node)) {
@@ -62,7 +64,21 @@ export function processPropValue(
             result.default = runFunction(node.value)
           } else if (bt.isTSAsExpression(node.value)) {
             if (!options || !options.jsFilePath) return
-            processTsType(node.value, options, source)
+            const tsTypes = processTsType(node.value, options, source)
+            // if (tsType)
+            result.default = source.slice(node.value.typeAnnotation.start || 0, node.value.typeAnnotation.end || 0)
+            result.tsInfo = []
+            const tsInfo = result.tsInfo
+            if (tsTypes && tsInfo) {
+              tsTypes.forEach(item => {
+                if (!item.isOriginType) {
+                  tsInfo.push({
+                    name: item.originName,
+                    type: item.typeRes
+                  })
+                }
+              })
+            }
           } else {
             let start = node.value.start || 0
             let end = node.value.end || 0
