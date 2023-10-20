@@ -99,8 +99,12 @@ export function processPropValue(
         }
 
         // Get descriptions of the default value
-        const defaultDesc: string[] = getComments(node).default
-        if (defaultDesc.length > 0) {
+        let _temp
+        if (!Array.isArray(result.describe)) {
+          _temp = result.describe?.defaultDesc
+        }
+        const defaultDesc: string[] = _temp || getComments(node).default
+        if (defaultDesc?.length > 0) {
           result.defaultDesc = defaultDesc
         }
       } else if (n === 'required') {
