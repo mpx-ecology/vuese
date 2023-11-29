@@ -1,9 +1,6 @@
 const path = require('path')
 const typescript = require('rollup-plugin-typescript2')
 const isBuiltinModule = require('is-builtin-module')
-const resolve = require('@rollup/plugin-node-resolve')
-const commonjs = require('@rollup/plugin-commonjs')
-const pluginJson = require('@rollup/plugin-json')
 function resolveInput(projectDir) {
   return path.resolve('packages', `${projectDir}/lib/index.ts`)
 }
