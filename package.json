@@ -1,5 +1,5 @@
 {
-  "name": "vuese-monorepo",
+  "name": "@mpxjs/vuese-monorepo",
   "private": true,
   "workspaces": [
     "packages/*"
@@ -14,7 +14,6 @@
     "changelog": "conventional-changelog -i CHANGELOG.md -s",
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate",
-    "vuese-cli": "./packages/cli/bin/index.js",
     "lerna-tsc": "lerna run tsc",
     "release": "yarn build && lerna publish"
   },

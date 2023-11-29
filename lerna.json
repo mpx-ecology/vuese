@@ -10,7 +10,7 @@
   ],
   "command": {
     "publish": {
-      "allowBranch": ["master", "monorepo"],
+      "allowBranch": ["master", "monorepo", "pub"],
       "message": "chore(release): publish"
     }
   }
