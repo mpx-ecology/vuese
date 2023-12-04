@@ -16,6 +16,7 @@ import { propsHeadOptions, HeadOption } from './config'
 
 export { MarkdownResult }
 
+// 触发更新
 interface RenderOptions {
   props: HeadOption[]
   tsType: string[]

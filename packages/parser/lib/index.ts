@@ -22,6 +22,7 @@ export {
 
 export type PropType = string | string[] | null
 
+// 触发更新
 /**
  * Since version 7.3.3, `type ParserPlugin` has been added with the `ParserPluginWithOptions` type,
  * which is a breaking change for vuese, so we will force the installation of the version below 7.3.3,
