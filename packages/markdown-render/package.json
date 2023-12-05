@@ -7,8 +7,8 @@
     "render",
     "document"
   ],
-  "author": "HcySunYang <HcySunYang@outlook.com>",
-  "homepage": "https://github.com/vuese/vuese/tree/master/packages/markdown-render#readme",
+  "author": "qiushuibai <1125097005@qq.com>",
+  "homepage": "https://github.com/mpx-ecology/vuese/tree/monorepo",
   "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
