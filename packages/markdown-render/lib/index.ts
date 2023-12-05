@@ -149,8 +149,9 @@ export class Render {
                 desc = propRes.describe
               } 
             } else {
-              const description = (propRes.describe as any).description as string[]
-              desc = description || desc
+              const description = (propRes.describe as any)?.description as string[]
+              const defaultDesc = (propRes.describe as any)?.defalut as string[]
+              desc = description || defaultDesc || desc
             }
             if(propRes.validatorDesc) {
               if(desc[0] === '-') {
