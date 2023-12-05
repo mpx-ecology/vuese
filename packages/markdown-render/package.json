@@ -1,6 +1,6 @@
 {
   "name": "@mpxjs/vuese-markdown-render",
-  "version": "1.0.8-alpha.3",
+  "version": "1.0.8-alpha.4",
   "description": "Render raw markdown string according to AST",
   "keywords": [
     "markdown",
@@ -32,5 +32,5 @@
   "devDependencies": {
     "@vuese/parser": "^2.9.1"
   },
-  "gitHead": "2bc1b0691aaf9480fa6fc0ad59ff1bc991b81efe"
+  "gitHead": "1926e96fcba6d4dcd699a877f93fe0445538c28a"
 }

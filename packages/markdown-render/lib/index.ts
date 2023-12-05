@@ -150,7 +150,7 @@ export class Render {
               } 
             } else {
               const description = (propRes.describe as any)?.description as string[]
-              const defaultDesc = (propRes.describe as any)?.defalut as string[]
+              const defaultDesc = (propRes.describe as any)?.default as string[]
               desc = description || defaultDesc || desc
             }
             if(propRes.validatorDesc) {
