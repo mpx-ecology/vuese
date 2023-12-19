@@ -37,7 +37,7 @@ export function parseTemplate(
   if (templateAst.type === 1) {
     if (templateAst.tag === 'slot') {
       const slot: SlotResult = {
-        name: 'default',
+        name: '— (默认插槽)',
         describe: '',
         backerDesc: '',
         bindings: {},

@@ -39,7 +39,7 @@ export function determineChildren(
       refPath.parentPath.node.property.name === 'children'
     ) {
       const slotRes: SlotResult = {
-        name: 'default',
+        name: '— (默认插槽)',
         describe: '',
         backerDesc: '',
         scoped: false,
