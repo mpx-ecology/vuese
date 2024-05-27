@@ -1,6 +1,6 @@
 {
   "name": "@mpxjs/vuese-markdown-render",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Render raw markdown string according to AST",
   "keywords": [
     "markdown",
