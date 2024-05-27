@@ -617,7 +617,7 @@ export function processEmitCallExpression(
     }
   }
 
-  if (!result.name || seenEvent.seen(result.name)) return
+  if (!result.name ) return
 
   processEventName(result.name, parentExpressionStatementNodePath, result)
 
