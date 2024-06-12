@@ -1,0 +1,35 @@
+
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "sourceMap": false,
+    "target": "esnext",
+    "module": "esnext",
+    "allowJs": false,
+    "noUnusedLocals": true,
+    "noEmitOnError": true,
+    // "noImplicitAny": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": true,
+    "removeComments": false,
+    "moduleResolution": "node",
+    "declaration": true,
+    "jsx": "preserve",
+    "lib": [
+      "esnext"
+    ],
+    "rootDir": ".",
+    "paths": {
+      "@vuese/parser": ["packages/parser/lib"],
+      "@vuese/markdown-render": ["packages/markdown-render/lib"]
+    }
+  },
+  
+  "include": [
+    "packages/declarations.d.ts",
+    "packages/**/index.d.ts",
+    "packages/*/lib",
+    "packages/*/__test__"
+  ]
+}

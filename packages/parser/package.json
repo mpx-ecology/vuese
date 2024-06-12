@@ -1,0 +1,40 @@
+{
+  "name": "@mpxjs/vuese-parser",
+  "version": "1.0.2",
+  "description": "Vue file parser for automatic document generation",
+  "keywords": [
+    "parser",
+    "vue",
+    "document"
+  ],
+  "author": "qiushuibai <1125097005@qq.com>",
+  "homepage": "https://github.com/mpx-ecology/vuese/tree/monorepo",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "tsc": "rm -rf dist && tsc"
+  },
+  "dependencies": {
+    "@babel/generator": "7.10.3",
+    "@babel/parser": "7.10.3",
+    "@babel/traverse": "7.10.3",
+    "@babel/types": "7.3.4",
+    "typedoc": "^0.25.2",
+    "typedoc-plugin-missing-exports": "^2.1.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "devDependencies": {
+    "typescript": "^5.2.2"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "buildOptions": {
+    "extractDts": true
+  }
+}

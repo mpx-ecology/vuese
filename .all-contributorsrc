@@ -1,0 +1,104 @@
+{
+  "projectName": "vuese",
+  "projectOwner": "shuidi-fed",
+  "contributors": [
+    {
+      "login": "HcySunYang",
+      "name": "HcySunYang",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/14146560?v=4",
+      "profile": "http://hcysun.me/homepage",
+      "contributions": [
+        "code",
+        "test",
+        "doc",
+        "example"
+      ]
+    },
+    {
+      "login": "elevatebart",
+      "name": "Barthélémy Ledoux",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/5592465?v=4",
+      "profile": "https://github.com/elevatebart",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "BerniWittmann",
+      "name": "Bernhard Wittmann",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/17594215?v=4",
+      "profile": "http://bernhardwittmann.com",
+      "contributions": [
+        "code",
+        "ideas"
+      ]
+    },
+    {
+      "login": "BuptStEve",
+      "name": "Steve Young",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/11501493?v=4",
+      "profile": "https://buptsteve.github.io",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "wulunyi",
+      "name": "wulunyi",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/15170275?v=4",
+      "profile": "https://github.com/wulunyi",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "Estelle00",
+      "name": "Estelle00",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5432828?v=4",
+      "profile": "https://github.com/Estelle00",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "roxburghm",
+      "name": "Matt Roxburgh",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/8364818?v=4",
+      "profile": "https://github.com/roxburghm",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "jamesgeorge007",
+      "name": "James George",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/25279263?v=4",
+      "profile": "https://ghuser.io/jamesgeorge007",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    },
+    {
+      "login": "IWANABETHATGUY",
+      "name": "IWANABETHATGUY",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/17974631?v=4",
+      "profile": "https://github.com/IWANABETHATGUY",
+      "contributions": [
+        "code",
+        "test",
+        "doc"
+      ]
+    }
+  ],
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true,
+  "files": [
+    "README.md"
+  ],
+  "contributorsPerLine": 7
+}

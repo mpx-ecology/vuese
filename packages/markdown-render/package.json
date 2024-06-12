@@ -1,0 +1,36 @@
+{
+  "name": "@mpxjs/vuese-markdown-render",
+  "version": "1.0.1",
+  "description": "Render raw markdown string according to AST",
+  "keywords": [
+    "markdown",
+    "render",
+    "document"
+  ],
+  "author": "qiushuibai <1125097005@qq.com>",
+  "homepage": "https://github.com/mpx-ecology/vuese/tree/monorepo",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vuese/vuese.git"
+  },
+  "bugs": {
+    "url": "https://github.com/vuese/vuese/issues"
+  },
+  "buildOptions": {
+    "extractDts": true
+  },
+  "devDependencies": {
+    "@vuese/parser": "^2.9.1"
+  },
+  "gitHead": "1926e96fcba6d4dcd699a877f93fe0445538c28a"
+}

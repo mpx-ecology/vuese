@@ -1,0 +1,150 @@
+{
+  "name": "@mpxjs/vuese-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "test": "yarn lint && jest --verbose",
+    "build": "yarn lint && node ./scripts/build.js",
+    "prepublishOnly": "yarn toc && yarn build",
+    "toc": "markdown-toc -i README.md",
+    "lint": "eslint packages --ext .ts --fix",
+    "commit": "git-cz",
+    "changelog": "conventional-changelog -i CHANGELOG.md -s",
+    "contributors:add": "all-contributors add",
+    "contributors:generate": "all-contributors generate",
+    "lerna-tsc": "lerna run tsc",
+    "release": "yarn build && lerna publish"
+  },
+  "dependencies": {
+    "@babel/generator": "7.10.3",
+    "@babel/parser": "7.10.3",
+    "@babel/traverse": "7.10.3",
+    "@babel/types": "7.3.4",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "typedoc": "^0.25.2",
+    "typedoc-plugin-missing-exports": "^2.1.0",
+    "vue-template-compiler": "^2.6.11"
+  },
+  "devDependencies": {
+    "@typescript-eslint/parser": "^6.8.0",
+    "chalk": "^2.4.2",
+    "cz-emoji": "^1.1.2",
+    "dts-bundle": "^0.7.3",
+    "eslint": "^8.51.0",
+    "execa": "^1.0.0",
+    "fs-extra": "^7.0.1",
+    "git-cz": "^4.7.6",
+    "husky": "^1.0.0",
+    "is-builtin-module": "^3.0.0",
+    "jest": "^24.5.0",
+    "lerna": "^3.10.5",
+    "lint-staged": "^7.3.0",
+    "markdown-toc": "^1.2.0",
+    "prettier": "^1.14.3",
+    "rollup": "2",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "ts-jest": "^23.10.1",
+    "typescript": "^5.2.2"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "yarn run lint",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-emoji"
+    },
+    "cz-emoji": {
+      "types": [
+        {
+          "emoji": "\t🌟",
+          "code": ":star2:",
+          "description": "\tA new feature",
+          "name": "feat"
+        },
+        {
+          "emoji": "\t🐞",
+          "code": ":beetle:",
+          "description": "\tA bug fix",
+          "name": "fix"
+        },
+        {
+          "emoji": "\t🎨",
+          "code": ":art:",
+          "description": "\tNeither fixes a bug nor adds a feature",
+          "name": "refactor"
+        },
+        {
+          "emoji": "\t🚓",
+          "code": ":police_car:",
+          "description": "\t Testing improved with new or fixed tests",
+          "name": "test"
+        },
+        {
+          "emoji": "\t🔩",
+          "code": ":nut_and_bolt:",
+          "description": "\tDoesn't modify src or test files",
+          "name": "chore"
+        },
+        {
+          "emoji": "\t💰",
+          "code": ":moneybag:",
+          "description": "\tImproves performance with this change",
+          "name": "perf"
+        },
+        {
+          "emoji": "\t🚥",
+          "code": ":traffic_light:",
+          "description": "\tCI config files and scripts",
+          "name": "ci"
+        },
+        {
+          "emoji": "\t♻️",
+          "code": ":recycle:",
+          "description": "\tOptimize workflow",
+          "name": "workflow"
+        },
+        {
+          "emoji": "\t🚀",
+          "code": ":rocket:",
+          "description": "\tBuild system config or external dependencies",
+          "name": "build"
+        },
+        {
+          "emoji": "\t📚",
+          "code": ":books:",
+          "description": "\tDocumentation change",
+          "name": "docs"
+        },
+        {
+          "emoji": "\t💊",
+          "code": ":pill:",
+          "description": "\tReverts a previous commit",
+          "name": "revert"
+        },
+        {
+          "emoji": "\t🎉",
+          "code": ":tada:",
+          "description": "\tInitialize a new package.",
+          "name": "init"
+        }
+      ],
+      "scopes": [
+        "cli",
+        "parser",
+        "markdown-render"
+      ]
+    }
+  }
+}

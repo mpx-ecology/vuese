@@ -1,0 +1,356 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`@Component: Functional children 1`] = `"Default slot in the decorator"`;
+
+exports[`@Component: Functional children 2`] = `"Default content in the decorator"`;
+
+exports[`@Emit decorator 1`] = `
+Array [
+  "Fire when the form is cleared",
+]
+`;
+
+exports[`@Emit decorator 2`] = `
+Array [
+  "The argument is a boolean value representing xxx",
+]
+`;
+
+exports[`@Prop decorator 1`] = `
+Array [
+  "Description of prop",
+]
+`;
+
+exports[`@Prop decorator 2`] = `
+Array [
+  "The default value is 1",
+]
+`;
+
+exports[`Class method 1`] = `
+Array [
+  "This is a function exposed as an interface",
+]
+`;
+
+exports[`Class method 2`] = `
+Array [
+  "The first parameter is a Boolean value that represents...",
+]
+`;
+
+exports[`Correct handling of events 1`] = `
+Array [
+  "Triggered when clicked",
+]
+`;
+
+exports[`Correct handling of events 2`] = `
+Array [
+  "The first parameter is a Boolean value that represents...",
+]
+`;
+
+exports[`Correct handling of events 3`] = `Array []`;
+
+exports[`Correct handling of events 4`] = `undefined`;
+
+exports[`Correct handling of events 5`] = `Array []`;
+
+exports[`Correct handling of events 6`] = `undefined`;
+
+exports[`Correct handling of methods 1`] = `
+Array [
+  "Do something",
+]
+`;
+
+exports[`Correct handling of methods 2`] = `
+Array [
+  "The first parameter is a Boolean value that represents...",
+]
+`;
+
+exports[`Functional children 1`] = `"This is the default slot"`;
+
+exports[`Functional children 2`] = `"Default content"`;
+
+exports[`Get comments as a description 1`] = `
+Array [
+  "a string",
+  "For input form",
+  "and something",
+]
+`;
+
+exports[`Get comments maintaining markdown code blocks original indentation 1`] = `
+Array [
+  "Use this component to do awesome things.",
+  "Example:",
+  "\`\`\`xml",
+  "<my-component-wrapper>",
+  "  <my-component-main>",
+  "    <another-component />",
+  "  </my-component-main>",
+  "</my-component-wrapper>",
+  "\`\`\`",
+  "Any other comment",
+]
+`;
+
+exports[`Get comments maintaining markdown code blocks original indentation with block comment 1`] = `
+Array [
+  "Use this component to do awesome things.",
+  "Example:",
+  "\`\`\`xml",
+  "<my-component-wrapper>",
+  "  <my-component-main>",
+  "    <another-component />",
+  "  </my-component-main>",
+  "</my-component-wrapper>",
+  "\`\`\`",
+  "Any other comment",
+]
+`;
+
+exports[`Get the component name correctly 1`] = `
+Object {
+  "default": Array [
+    "This is a description of the component",
+  ],
+}
+`;
+
+exports[`Gets a description of the default value and a description of the validator 1`] = `
+Array [
+  "'TOP' | 'LEFT'",
+]
+`;
+
+exports[`Render function in class method: Functional children 1`] = `"Default slot in the decorator"`;
+
+exports[`Render function in class method: Functional children 2`] = `"Default content in the decorator"`;
+
+exports[`Scoped slots in script 1`] = `"The scoped slot named title"`;
+
+exports[`Scoped slots in script 2`] = `"Default content of title"`;
+
+exports[`Scoped slots in script 3`] = `"The scoped slot named tip"`;
+
+exports[`Scoped slots in script 4`] = `"Default content of tip"`;
+
+exports[`Slots in script 1`] = `"This is the description of the slot"`;
+
+exports[`Slots in script 2`] = `"Description of the slot default content"`;
+
+exports[`Slots in script 3`] = `"This is the default slot for functional components"`;
+
+exports[`Slots in script 4`] = `"Description of the slot default content (functional)"`;
+
+exports[`Slots in script 5`] = `"The slot named footer"`;
+
+exports[`Slots in script 6`] = `"Default content of footer"`;
+
+exports[`Slots in script 7`] = `"The slot named sidebar"`;
+
+exports[`Slots in script 8`] = `"Default content of sidebar"`;
+
+exports[`The default value of Props 1`] = `"{\\"val\\":1}"`;
+
+exports[`The default value of Props 2`] = `undefined`;
+
+exports[`The default value of Props 3`] = `"{\\"val\\":1}"`;
+
+exports[`The default value of Props 4`] = `
+Array [
+  "\`{ val: 1 }\`",
+]
+`;
+
+exports[`The default value of Props 5`] = `
+Array [
+  "\`{ val: 1, a: 2 }\`",
+]
+`;
+
+exports[`The default value of Props 6`] = `
+Array [
+  "\`{ val: 1}\`",
+]
+`;
+
+exports[`The options in @Component should be parsed correctly 1`] = `
+Array [
+  "Used to manually clear the form",
+]
+`;
+
+exports[`The options in @Component should be parsed correctly 2`] = `
+Array [
+  "The first parameter is a Boolean value that represents...",
+]
+`;
+
+exports[`The options in @Component should be parsed correctly 3`] = `
+Array [
+  "Fire when the form is cleared",
+]
+`;
+
+exports[`The options in @Component should be parsed correctly 4`] = `
+Array [
+  "The argument is a boolean value representing xxx",
+]
+`;
+
+exports[`The options in @Component should be parsed correctly 5`] = `
+Object {
+  "describe": Array [
+    "The name of the form, up to 8 characters",
+  ],
+  "name": "name",
+  "required": true,
+  "type": Array [
+    "String",
+    "Number",
+  ],
+  "validator": "validator() {}",
+}
+`;
+
+exports[`The options in @Component should be parsed correctly 6`] = `
+Object {
+  "default": Array [
+    "This is a description of the component",
+  ],
+}
+`;
+
+exports[`The validator function should be used as a string representation 1`] = `
+"function () {
+  return true;
+}"
+`;
+
+exports[`When the \`type\` definition contains \`Function\`, should get a string representation of the \`default\` function. 1`] = `"default() {}"`;
+
+exports[`computed in the object 1`] = `
+Array [
+  "String",
+]
+`;
+
+exports[`computed in the object 2`] = `
+Array [
+  "Returns filtered paths",
+]
+`;
+
+exports[`computed in the object 3`] = `false`;
+
+exports[`computed in the object 4`] = `
+Array [
+  "Array",
+]
+`;
+
+exports[`computed in the object 5`] = `
+Array [
+  "Returns filtered paths",
+]
+`;
+
+exports[`computed in the object 6`] = `true`;
+
+exports[`data in the object 1`] = `"Number"`;
+
+exports[`data in the object 2`] = `
+Array [
+  "Is a value",
+]
+`;
+
+exports[`data in the object 3`] = `"5"`;
+
+exports[`data in the object 4`] = `"String"`;
+
+exports[`data in the object 5`] = `
+Array [
+  "Is a string variable",
+]
+`;
+
+exports[`data in the object 6`] = `"A String"`;
+
+exports[`data in the object 7`] = `"Array"`;
+
+exports[`data in the object 8`] = `
+Array [
+  "Is an array variable",
+]
+`;
+
+exports[`data in the object 9`] = `"[An,Array]"`;
+
+exports[`data in the object, arrow function with returnStatement. 1`] = `"Number"`;
+
+exports[`data in the object, arrow function with returnStatement. 2`] = `
+Array [
+  "Is a value",
+]
+`;
+
+exports[`data in the object, arrow function with returnStatement. 3`] = `"5"`;
+
+exports[`data in the object, arrow function with returnStatement. 4`] = `"String"`;
+
+exports[`data in the object, arrow function with returnStatement. 5`] = `
+Array [
+  "Is a string variable",
+]
+`;
+
+exports[`data in the object, arrow function with returnStatement. 6`] = `"A String"`;
+
+exports[`data in the object, arrow function with returnStatement. 7`] = `"Array"`;
+
+exports[`data in the object, arrow function with returnStatement. 8`] = `
+Array [
+  "Is an array variable",
+]
+`;
+
+exports[`data in the object, arrow function with returnStatement. 9`] = `"[An,Array]"`;
+
+exports[`watch in the object 1`] = `
+Array [
+  "Stores paths in store",
+]
+`;
+
+exports[`watch in the object 2`] = `
+Array [
+  "val - the value",
+]
+`;
+
+exports[`watch in the object 3`] = `
+Array [
+  "Sets the current page to 1",
+]
+`;
+
+exports[`watch in the object 4`] = `
+Array [
+  "variable - does something",
+]
+`;
+
+exports[`watch in the object 5`] = `
+Array [
+  "Sets the current page to 1",
+]
+`;
+
+exports[`watch in the object 6`] = `undefined`;
