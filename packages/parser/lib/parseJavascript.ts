@@ -158,6 +158,7 @@ export function parseJavascript(
           }
 
           const { ast, filePath } = findImportDeclaration(mixInpath, mixIn.name);
+          if (!filePath || !ast) return
           const _source = fs.readFileSync(filePath, 'utf-8')
 
           const _options = { ...options }
