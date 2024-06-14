@@ -1,0 +1,27 @@
+{
+  "name": "@mpxjs/website",
+  "version": "0.0.1",
+  "description": "构建示例网站",
+  "author": "QiuShuiBai <1125097005@qq.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "tsc": "rm -rf dist && tsc"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "publishConfig": {
+    "registry": "http://npm.intra.xiaojukeji.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "null"
+  }
+}
