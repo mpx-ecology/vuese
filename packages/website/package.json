@@ -17,11 +17,11 @@
     "lib": "lib",
     "test": "__tests__"
   },
-  "publishConfig": {
-    "registry": "http://npm.intra.xiaojukeji.com/"
-  },
   "repository": {
     "type": "git",
     "url": "null"
+  },
+  "buildOptions": {
+    "extractDts": true
   }
 }
