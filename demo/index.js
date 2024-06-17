@@ -1,6 +1,6 @@
 const website = require('@mpxjs/vuese-website').default
 const path = require('path')
-debugger
+
 website({
   srcPath: path.resolve(__dirname, './src'),
   examplePath: path.resolve(__dirname, './pages'),
