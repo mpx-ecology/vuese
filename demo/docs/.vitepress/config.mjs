@@ -3,7 +3,7 @@ import fs from 'fs'
 import path from 'path'
 
 function init() {
-  const dir = path.resolve('docs/guide')
+  const dir = path.resolve(__dirname, '../guide')
   const list = fs.readdirSync(dir).map(item => {
     item = item.split('.')[0]
     return {
