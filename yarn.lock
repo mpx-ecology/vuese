@@ -9260,9 +9260,8 @@ vue-template-compiler@^2.6.11:
     he "^1.1.0"
 
 vue@^3.0.0, vue@^3.4.27:
-  name vue3
   version "3.4.29"
-  resolved "https://registry.npmjs.org/vue/-/vue-3.4.29.tgz#fad5a0fe6dfa5c4a2cfbbc48c489e7989616a15b"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/vue/-/vue-3.4.29.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Fvue%2F-%2Fvue-3.4.29.tgz#fad5a0fe6dfa5c4a2cfbbc48c489e7989616a15b"
   integrity sha512-8QUYfRcYzNlYuzKPfge1UWC6nF9ym0lx7mpGVPJYNhddxEf3DD0+kU07NTL0sXuiT2HuJuKr/iEO8WvXvT0RSQ==
   dependencies:
     "@vue/compiler-dom" "3.4.29"

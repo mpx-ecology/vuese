@@ -4,8 +4,6 @@ import { spawn } from 'child_process'
 import { parser, type ParserResult } from '@mpxjs/vuese-parser'
 import { Render } from '@mpxjs/vuese-markdown-render'
 
-// const vueseParse = require('@mpxjs/vuese-parser')
-
 type WebsiteConfig = {
   srcPath: string
   examplePath: string
@@ -216,17 +214,4 @@ export default function website(config: WebsiteConfig): void {
   spawn('npx', ['vitepress', 'dev', 'docs'], { stdio: 'inherit' });
   // 构建 VitePress 静态文件
   // spawn('npx', ['vitepress', 'build', 'docs'], { stdio: 'inherit' });
-  
-  // // 本地预览构建结果
-  // exec('npx vitepress serve docs', (error, stdout, stderr) => {
-  //   if (error) {
-  //     console.error(`Error: ${error.message}`);
-  //     return;
-  //   }
-  //   if (stderr) {
-  //     console.error(`Stderr: ${stderr}`);
-  //     return;
-  //   }
-  //   console.log(`Stdout: ${stdout}`);
-  // });
 }
