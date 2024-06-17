@@ -1,1 +1,1 @@
-# `@vuese/markdown-render`
+# `@mpxjs/vuese-markdown-render`

@@ -1,4 +1,4 @@
-import { ParserResult } from '@vuese/parser'
+import { ParserResult } from '@mpxjs/vuese-parser'
 
 export default function(parserRes: ParserResult, initialMd: string): string {
   let templateStr = initialMd

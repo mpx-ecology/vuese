@@ -1,27 +1,27 @@
 {
-  "name": "@mpxjs/website",
+  "name": "@mpxjs/vuese-website",
   "version": "0.0.1",
   "description": "构建示例网站",
   "author": "QiuShuiBai <1125097005@qq.com>",
   "homepage": "",
-  "license": "ISC",
+  "license": "MIT",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "files": [
     "dist"
   ],
-  "scripts": {
-    "tsc": "rm -rf dist && tsc"
-  },
-  "directories": {
-    "lib": "lib",
-    "test": "__tests__"
-  },
   "repository": {
     "type": "git",
     "url": "null"
   },
   "buildOptions": {
     "extractDts": true
+  },
+  "bin": {
+    "vuese-website": "./bin/init.js"
+  },
+  "dependencies": {
+    "vitepress": "^1.2.2",
+    "vue": "^3.0.0"
   }
 }

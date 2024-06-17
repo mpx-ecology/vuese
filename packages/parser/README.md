@@ -1,4 +1,4 @@
-# `@vuese/parser`
+# `@mpxjs/vuese-parser`
 
 ## mixin 逻辑
 

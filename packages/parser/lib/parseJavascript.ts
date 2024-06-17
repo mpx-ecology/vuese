@@ -14,7 +14,7 @@ import {
   WatchResult,
   ExternalClassesResult,
   EventNameMap
-} from '@vuese/parser'
+} from '@mpxjs/vuese-parser'
 import { getValueFromGenerate, isVueOption, computesFromStore } from './helper'
 import {
   processPropValue,

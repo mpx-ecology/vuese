@@ -10,7 +10,7 @@ import {
   ComputedResult,
   WatchResult,
   ExternalClassesResult
-} from '@vuese/parser'
+} from '@mpxjs/vuese-parser'
 import renderMarkdown, { MarkdownResult } from './renderMarkdown'
 import { propsHeadOptions, HeadOption } from './config'
 

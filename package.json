@@ -5,6 +5,7 @@
     "packages/*"
   ],
   "scripts": {
+    "demo": "node ./demo/index.js",
     "test": "yarn lint && jest --verbose",
     "build": "yarn lint && node ./scripts/build.js",
     "prepublishOnly": "yarn toc && yarn build",
@@ -22,9 +23,10 @@
     "@babel/parser": "7.10.3",
     "@babel/traverse": "7.10.3",
     "@babel/types": "7.3.4",
-    "@rollup/plugin-commonjs": "^25.0.7",
-    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
     "typedoc": "^0.25.2",
     "typedoc-plugin-missing-exports": "^2.1.0",
     "vue-template-compiler": "^2.6.11"

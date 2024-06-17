@@ -1,0 +1,16 @@
+{
+  "name": "demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@mpxjs/vuese-website": "file:../packages/website",
+    "@mpxjs/vuese-parser": "file:../packages/parser",
+    "@mpxjs/vuese-markdown-render": "file:../packages/markdown-render"
+  },
+  "author": "",
+  "license": "ISC"
+}
