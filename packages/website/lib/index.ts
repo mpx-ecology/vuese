@@ -7,6 +7,7 @@ type WebsiteConfig = {
   srcPath: string
   examplePath: string
   outputPath: string
+  doscPath: string
 }
 
 
@@ -70,7 +71,7 @@ export default function website(config: WebsiteConfig): void {
   })
 
   // 启动 VitePress 开发服务器
-  spawn('npx', ['vitepress', 'dev', 'docs'], { stdio: 'inherit' });
+  spawn('npx', ['vitepress', 'dev', config.doscPath || 'docs'], { stdio: 'inherit' });
   // 构建 VitePress 静态文件
   // spawn('npx', ['vitepress', 'build', 'docs'], { stdio: 'inherit' });
 }
