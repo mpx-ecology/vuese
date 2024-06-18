@@ -5,12 +5,12 @@
 |---|---|---|---|---|
 |text|按钮文案|`String`|-|-|
 |tip|辅助文案|`String`|-|-|
-|disabled|禁用状态|`Boolean`|-|false|
-|inline|是否内联|`Boolean`|-|false|
-|outline|是否展示外边框|`Boolean`|-|false|
-|loading|是否展示loading态|`Boolean`|-|false|
-|themeType|主题类型|`String`|-|dd|
-|isEllipsis|是否打点|`Boolean`|-|false|
+|disabled|禁用状态|`Boolean`|-|<pre v-pre class="language-typescript inside-td"><code><span class="hljs-literal">false</span></code></pre>|
+|inline|是否内联|`Boolean`|-|<pre v-pre class="language-typescript inside-td"><code><span class="hljs-literal">false</span></code></pre>|
+|outline|是否展示外边框|`Boolean`|-|<pre v-pre class="language-typescript inside-td"><code><span class="hljs-literal">false</span></code></pre>|
+|loading|是否展示loading态|`Boolean`|-|<pre v-pre class="language-typescript inside-td"><code><span class="hljs-literal">false</span></code></pre>|
+|themeType|主题类型|`String`|-|<pre v-pre class="language-typescript inside-td"><code>dd</code></pre>|
+|isEllipsis|是否打点|`Boolean`|-|<pre v-pre class="language-typescript inside-td"><code><span class="hljs-literal">false</span></code></pre>|
 |styleConfig|按钮样式配置|`Object`|-|-|
 
 <!-- @vuese:[name]:props:end -->

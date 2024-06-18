@@ -1,9 +1,0 @@
-{
-  "include": ["**/*.vue"],
-  "exclude": ["**/error.vue"],
-  "outDir": "test-website",
-  "markdownDir": "components",
-  "babelParserPlugins": {
-    "jsx": false
-  }
-}

@@ -2,6 +2,7 @@ import path from 'path'
 import fs from 'fs'
 import { spawn } from 'child_process'
 import { genSrcMd } from './gen-src-md'
+import { genExampleMd } from './gen-example-md'
 
 type WebsiteConfig = {
   srcPath: string
@@ -9,7 +10,6 @@ type WebsiteConfig = {
   outputPath: string
   doscPath: string
 }
-
 
 function validateParams(config: WebsiteConfig) {
   const keys: (keyof WebsiteConfig)[] = ['srcPath', 'examplePath', 'outputPath']
@@ -48,7 +48,6 @@ function listMpxFiles(dir: string, fileName = '') {
   return results;
 }
 
-
 function getFiles(srcPath: string, examplePath: string) {
   const srcFiles = listMpxFiles(srcPath)
   const exapmpleFiles = fs.readdirSync(examplePath)
@@ -64,8 +63,10 @@ export default function website(config: WebsiteConfig): void {
   const srcFiles = getFiles(config.srcPath, config.examplePath)
 
   srcFiles.map(file => {
-    const md = genSrcMd(file.fileName, file.fullPath)
-    md.then(text => {
+    const srcMd = genSrcMd(file.fileName, file.fullPath)
+    const exampleMd = genExampleMd(file.fileName, path.resolve(config.examplePath, file.fileName))
+    console.log(exampleMd)
+    srcMd.then(text => {
       fs.writeFileSync(`${config.outputPath}/${file.fileName}.md`, text)
     })
   })

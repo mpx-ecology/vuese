@@ -16,7 +16,8 @@
     "dist"
   ],
   "scripts": {
-    "tsc": "rm -rf dist && tsc"
+    "tsc": "rm -rf dist && tsc",
+    "tsc:config": "tsc --showConfig"
   },
   "dependencies": {
     "@babel/generator": "7.10.3",

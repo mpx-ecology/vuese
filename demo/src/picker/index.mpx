@@ -102,7 +102,6 @@
       },
       hourSpan: {
         type: Array,
-        // value: [[0, 24]]
         value: [0, 24]
       },
       // 时区，北京为8

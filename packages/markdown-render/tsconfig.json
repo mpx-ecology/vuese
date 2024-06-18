@@ -5,6 +5,5 @@
       "@mpxjs/vuese-markdown-render": ["packages/markdown-render/lib"],
       "@mpxjs/vuese-parser": ["packages/parser/lib"]
     }
-  },
-  "include": ["lib", "../declarations.d.ts", "__test__"],
+  }
 }

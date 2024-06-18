@@ -26,7 +26,9 @@ module.exports = {
     // resolve(),
     // commonjs(),
     // pluginJson(),
-    typescript()
+    typescript({
+      tsconfig: `packages/${PKG_DIR}/tsconfig.json`
+    })
   ],
   output: {
     file: resolveOutput(PKG_DIR),

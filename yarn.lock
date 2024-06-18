@@ -1393,6 +1393,20 @@
     libnpm "^2.0.1"
     write-file-atomic "^2.3.0"
 
+"@mpxjs/vuese-markdown-render@file:packages/markdown-render":
+  version "1.0.1"
+
+"@mpxjs/vuese-parser@file:packages/parser":
+  version "1.0.2"
+  dependencies:
+    "@babel/generator" "7.10.3"
+    "@babel/parser" "7.10.3"
+    "@babel/traverse" "7.10.3"
+    "@babel/types" "7.3.4"
+    typedoc "^0.25.2"
+    typedoc-plugin-missing-exports "^2.1.0"
+    vue-template-compiler "^2.6.11"
+
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.npmjs.org/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -3495,6 +3509,15 @@ dir-glob@^3.0.1:
   integrity sha1-Vtv3PZkqSpO6FYT0U0Bj/S5BcX8=
   dependencies:
     path-type "^4.0.0"
+
+dirty-json@^0.9.2:
+  version "0.9.2"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/dirty-json/-/dirty-json-0.9.2.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Fdirty-json%2F-%2Fdirty-json-0.9.2.tgz#221b25898ac9d326512fc373e466fa189b77fffa"
+  integrity sha512-7SCDfnQtBObcngVXNPZcnxGxqqPTK4UqeXeKAch+RGH5qpqadWbV9FmN71x9Bb4tTs0TNFb4FT/4Kz4P4Cjqcw==
+  dependencies:
+    lex "^1.7.9"
+    unescape-js "^1.1.4"
+    utf8 "^3.0.0"
 
 doctrine@^3.0.0:
   version "3.0.0"
@@ -5843,17 +5866,10 @@ json-stringify-safe@^5.0.1, json-stringify-safe@~5.0.1:
   resolved "https://registry.npmjs.org/json-stringify-safe/-/json-stringify-safe-5.0.1.tgz#1296a2d58fd45f19a0f6ce01d65701e2c735b6eb"
   integrity sha1-Epai1Y/UXxmg9s4B1lcB4sc1tus=
 
-json5@2.x:
+json5@2.x, json5@^2.1.0:
   version "2.2.3"
   resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/json5/-/json5-2.2.3.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Fjson5%2F-%2Fjson5-2.2.3.tgz#78cd6f1a19bdc12b73db5ad0c61efd66c1e29283"
-  integrity sha1-eM1vGhm9wStz21rQxh79ZsHikoM=
-
-json5@^2.1.0:
-  version "2.1.0"
-  resolved "https://registry.npmjs.org/json5/-/json5-2.1.0.tgz#e7a0c62c48285c628d20a10b85c89bb807c32850"
-  integrity sha512-8Mh9h6xViijj36g7Dxi+Y4S6hNGV96vcJZr/SrlHh1LR/pEn/8j/+qIBbs44YKl69Lrfctp4QD+AdWLTMqEZAQ==
-  dependencies:
-    minimist "^1.2.0"
+  integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
 
 jsonc-parser@^3.2.0:
   version "3.2.0"
@@ -6001,6 +6017,11 @@ levn@~0.3.0:
   dependencies:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
+
+lex@^1.7.9:
+  version "1.7.9"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/lex/-/lex-1.7.9.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Flex%2F-%2Flex-1.7.9.tgz#5d5636ccef574348362938b79a47f0eed8ed0d43"
+  integrity sha512-vzaalVBmFLnMaedq0QAsBAaXsWahzRpvnIBdBjj7y+7EKTS6lnziU2y/PsU2c6rV5qYj2B5IDw0uNJ9peXD0vw==
 
 libnpm@^2.0.1:
   version "2.0.1"
@@ -8580,6 +8601,7 @@ string-length@^2.0.0:
     strip-ansi "^4.0.0"
 
 "string-width-cjs@npm:string-width@^4.2.0", string-width@^4.1.0:
+  name string-width-cjs
   version "4.2.3"
   resolved "https://registry.npmjs.org/string-width/-/string-width-4.2.3.tgz#269c7117d27b05ad2e536830a8ec895ef9c6d010"
   integrity sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==
@@ -8622,6 +8644,11 @@ string-width@^5.0.1, string-width@^5.1.2:
     eastasianwidth "^0.2.0"
     emoji-regex "^9.2.2"
     strip-ansi "^7.0.1"
+
+string.fromcodepoint@^0.2.1:
+  version "0.2.1"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/string.fromcodepoint/-/string.fromcodepoint-0.2.1.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Fstring.fromcodepoint%2F-%2Fstring.fromcodepoint-0.2.1.tgz#8d978333c0bc92538f50f383e4888f3e5619d653"
+  integrity sha512-n69H31OnxSGSZyZbgBlvYIXlrMhJQ0dQAX1js1QDhpaUH6zmU3QYlj07bCwCNlPOu3oRXIubGPl2gDGnHsiCqg==
 
 string_decoder@~1.1.1:
   version "1.1.1"
@@ -9101,6 +9128,13 @@ underscore@~1.7.0:
   resolved "https://registry.npmjs.org/underscore/-/underscore-1.7.0.tgz#6bbaf0877500d36be34ecaa584e0db9fef035209"
   integrity sha1-a7rwh3UA02vjTsqlhODbn+8DUgk=
 
+unescape-js@^1.1.4:
+  version "1.1.4"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/unescape-js/-/unescape-js-1.1.4.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Funescape-js%2F-%2Funescape-js-1.1.4.tgz#4bc6389c499cb055a98364a0b3094e1c3d5da395"
+  integrity sha512-42SD8NOQEhdYntEiUQdYq/1V/YHwr1HLwlHuTJB5InVVdOSbgI6xu8jK5q65yIzuFCfczzyDF/7hbGzVbyCw0g==
+  dependencies:
+    string.fromcodepoint "^0.2.1"
+
 union-value@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/union-value/-/union-value-1.0.0.tgz#5c71c34cb5bad5dcebe3ea0cd08207ba5aa1aea4"
@@ -9159,6 +9193,11 @@ use@^3.1.0:
   version "3.1.1"
   resolved "https://registry.npmjs.org/use/-/use-3.1.1.tgz#d50c8cac79a19fbc20f2911f56eb973f4e10070f"
   integrity sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==
+
+utf8@^3.0.0:
+  version "3.0.0"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/utf8/-/utf8-3.0.0.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Futf8%2F-%2Futf8-3.0.0.tgz#f052eed1364d696e769ef058b183df88c87f69d1"
+  integrity sha512-E8VjFIQ/TyQgp+TZfS6l8yp/xWppSAHzidGiRrqe4bK4XP9pTRyKFgGJpO3SN7zdX4DeomTrwaseCHovfpFcqQ==
 
 util-deprecate@~1.0.1:
   version "1.0.2"

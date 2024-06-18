@@ -20,10 +20,10 @@
       "esnext"
     ],
     "rootDir": ".",
-    "paths": {
-      "@mpxjs/vuese-parser": ["packages/parser/lib"],
-      "@mpxjs/vuese-markdown-render": ["packages/markdown-render/lib"]
-    }
+    // "paths": {
+    //   "@mpxjs/vuese-parser": ["packages/parser/lib"],
+    //   "@mpxjs/vuese-markdown-render": ["packages/markdown-render/lib"]
+    // }
   },
   
   "include": [

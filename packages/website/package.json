@@ -21,8 +21,11 @@
     "vuese-website": "./bin/init.js"
   },
   "dependencies": {
+    "@mpxjs/vuese-parser": "file:../parser",
+    "@mpxjs/vuese-markdown-render": "file:../markdown-render",
     "vitepress": "^1.2.2",
     "vue": "^3.0.0",
-    "highlight.js": "^11.9.0"
+    "highlight.js": "^11.9.0",
+    "dirty-json": "^0.9.2"
   }
 }
