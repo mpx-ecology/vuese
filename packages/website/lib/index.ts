@@ -37,7 +37,9 @@ function delScriptJsonBlock(content: string) {
 
 function delEmptyContentLineBreaks(content: string) {
   const scriptContentReg = /(?<=<script\b[^>]*>)[\s\S]*(?=<\/script>)/ig
-  const scriptContent = content.match(scriptContentReg)[0]
+  const regRes = content.match(scriptContentReg)
+  if (!regRes) return ''
+  const scriptContent = regRes[0]
   const isEmpty = scriptContent && scriptContent.replace('\n', '').length === 0
   if (isEmpty) {
     return content.replace(scriptContentReg, '')
