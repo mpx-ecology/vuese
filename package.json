@@ -28,6 +28,8 @@
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "highlight.js": "11.9.0",
+    "stylus": "^0.63.0",
+    "stylus-loader": "3.0.2",
     "typedoc": "^0.25.2",
     "typedoc-plugin-missing-exports": "^2.1.0",
     "vue-template-compiler": "^2.6.11"

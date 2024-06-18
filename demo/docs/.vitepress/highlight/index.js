@@ -14,3 +14,4 @@ export default md => {
       }).value, lang)
   }
 }
+

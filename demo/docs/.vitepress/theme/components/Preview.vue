@@ -34,7 +34,7 @@
 
 <script>
 import { throttle } from 'lodash'
-import { EXAMPLE_DOC_PORT } from '../../../../config/index'
+import { EXAMPLE_DOC_PORT } from '../../../../../config/index'
 
 const baseUrl =
   process.env.NODE_ENV === 'development'
@@ -133,7 +133,7 @@ export default {
         this.handleResize()
       })
     }
-    img.src = '/mpx-cube-ui/images/iphoneX.png'
+    img.src = '/mpx-ui/images/iphoneX.png'
     img.onload = show
     img.onerror = show
     this.timer = polling(() => {
@@ -273,7 +273,7 @@ export default {
     background-color #fff
     border-radius 20px 20px 100px 100px
     // box-shadow 0 8px 12px #ebedf0
-    background url("/mpx-cube-ui/images/iphoneX.png") no-repeat center 0
+    background url("/mpx-ui/images/iphoneX.png") no-repeat center 0
     background-size 100%
     padding 25px
     padding-top 54px
