@@ -1,25 +1,18 @@
 <template>
-  <div
-    ref="container"
-    class="preview-container"
-  >
-    <div
-      class="preview"
-      ref="preview"
-      v-show="showSimulator"
-    >
+  <div ref="containerRef" class="preview-container">
+    <div class="preview" ref="previewRef" v-show="showSimulator">
       <span class="current-time">{{ time }}</span>
       <header class="header">
         <i
           class="cubeic cubeic-back"
           v-show="showBack"
-          @click="goBack()"
+          @click="history.back()"
         />
         {{ title }}
       </header>
       <div class="simulator-wrapper">
         <iframe
-          ref="simulator"
+          ref="simulatorRef"
           class="simulator"
           :src="previewPath"
           frameborder="0"
@@ -32,14 +25,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { throttle } from 'lodash'
 import { EXAMPLE_DOC_PORT } from '../../../../../config/index'
-
-const baseUrl =
-  process.env.NODE_ENV === 'development'
-    ? `http://localhost:${EXAMPLE_DOC_PORT}/`
-    : `/mpx-cube-ui/example/index.html`
+import iphoneXImage from '../../public/images/iphoneX.png'
+import { useData } from 'vitepress'
+import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
+import { useRouter, useRoute } from 'vitepress'
 
 /**
  * 轮询
@@ -52,7 +44,7 @@ const polling = (cb, delay = 3000) => {
   const timerRef = {
     value: -1
   }
-  const pollingFunc = function (...args) {
+  const pollingFunc = function(...args) {
     if (firstCall) {
       firstCall = false
       cb.call(this, ...args)
@@ -67,15 +59,38 @@ const polling = (cb, delay = 3000) => {
   return pollingFunc
 }
 
-const getComponent = (list) => {
+const getTime = () => {
+  const now = new Date()
+  return `${`${now.getHours()}`.padStart(
+    2,
+    0
+  )}:${`${now.getMinutes()}`.padStart(2, 0)}`
+}
+
+const time = ref(getTime())
+
+let componentName = ''
+const baseUrl =
+  process.env.NODE_ENV === 'development'
+    ? `http://localhost:${EXAMPLE_DOC_PORT}/`
+    : `/mpx-cube-ui/example/index.html`
+
+const previewPath = computed(() => {
+  if (componentName) {
+    return `${baseUrl}#/pages/${componentName}/index`
+  }
+  return baseUrl
+})
+
+const getComponent = list => {
   if (!Array.isArray(list)) {
     return null
   }
   for (const item of list) {
-    if (location.href.includes(`${item.path}.html`)) {
+    if (location.href.includes(`${item.text}.html`)) {
       return item.title
     }
-    const title = getComponent(item.children)
+    const title = getComponent(item.items)
     if (title) {
       return title
     }
@@ -83,170 +98,176 @@ const getComponent = (list) => {
   return null
 }
 
-const getTime = () => {
-  const now = new Date()
-  return `${`${now.getHours()}`.padStart(2, 0)}:${`${now.getMinutes()}`.padStart(2, 0)}`
+let flush = 1
+const { theme } = useData()
+const title = computed(() => {
+  if (!flush) {
+    return ''
+  }
+  return (
+    getComponent([theme.value.sidebar.find(item => item.text === 'button')]) ||
+    'test'
+  )
+})
+
+const showBack = computed(() => {
+  return title !== 'test'
+})
+
+const router = useRouter()
+const route = useRoute()
+watch(
+  () => route.path,
+  (newPath, oldPath) => {
+    flush += 1
+    syncChildPath(newPath)
+  }
+)
+
+//created
+const showSimulator = ref(false)
+const img = new Image()
+const show = () => {
+  showSimulator.value = true
+  setTimeout(() => {
+    handleResize()
+  })
 }
+img.src = iphoneXImage
+img.onload = show
+img.onerror = show
+let timer = null
+timer = polling(() => {
+  time.value = getTime()
+}, 6000)()
 
-export default {
-  data() {
-    return {
-      flush: 1,
-      time: getTime(),
-      timer: null,
-      showSimulator: false,
-      componentName: ''
+const handleMessage = e => {
+  if (e.data?.component !== undefined) {
+    if (!e.data?.component) {
+      router.go('/guide/button.html')
+      return
     }
-  },
-  computed: {
-    previewPath() {
-      if (this.componentName) {
-        return `${baseUrl}#/pages/${this.componentName}/index`
+    const data = e.data
+    const findComponent = list => {
+      if (!Array.isArray(list)) {
+        return null
       }
-      return baseUrl
-    },
-    title() {
-      if (!this.flush) {
-        return ''
-      }
-      return (
-        getComponent([
-          this.$themeConfig.sidebar.find((item) => item.title === '组件'),
-        ]) || this.$siteTitle
-      )
-    },
-    showBack() {
-      return this.title !== this.$siteTitle
-    }
-  },
-  watch: {
-    $route(to) {
-      this.flush += 1
-      this.syncChildPath(to)
-    }
-  },
-  created() {
-    const img = new Image()
-    const show = () => {
-      this.showSimulator = true
-      setTimeout(() => {
-        this.handleResize()
-      })
-    }
-    img.src = '/mpx-ui/images/iphoneX.png'
-    img.onload = show
-    img.onerror = show
-    this.timer = polling(() => {
-      this.time = getTime()
-    }, 6000)()
-
-    window.addEventListener('message', this.handleMessage)
-  },
-  mounted() {
-    this.componentName = this.getComponentName(top.location.href)
-    this.handleResize()
-    this.calcPreviewerPosition()
-    window.addEventListener('resize', this.handleResize)
-    window.addEventListener('scroll', this.calcPreviewerPosition)
-    this.$refs.simulator.onload = () => {
-      this.syncChildPath(this.$router.currentRoute)
-    }
-  },
-  beforeDestroy() {
-    clearTimeout(this.timer.value)
-    window.removeEventListener('resize', this.handleResize)
-    window.removeEventListener('scroll', this.calcPreviewerPosition)
-    window.removeEventListener('message', this.handleMessage)
-  },
-  methods: {
-    syncChildPath(to) {
-      this.$refs.simulator.contentWindow.postMessage({
-        to: this.getComponentName(to.path)
-      }, '*')
-    },
-    goBack() {
-      this.$router.back()
-    },
-    handleMessage(e) {
-      if (e.data?.component !== undefined) {
-        if (!e.data?.component) {
-          this.$router.replace('/guide/intro.html')
-          return
+      for (const item of list) {
+        if (item.path?.endsWith(data.component)) {
+          return item
         }
-        const data = e.data
-        const findComponent = (list) => {
-          if (!Array.isArray(list)) {
-            return null
-          }
-          for (const item of list) {
-            if (item.path?.endsWith(data.component)) {
-              return item
-            }
-            const target = findComponent(item.children)
-            if (target) {
-              return target
-            }
-          }
-          return null
-        }
-        const component = findComponent([
-          this.$themeConfig.sidebar.find((item) => item.title === '组件'),
-        ])
-        if (component) {
-          this.$router.push(`${component.path}.html`)
+        const target = findComponent(item.children)
+        if (target) {
+          return target
         }
       }
-    },
-    handleResize: throttle(function () {
-      this.calcPreviewerHeight()
-      this.calcPreviewerTransform()
-    }, 6),
-    calcPreviewerHeight() {
-      const el = this.$refs.preview
-      el.style.height = `${window.innerHeight - 110}px`
-    },
-    calcPreviewerTransform() {
-      let offset = 0
-      const el = this.$refs.preview
-
-      if (!el.offsetParent) {
-        const container = this.$refs.container
-        const elOffsetLeft = el.offsetLeft
-        const containerOffsetLeft = container.offsetLeft
-        offset = containerOffsetLeft - elOffsetLeft
-      } else {
-        const clientRect = el.getBoundingClientRect()
-        const innerWidth = window.innerWidth
-        offset =
-          clientRect.right < innerWidth
-            ? 0
-            : clientRect.right - innerWidth + 24 // 24为右边距
-      }
-      el.style.transform = `translateX(${offset}px)`
-    },
-    calcPreviewerPosition: throttle(function () {
-      const el = this.$refs.preview
-      const offset = document.documentElement.scrollLeft
-      el.style.right = `${offset + 24}px`
-    }, 6),
-    getComponentName(path) {
-      let componentName = ''
-      const [_, componentPath] = path.split('components')
-
-      if (!componentPath) {
-        return componentName
-      }
-      componentPath.replace(/\/(.*?).html/, (_, res) => {
-        if (res.indexOf('/') > 0) {
-          componentName = res.split('/')[1]
-        } else {
-          componentName = res
-        }
-      })
-      return componentName
+      return null
+    }
+    const component = findComponent([
+      theme.value.sidebar.find(item => item.title === '组件')
+    ])
+    if (component) {
+      router.go(`${component.path}.html`)
     }
   }
 }
+
+window.addEventListener('message', handleMessage)
+
+const getComponentName = path => {
+  let componentName = ''
+  const [_, componentPath] = path.split('mpx-ui')
+  if (!componentPath) {
+    return componentName
+  }
+  componentPath.replace(/\/(.*?).html/, (_, res) => {
+    if (res.indexOf('/') > 0) {
+      componentName = res.split('/')[1]
+    } else {
+      componentName = res
+    }
+  })
+  return componentName
+}
+
+const containerRef = ref(null)
+const previewRef = ref(null)
+const calcPreviewerHeight = () => {
+  const el = previewRef.value
+  el.style.height = `${window.innerHeight - 110}px`
+}
+const calcPreviewerTransform = () => {
+  let offset = 0
+  const el = previewRef.value
+
+  if (!el.offsetParent) {
+    const container = containerRef.value
+    const elOffsetLeft = el.offsetLeft
+    const containerOffsetLeft = container.offsetLeft
+    offset = containerOffsetLeft - elOffsetLeft
+  } else {
+    const clientRect = el.getBoundingClientRect()
+    const innerWidth = window.innerWidth
+    offset =
+      clientRect.right < innerWidth ? 0 : clientRect.right - innerWidth + 24 // 24为右边距
+  }
+  el.style.transform = `translateX(${offset}px)`
+}
+
+const handleResize = throttle(() => {
+  calcPreviewerHeight()
+  calcPreviewerTransform()
+})
+
+const calcPreviewerPosition = () => {
+  let offset = 0
+  const el = previewRef.value
+
+  if (!el.offsetParent) {
+    const container = containerRef.value
+    const elOffsetLeft = el.offsetLeft
+    const containerOffsetLeft = container.offsetLeft
+    offset = containerOffsetLeft - elOffsetLeft
+  } else {
+    const clientRect = el.getBoundingClientRect()
+    const innerWidth = window.innerWidth
+    offset =
+      clientRect.right < innerWidth ? 0 : clientRect.right - innerWidth + 24 // 24为右边距
+  }
+  el.style.transform = `translateX(${offset}px)`
+}
+
+const simulatorRef = ref(null)
+const syncChildPath = to => {
+  const componentUrl = to.split('/mpx-ui')[1]
+  simulatorRef.value.contentWindow.postMessage(
+    {
+      to: getComponentName(componentUrl)
+    },
+    '*'
+  )
+}
+onMounted(() => {
+  containerRef.value.style.setProperty(
+    '--iphoneX-image',
+    `url(${iphoneXImage})`
+  )
+  componentName = getComponentName(top.location.href)
+  handleResize()
+  calcPreviewerPosition()
+  window.addEventListener('resize', handleResize)
+  window.addEventListener('scroll', calcPreviewerPosition)
+  simulatorRef.value.onload = () => {
+    syncChildPath(router.route.path)
+  }
+})
+
+onUnmounted(() => {
+  clearTimeout(timer.value)
+  window.removeEventListener('resize', handleResize)
+  window.removeEventListener('scroll', calcPreviewerPosition)
+  window.removeEventListener('message', handleMessage)
+})
 </script>
 
 <style lang="stylus" scoped>
@@ -273,7 +294,7 @@ export default {
     background-color #fff
     border-radius 20px 20px 100px 100px
     // box-shadow 0 8px 12px #ebedf0
-    background url("/mpx-ui/images/iphoneX.png") no-repeat center 0
+    background var(--iphoneX-image) no-repeat center 0
     background-size 100%
     padding 25px
     padding-top 54px

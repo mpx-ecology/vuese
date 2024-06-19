@@ -13,7 +13,9 @@ function logger(msg) {
 }
 
 async function makeBuild() {
-  let files = await fs.readdir(packagesDir)
+  // let files = await fs.readdir(packagesDir)
+  // let files = ['parser', 'markdown-render']
+  let files = ['website']
   files = files.filter(pkgDirName => {
     const pkgDir = resolve(packagesDir, pkgDirName)
     const stat = fs.statSync(pkgDir)
@@ -32,8 +34,7 @@ async function makeBuild() {
     const pkgMeta = require(`${pkgDir}/package.json`)
     if (pkgMeta.private) return
     await fs.remove(`${pkgDir}/dist`)
-    await execa('rollup', ['-c', '--environment', `PKG_DIR:${pkgDirName}`], {
-    })
+    await execa('rollup', ['-c', '--environment', `PKG_DIR:${pkgDirName}`], {})
 
     const dtsOutDir = `${pkgDir}/${pkgMeta.types}`
 
