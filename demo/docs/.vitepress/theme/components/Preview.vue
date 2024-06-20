@@ -133,7 +133,7 @@ const show = () => {
     handleResize()
   })
 }
-img.src = iphoneXImage
+img.src = ''
 img.onload = show
 img.onerror = show
 let timer = null
@@ -211,7 +211,7 @@ const calcPreviewerTransform = () => {
     offset =
       clientRect.right < innerWidth ? 0 : clientRect.right - innerWidth + 24 // 24为右边距
   }
-  el.style.transform = `translateX(${offset}px)`
+  // el.style.transform = `translateX(${offset}px)`
 }
 
 const handleResize = throttle(() => {
@@ -234,7 +234,7 @@ const calcPreviewerPosition = () => {
     offset =
       clientRect.right < innerWidth ? 0 : clientRect.right - innerWidth + 24 // 24为右边距
   }
-  el.style.transform = `translateX(${offset}px)`
+  // el.style.transform = `translateX(${offset}px)`
 }
 
 const simulatorRef = ref(null)
@@ -282,13 +282,11 @@ onUnmounted(() => {
   .preview
     margin-top: 2rem
     position fixed
-    top 0
-    right 24px
+    top 84px
+    // right 24px
     // safari shit
-    width: 0
     width 360px
     min-width 360px
-    height 667px
     min-height 560px
     max-height 667px
     background-color #fff
