@@ -1,10 +1,8 @@
-import DefaultTheme from 'vitepress/theme'
-// import { defineConfig } from 'vitepress'
-import Layout from './layouts/Layout.vue'
-
+import VueseWebsiteTheme from '@mpxjs/vuese-website/dist/theme/index'
+import Layout from '@mpxjs/vuese-website/dist/theme/layouts/Layout.vue'
 
 export default {
-  extend: DefaultTheme,
+  extend: VueseWebsiteTheme,
   Layout: Layout,
   enhanceApp({ router }) {
     router.go('/mpx-ui/guide/button.html')

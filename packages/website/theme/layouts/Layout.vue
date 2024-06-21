@@ -14,9 +14,16 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import Preview from '../components/Preview.vue'
 import VPDoc from '../components/VPDoc.vue'
 import Layout from '../components/Layout.vue'
+
+const themeContainerRef = ref(null)
+onMounted(() => {
+  console.log(window.innerWidth)
+  // themeContainerRef.value.style.width=window.innerWidth
+})
 </script>
 
 <style lang="stylus" scoped>
