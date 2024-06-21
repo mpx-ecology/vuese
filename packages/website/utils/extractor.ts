@@ -265,8 +265,8 @@ function exampleReplaceRegionToDoc(
   let componentContent
   const { nowrap, showStyle, hasGroup } = options || {}
   const codeStyle = CODE_STYLE[componentRegion] || CODE_STYLE.default
-  if (componentRegion) {
-    const regionMatch = component[name].match(new RegExp(`<${componentRegion}[\\s\\S]*?>([\\s\\S]*)</${componentRegion}>`))
+  if (componentRegion) {    
+    const regionMatch = component[name]?.match(new RegExp(`<${componentRegion}[\\s\\S]*?>([\\s\\S]*)</${componentRegion}>`))
     componentContent = regionMatch ? regionMatch[Number(Boolean(nowrap))] : ''
     if (nowrap) {
       componentContent = componentContent.trim().split('\n').map(line => line.replace(/^\s{2}/, '')).join('\n')

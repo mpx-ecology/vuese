@@ -2,6 +2,7 @@ import path from 'path'
 import { delScriptJsonBlock, readFileSync, getExamplesMpxFiles } from '../utils/index'
 import { addExampleToMd } from '../utils/extractor'
 
+
 export function genExampleMd(fileName: string, examplePath: string) {
   const mpxFiles = getExamplesMpxFiles(examplePath)
   const nameContentMap = {}
@@ -12,7 +13,7 @@ export function genExampleMd(fileName: string, examplePath: string) {
     if (key === 'index') {
       return
     }
-    nameContentMap[key] = delScriptJsonBlock(readFileSync(path.resolve(examplePath, file)))
+    nameContentMap[key] = delScriptJsonBlock(readFileSync(path.resolve(examplePath, file)))    
   })
   const content = addExampleToMd(mdContent, nameContentMap, 'default')
   return content
