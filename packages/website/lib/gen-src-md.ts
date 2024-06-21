@@ -5,23 +5,8 @@ import { Render } from '@mpxjs/vuese-markdown-render'
 import { markdownRenderConfig } from './contants'
 import hljs from 'highlight.js'
 import dirtyJson from 'dirty-json'
+import { delScriptJsonBlock, delEmptyContentLineBreaks } from '../utils/index'
 
-function delScriptJsonBlock(content: string) {
-  const jsonBlockReg = /<script\s[\w\s]*(name=["']json["']|type=["']application\/json["'])(\s|[\w\s])*>[\s\S]*<\/script>/
-  return content.replace(jsonBlockReg, '')
-}
-
-function delEmptyContentLineBreaks(content: string) {
-  const scriptContentReg = /(?<=<script\b[^>]*>)[\s\S]*(?=<\/script>)/ig
-  const regResult = content.match(scriptContentReg)
-  if (!regResult) return content
-  const scriptContent = regResult[0]
-  const isEmpty = scriptContent && scriptContent.replace('\n', '').length === 0
-  if (isEmpty) {
-    return content.replace(scriptContentReg, '')
-  }
-  return content
-}
 
 export function genSrcMd(fileName: string, fullPath: string): Promise<string> {
   return new Promise(resolve => {
@@ -58,7 +43,7 @@ export function genSrcMd(fileName: string, fullPath: string): Promise<string> {
         })
         item.default = _default.replace(/\n/g, '<br>').replace(new RegExp(optionalMark, 'g'), '?')
       })
-      
+
       // eslint-disable-next-line
       // @ts-ignore
       const render = new Render(text, Object.assign({ name: fileName }, markdownRenderConfig))

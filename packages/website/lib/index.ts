@@ -30,17 +30,17 @@ function validateParams(config: WebsiteConfig) {
 }
 
 function listMpxFiles(dir: string, fileName = '') {
-  let results: Record<'fullPath'|'fileName', string>[] = []
+  let results: Record<'fullPath' | 'fileName', string>[] = []
   fs.readdirSync(dir).forEach(subFileName => {
     const fullPath = path.join(dir, subFileName);
     if (fs.lstatSync(fullPath).isDirectory()) {
       results = results.concat(listMpxFiles(fullPath, subFileName));
     } else {
       if (subFileName.endsWith('.mpx')) {
-          results.push({
-            fullPath,
-            fileName
-          });
+        results.push({
+          fullPath,
+          fileName
+        });
       }
     }
   })
@@ -67,7 +67,7 @@ export default function website(config: WebsiteConfig): void {
     const exampleMd = genExampleMd(file.fileName, path.resolve(config.examplePath, file.fileName))
     console.log(exampleMd)
     srcMd.then(text => {
-      fs.writeFileSync(`${config.outputPath}/${file.fileName}.md`, text)
+      fs.writeFileSync(`${config.outputPath}/${file.fileName}.md`, exampleMd + '\n' + text)
     })
   })
 
