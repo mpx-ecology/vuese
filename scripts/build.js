@@ -12,24 +12,11 @@ function logger(msg) {
   return console.log(chalk.blue(chalk.bold(msg)))
 }
 
-async function makeBuild() {
-  // let files = await fs.readdir(packagesDir)
-  // let files = ['parser', 'markdown-render']
-  let files = ['website']
-  files = files.filter(pkgDirName => {
-    const pkgDir = resolve(packagesDir, pkgDirName)
-    const stat = fs.statSync(pkgDir)
-    const isPkg = stat.isDirectory()
-    if (!isPkg) return false
-    return isBuildAll ? true : buildTargets.includes(pkgDirName)
-  })
-  if (!files.length) {
-    logger(`No matching build targets: ${buildTargets.join(',')}`)
-    return
-  }
-  logger(`Start building, Targets: ${files.join(',')}`)
+function makeBuild() {
+  const files = ['parser', 'markdown-render']
 
-  files.forEach(async pkgDirName => {
+  const build = async pkgDirName => {
+    logger(`Start building, Targets: ${pkgDirName}`)
     const pkgDir = resolve(packagesDir, pkgDirName)
     const pkgMeta = require(`${pkgDir}/package.json`)
     if (pkgMeta.private) return
@@ -50,6 +37,12 @@ async function makeBuild() {
     if (pkgDirName === 'cli') {
       await fs.copy(`${pkgDir}/lib/templates`, `${pkgDir}/dist/templates`)
     }
+  }
+
+  Promise.all(
+    files.map(item => build(item))
+  ).then(() => {
+    build('website')
   })
 }
 
