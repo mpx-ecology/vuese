@@ -28,7 +28,6 @@
 <script setup>
 import { throttle } from 'lodash'
 import { EXAMPLE_DOC_PORT } from '../../../../../config/index'
-import iphoneXImage from '../../public/images/iphoneX.png'
 import { useData } from 'vitepress'
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vitepress'
@@ -248,10 +247,6 @@ const syncChildPath = to => {
   )
 }
 onMounted(() => {
-  containerRef.value.style.setProperty(
-    '--iphoneX-image',
-    `url(${iphoneXImage})`
-  )
   componentName = getComponentName(top.location.href)
   handleResize()
   calcPreviewerPosition()
@@ -292,7 +287,7 @@ onUnmounted(() => {
     background-color #fff
     border-radius 20px 20px 100px 100px
     // box-shadow 0 8px 12px #ebedf0
-    background var(--iphoneX-image) no-repeat center 0
+    background url(https://dpubstatic.udache.com/static/dpubimg/mTIQh7C_y7ah3bMFu0guA_iphoneX.png) no-repeat center 0
     background-size 100%
     padding 25px
     padding-top 54px
