@@ -27,7 +27,7 @@
 
 <script setup>
 import { throttle } from 'lodash'
-import { EXAMPLE_DOC_PORT } from '../../../../../config/index'
+import { EXAMPLE_DOC_PORT } from '../config/index'
 import { useData } from 'vitepress'
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vitepress'
