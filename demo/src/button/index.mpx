@@ -34,6 +34,7 @@
       type="{{ icon }}"
     />
     <view class="cube-btn-content" wx:style="{{ styleConfig.content }}">
+      <!-- 默认插槽 11-->
       <slot />
     </view>
     <view class="cube-btn-tip" wx:if="{{ tip }}">{{tip}}</view>
