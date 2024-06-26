@@ -12,6 +12,11 @@ function init() {
   })
 
   return defineConfig({
+    vite: {
+      resolve: {
+        // preserveSymlinks: true
+      }
+    },
     base: '/mpx-ui',
     title: 'mpx-cube-ui',
     description: 'mpx-cube-ui-description',

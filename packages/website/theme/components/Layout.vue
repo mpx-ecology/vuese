@@ -20,7 +20,7 @@ import {
   useCloseSidebarOnEscape,
   useSidebar
 } from 'vitepress/dist/client/theme-default/composables/sidebar'
-import throttle from 'lodash/throttle'
+import { throttle}  from 'lodash-es'
 
 const {
   isOpen: isSidebarOpen,

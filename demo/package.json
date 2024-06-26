@@ -4,12 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs": "vitepress dev docs"
   },
   "dependencies": {
-    "@mpxjs/vuese-website": "file:../packages/website",
-    "@mpxjs/vuese-parser": "file:../packages/parser",
-    "@mpxjs/vuese-markdown-render": "file:../packages/markdown-render"
+    "@mpxjs/vuese-website": "npm:@didi/vuese-website@0.0.2-beta.8",
+    "vitepress": "^1.2.3"
   },
   "author": "",
   "license": "ISC"

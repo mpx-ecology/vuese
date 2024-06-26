@@ -26,7 +26,7 @@
 </template>
 
 <script setup>
-import { throttle } from 'lodash'
+import { throttle } from 'lodash-es'
 import { EXAMPLE_DOC_PORT } from '../config/index'
 import { useData } from 'vitepress'
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'

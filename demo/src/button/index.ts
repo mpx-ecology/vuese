@@ -178,8 +178,6 @@ createComponent({
     }
   },
   methods: {
-    // @vuese
-    // 点击
     onClick(e: WechatMiniprogram.TouchEvent) {
       if (!this.disabled) {
         // 点击按钮，且在按钮状态不为disabled状态时触发
@@ -187,57 +185,41 @@ createComponent({
         this.triggerEvent(EVENT_CLICK, e)
       }
     },
-    // @vuese
-    // 获取用户信息
     onGetUserInfo(e: WechatMiniprogram.CustomEvent) {
       // 获取用户信息后触发
       // @arg CustomEvent
       this.triggerEvent(EVENT_GET_USER_INFO, e)
     },
-    // @vuese
-    // 获取用户手机号
     onGetPhoneNumber(e: WechatMiniprogram.CustomEvent) {
       // 获取用户手机号后触发
       // @arg CustomEvent
       this.triggerEvent(EVENT_GET_PHONE_NUMBER, e)
     },
-    // @vuese
-    // 失败回调
     onError(e) {
       // 报错后触发
       // @arg -
       this.triggerEvent(EVENT_ERROR, e)
     },
-    // @vuese
-    // 微信小程序打开客服会话
     onContact(e: WechatMiniprogram.CustomEvent) {
       // 打开客服会话后触发
       // @arg CustomEvent
       this.triggerEvent(EVENT_CONTACT, e)
     },
-    // @vuese
-    // 微信小程序中在打开授权设置页后回调，open-type="openSetting" 时有效
     onOpenSetting(e: WechatMiniprogram.CustomEvent) {
       // 打开授权设置页后触发
       // @arg CustomEvent
       this.triggerEvent(EVENT_OPEN_SETTING, e)
     },
-    // @vuese
-    // 微信小程序打开 APP 成功的回调，open-type=launchApp时有效(参见[微信小程序打开 APP](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/launchApp.html))
     onLaunchApp(e: WechatMiniprogram.CustomEvent) {
       // 打开 APP 成功后触发
       // @arg CustomEvent
       this.triggerEvent(EVENT_LAUNCH_APP, e)
     },
-    // @vuese
-    // 微信小程序获取用户头像回调，open-type=chooseAvatar时有效
     onChooseAvatar(e: WechatMiniprogram.CustomEvent) {
       // 微信小程序获取用户头像后触发
       // @arg CustomEvent
       this.triggerEvent(EVENT_CHOOSE_AVATAR, e)
     },
-    // @vuese
-    // 支付宝小程序中当 open-type 为 lifestyle 时有效。当点击按钮时触发。
     onFollowLifestyle(e: WechatMiniprogram.CustomEvent) {
       // 支付宝小程序中当 open-type 为 lifestyle 时有效。当点击按钮时触发。
       // @arg CustomEvent
@@ -249,6 +231,13 @@ createComponent({
       } else if (this.scope === OpenTypeScope.USER_INFO) {
         this.triggerEvent(EVENT_GET_USER_INFO, e)
       }
+    },
+    // @vuese
+    // 更新 picker 的数据及选中值
+    // @arg list 为每一列的数据
+    // @arg index 为每一列的数据选中的索引
+    // @return 分别表示被选中的索引、文案、值。
+    testApi() {
     }
   }
 })

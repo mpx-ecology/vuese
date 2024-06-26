@@ -3,6 +3,9 @@ import fs from 'fs'
 import { spawn } from 'child_process'
 import { genSrcMd } from './gen-src-md'
 import { genExampleMd } from './gen-example-md'
+import { watch } from './watch-change'
+import { getFiles } from './get-files-list'
+import { getCache } from './cache'
 
 type WebsiteConfig = {
   srcPath: string
@@ -29,46 +32,26 @@ function validateParams(config: WebsiteConfig) {
   return true
 }
 
-function listMpxFiles(dir: string, fileName = '') {
-  let results: Record<'fullPath' | 'fileName', string>[] = []
-  fs.readdirSync(dir).forEach(subFileName => {
-    const fullPath = path.join(dir, subFileName);
-    if (fs.lstatSync(fullPath).isDirectory()) {
-      results = results.concat(listMpxFiles(fullPath, subFileName));
-    } else {
-      if (subFileName.endsWith('.mpx')) {
-        results.push({
-          fullPath,
-          fileName
-        });
-      }
-    }
-  })
-
-  return results;
-}
-
-function getFiles(srcPath: string, examplePath: string) {
-  const srcFiles = listMpxFiles(srcPath)
-  const exapmpleFiles = fs.readdirSync(examplePath)
-
-  return srcFiles.filter(item => {
-    return exapmpleFiles.includes(item.fileName)
-  })
-}
 
 export default function website(config: WebsiteConfig): void {  
   if (!validateParams(config)) return
   const srcFiles = getFiles(config.srcPath, config.examplePath)
   
+  const cache = getCache()
   srcFiles.map(file => {
-    const srcMd = genSrcMd(file.fileName, file.fullPath)
-    const exampleMd = genExampleMd(file.fileName, path.resolve(config.examplePath, file.fileName))
-    
+    const fileName = file.fileName
+    const srcMd = genSrcMd(fileName, file.fullPath)
+    const exampleMd = genExampleMd(fileName, path.resolve(config.examplePath, fileName))
     srcMd.then(text => {
-      fs.writeFileSync(`${config.outputPath}/${file.fileName}.md`, exampleMd + '\n' + text)
+      cache[fileName] = {
+        srcMd: text,
+        exampleMd: exampleMd
+      }
+      fs.writeFileSync(`${config.outputPath}/${fileName}.md`, exampleMd + '\n' + text)
     })
   })
+
+  watch(config)
 
   // 启动 VitePress 开发服务器
   spawn('npx', ['vitepress', 'dev', config.doscPath || 'docs'], { stdio: 'inherit' });
