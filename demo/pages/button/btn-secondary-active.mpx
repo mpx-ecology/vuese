@@ -1,5 +1,11 @@
 <template>
   <cube-button active>激活态</cube-button>
+  <!-- @code-block first  -->
+   <cube-button active>激活态</cube-button>
+    <cube-button>
+      <div>12345hhhh</div>
+    </cube-button>
+  <!-- @code-block first  -->
 </template>
 
 <script>

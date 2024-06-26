@@ -47,6 +47,9 @@
 
 ```vue
 <cube-button active>激活态</cube-button>
+  <cube-button>
+    <div>12345hhhh</div>
+  </cube-button>
 <cube-button disabled>置灰态</cube-button>
 ```
 

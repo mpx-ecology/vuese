@@ -57,13 +57,14 @@ function getFiles(srcPath: string, examplePath: string) {
   })
 }
 
-export default function website(config: WebsiteConfig): void {
+export default function website(config: WebsiteConfig): void {  
   if (!validateParams(config)) return
   const srcFiles = getFiles(config.srcPath, config.examplePath)
   
   srcFiles.map(file => {
     const srcMd = genSrcMd(file.fileName, file.fullPath)
     const exampleMd = genExampleMd(file.fileName, path.resolve(config.examplePath, file.fileName))
+    
     srcMd.then(text => {
       fs.writeFileSync(`${config.outputPath}/${file.fileName}.md`, exampleMd + '\n' + text)
     })

@@ -163,7 +163,7 @@ function componentCompose(template = {}, script = {}, style = {}) {
 }
 
 const groupReg = /<!--\s*@group:\s*(?<name>\S+?)\s*->\s*start\s*-->(?<code>.+?)<!--\s*@group:\s*\1\s*->\s*end\s*-->/gs
-const mdExampleReg = /<!--\s*@example:\s*(?<name>\S+?)\s*(->\s*(?<key>template|script|style)\s*(?<nowrap>no-wrap)?)?\s*(?<showStyle>show-style)?\s*-->/g
+const mdExampleReg = /<!--\s*@example:\s*(?<name>\S+?)\s*(->\s*(?<key>template|script|style)\s*(?<nowrap>no-wrap)?)?\s*(?<showStyle>show-style)?(?:\s*@code-block:\s*(?<codeBlockName>\S+))?\s*-->/g;
 
 function addExampleToMd(content, component, theme) {
   content = filterExample(content, theme)
@@ -180,11 +180,13 @@ function addExampleToMd(content, component, theme) {
     // 提取每一行示例组件的相关内容
     while ((codeMatch = mdExampleReg.exec(codeCopy)) !== null) {
       const row = codeMatch[0]
-      const { name, key, nowrap, showStyle } = codeMatch.groups
+      const { name, key, nowrap, showStyle, codeBlockName } = codeMatch.groups
+      
       const compoentContent = exampleReplaceRegionToDoc(component, name, key, {
         nowrap,
         showStyle,
-        hasGroup: true
+        hasGroup: true,
+        codeBlockName
       })
       code = code.replace(row, compoentContent)
     }
@@ -195,10 +197,11 @@ function addExampleToMd(content, component, theme) {
   // 处理未分组的情况
   while ((match = mdExampleReg.exec(contentCopy2)) !== null) {
     const row = match[0]
-    const { name, key, nowrap, showStyle } = match.groups
+    const { name, key, nowrap, showStyle, codeBlockName } = match.groups
     const compoentContent = exampleReplaceRegionToDoc(component, name, key, {
       nowrap,
-      showStyle
+      showStyle,
+      codeBlockName
     })
     content = content.replace(row, compoentContent)
   }
@@ -259,15 +262,29 @@ function exampleReplaceRegionToDoc(
   options?: {
     nowrap?: boolean;
     showStyle?: boolean;
-    hasGroup?: boolean
+    hasGroup?: boolean;
+    codeBlockName?: string
   }
 ) {
   let componentContent
-  const { nowrap, showStyle, hasGroup } = options || {}
+  const { nowrap, showStyle, hasGroup, codeBlockName } = options || {}
   const codeStyle = CODE_STYLE[componentRegion] || CODE_STYLE.default
-  if (componentRegion) {    
+  if (componentRegion) {
+
     const regionMatch = component[name]?.match(new RegExp(`<${componentRegion}[\\s\\S]*?>([\\s\\S]*)</${componentRegion}>`))
+
     componentContent = regionMatch ? regionMatch[Number(Boolean(nowrap))] : ''
+
+    if (componentRegion === 'template' && codeBlockName) {
+      const codeBlockReg = /<!--\s*@code-block\s+(?<name>\S+)\s*-->([\s\S]*?)<!--\s*@code-block\s+\k<name>\s*-->/g;      
+
+      let match;
+      while ((match = codeBlockReg.exec(componentContent)) !== null) {
+        const content = match[2].trim();
+        componentContent = content
+      }
+
+    }
     if (nowrap) {
       componentContent = componentContent.trim().split('\n').map(line => line.replace(/^\s{2}/, '')).join('\n')
     }

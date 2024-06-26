@@ -40,7 +40,7 @@
 
 <!-- @group: btns -> start -->
 
-<!-- @example: btn-secondary-active -> template no-wrap -->
+<!-- @example: btn-secondary-active -> template no-wrap @code-block: first-->
 <!-- @example: btn-disabled -> template no-wrap -->
 
 <!-- @group: btns -> end -->
