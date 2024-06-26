@@ -1,8 +1,5 @@
 <template>
   <cube-button bolder>粗体文字</cube-button>
-  <cube-button bolder>粗体文字</cube-button>
-  <!-- @code-block name -->
-  <cube-button bolder>粗s体文字</cube-button>
 </template>
 
 <script>

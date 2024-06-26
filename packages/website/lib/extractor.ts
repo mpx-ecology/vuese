@@ -265,7 +265,7 @@ function exampleReplaceRegionToDoc(
     hasGroup?: boolean;
     codeBlockName?: string
   }
-) {
+) {  
   let componentContent
   const { nowrap, showStyle, hasGroup, codeBlockName } = options || {}
   const codeStyle = CODE_STYLE[componentRegion] || CODE_STYLE.default
@@ -274,17 +274,6 @@ function exampleReplaceRegionToDoc(
     const regionMatch = component[name]?.match(new RegExp(`<${componentRegion}[\\s\\S]*?>([\\s\\S]*)</${componentRegion}>`))
 
     componentContent = regionMatch ? regionMatch[Number(Boolean(nowrap))] : ''
-
-    if (componentRegion === 'template' && codeBlockName) {
-      const codeBlockReg = /<!--\s*@code-block\s+(?<name>\S+)\s*-->([\s\S]*?)<!--\s*@code-block\s+\k<name>\s*-->/g;      
-
-      let match;
-      while ((match = codeBlockReg.exec(componentContent)) !== null) {
-        const content = match[2].trim();
-        componentContent = content
-      }
-
-    }
     if (nowrap) {
       componentContent = componentContent.trim().split('\n').map(line => line.replace(/^\s{2}/, '')).join('\n')
     }
@@ -295,6 +284,15 @@ function exampleReplaceRegionToDoc(
       componentContent = componentContent.replace(styleBlockReg, '')
     }
   }
+  if (codeBlockName) {        
+    const codeBlockReg = /<!--\s*@code-block\s+(?<name>\S+)\s*-->([\s\S]*?)<!--\s*@code-block\s+\k<name>\s*-->/g
+    let match;
+    while ((match = codeBlockReg.exec(componentContent)) !== null) {
+      const content = match[2].trim().split('\n').map(line => line.replace(/^\s{2}/, '')).join('\n')
+      componentContent = content
+    }
+  }
+
   if (hasGroup) {
     return componentContent.trim()
   }

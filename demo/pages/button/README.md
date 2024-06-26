@@ -18,16 +18,17 @@
 
 <!-- @group: btns -> start -->
 
-<!-- @example: btn-secondary -> @code-block: name -->
+<!-- @example: btn-secondary -> template no-wrap -->
 
 <!-- @example: btn-primary -> template no-wrap -->
-<!-- @example: btn-bolder -> template no-wrap -->
+<!-- @example: btn-bolder -> template no-wrap @code-block:name-->
 <!-- @example: btn-outline -> template no-wrap -->
 <!-- @example: btn-inline -> template no-wrap -->
 <!-- @example: btn-light -> template no-wrap -->
 <!-- @example: btn-outline-primary -> template no-wrap -->
 <!-- @example: btn-inline-outline -> template no-wrap -->
 <!-- @example: btn-inline-primary -> template no-wrap -->
+<!-- @example: btn-secondary-active -> template no-wrap @code-block:first-->
 
 <!-- @group: btns -> end -->
 
