@@ -18,7 +18,8 @@
 
 <!-- @group: btns -> start -->
 
-<!-- @example: btn-secondary -> template no-wrap -->
+<!-- @example: btn-secondary -> @code-block: name -->
+
 <!-- @example: btn-primary -> template no-wrap -->
 <!-- @example: btn-bolder -> template no-wrap -->
 <!-- @example: btn-outline -> template no-wrap -->

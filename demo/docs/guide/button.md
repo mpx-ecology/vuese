@@ -20,9 +20,13 @@
 <collapse-wrapper>
 
 ```vue
-<cube-button>默认按钮</cube-button>
+<!-- @example: btn-secondary -> @code-block: name -->
+
 <cube-button primary>主要按钮</cube-button>
 <cube-button bolder>粗体文字</cube-button>
+<cube-button bolder>粗体文字</cube-button>
+<!-- @code-block name -->
+<cube-button bolder>粗s体文字</cube-button>
 <cube-button outline>细框按钮</cube-button>
 <cube-button inline>内联按钮</cube-button>
 <cube-button light>明亮按钮</cube-button>
@@ -91,5 +95,15 @@
 |— (默认插槽)|默认插槽 11|
 
 <!-- @vuese:[name]:slots:end -->
+
+
+## Methods
+
+<!-- @vuese:[name]:methods:start -->
+|组件实例方法|说明|参数 1|参数 2|返回值|
+|---|---|---|---|---|
+|testApi|更新 picker 的数据及选中值|list 为每一列的数据|index 为每一列的数据选中的索引|分别表示被选中的索引、文案、值。|
+
+<!-- @vuese:[name]:methods:end -->
 
 

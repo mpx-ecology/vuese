@@ -231,6 +231,13 @@ createComponent({
       } else if (this.scope === OpenTypeScope.USER_INFO) {
         this.triggerEvent(EVENT_GET_USER_INFO, e)
       }
+    },
+    // @vuese
+    // 更新 picker 的数据及选中值
+    // @arg list 为每一列的数据
+    // @arg index 为每一列的数据选中的索引
+    // @return 分别表示被选中的索引、文案、值。
+    testApi() {
     }
   }
 })
