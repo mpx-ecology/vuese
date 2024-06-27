@@ -114,4 +114,13 @@ onUnmounted(() => {
   flex-direction: column;
   min-height: 100vh;
 }
+:deep(.curtain) {
+  background-color: #fff;
+}
+:deep(.VPSidebar) {
+  background-color: #fff;
+}
+:deep(.VPNav) {
+  background-color: #fff;
+}
 </style>
