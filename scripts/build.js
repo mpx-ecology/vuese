@@ -5,9 +5,6 @@ const dts = require('dts-bundle')
 const chalk = require('chalk')
 const packagesDir = resolve('packages')
 
-const buildTargets = process.argv.slice(2)
-const isBuildAll = buildTargets.length === 0
-
 function logger(msg) {
   return console.log(chalk.blue(chalk.bold(msg)))
 }
@@ -44,6 +41,8 @@ function makeBuild() {
   ).then(() => {
     build('website')
   })
+
+  // build('parser')
 }
 
 makeBuild()

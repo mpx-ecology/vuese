@@ -7,15 +7,20 @@ import { watch } from './watch-change'
 import { getFiles } from './get-files-list'
 import { getCache } from './cache'
 
-type WebsiteConfig = {
-  srcPath: string
-  examplePath: string
+export type WebsiteConfig = {
+  srcDirPath: string
+  exampleDirPath: string
   outputPath: string
-  doscPath: string
+  doscPath: string,
+  demo: {
+    devPath: string
+    prodPath: string
+    demoMessageCb?: () => void
+  }
 }
 
 function validateParams(config: WebsiteConfig) {
-  const keys: (keyof WebsiteConfig)[] = ['srcPath', 'examplePath', 'outputPath']
+  const keys: (keyof WebsiteConfig)[] = ['srcDirPath', 'exampleDirPath', 'outputPath']
   const total: typeof keys = []
   keys.reduce((total, key) => {
     if (!config[key]) {
@@ -33,15 +38,22 @@ function validateParams(config: WebsiteConfig) {
 }
 
 
+let _config = {} as WebsiteConfig
+
+export function getConfig() {
+  return Object.assign({}, _config)
+}
+
 export default function website(config: WebsiteConfig): void {
+  _config = config
   if (!validateParams(config)) return
-  const srcFiles = getFiles(config.srcPath, config.examplePath)
+  const srcFiles = getFiles(config.srcDirPath, config.exampleDirPath)
   
   const cache = getCache()
   srcFiles.map(file => {
     const fileName = file.fileName
     const srcMd = genSrcMd(fileName, file.fullPath)
-    const exampleMd = genExampleMd(fileName, path.resolve(config.examplePath, fileName))
+    const exampleMd = genExampleMd(fileName, path.resolve(config.exampleDirPath, fileName))
     srcMd.then(text => {
       cache[fileName] = {
         srcMd: text,

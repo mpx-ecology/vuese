@@ -218,6 +218,7 @@ createComponent({
     onChooseAvatar(e: WechatMiniprogram.CustomEvent) {
       // 微信小程序获取用户头像后触发
       // @arg CustomEvent
+      // @arg ttt
       this.triggerEvent(EVENT_CHOOSE_AVATAR, e)
     },
     onFollowLifestyle(e: WechatMiniprogram.CustomEvent) {

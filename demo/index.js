@@ -1,9 +1,16 @@
 const website = require('@mpxjs/vuese-website').default
 const path = require('path')
 
+// import website from '@mpxjs/vuese-website'
+// import { fileURLToPath } from 'url'
+// import path, { dirname } from 'path'
+
+// const __filename = fileURLToPath(import.meta.url)
+// const __dirname = dirname(__filename)
+
 website({
-  srcPath: path.resolve(__dirname, './src'),
-  examplePath: path.resolve(__dirname, './pages'),
+  srcDirPath: path.resolve(__dirname, './src'),
+  exampleDirPath: path.resolve(__dirname, './pages'),
   outputPath: path.resolve(__dirname, './docs/guide'),
   doscPath: path.resolve(__dirname, './docs'),
 })

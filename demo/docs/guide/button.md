@@ -79,7 +79,7 @@
 |---|---|---|
 |error|报错后触发|-|
 |openSetting|打开授权设置页后触发|CustomEvent|
-|chooseAvatar|微信小程序获取用户头像后触发|CustomEvent|
+|chooseAvatar|微信小程序获取用户头像后触发|CustomEvent ttt|
 |contact|打开客服会话后触发|CustomEvent|
 |launchApp|打开 APP 成功后触发|CustomEvent|
 |getPhoneNumber|-|-|

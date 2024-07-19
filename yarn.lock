@@ -1398,20 +1398,6 @@
     libnpm "^2.0.1"
     write-file-atomic "^2.3.0"
 
-"@mpxjs/vuese-markdown-render@file:packages/markdown-render":
-  version "1.0.1"
-
-"@mpxjs/vuese-parser@file:packages/parser":
-  version "1.0.2"
-  dependencies:
-    "@babel/generator" "7.10.3"
-    "@babel/parser" "7.10.3"
-    "@babel/traverse" "7.10.3"
-    "@babel/types" "7.3.4"
-    typedoc "^0.25.2"
-    typedoc-plugin-missing-exports "^2.1.0"
-    vue-template-compiler "^2.6.11"
-
 "@mrmlnc/readdir-enhanced@^2.2.1":
   version "2.2.1"
   resolved "https://registry.npmjs.org/@mrmlnc/readdir-enhanced/-/readdir-enhanced-2.2.1.tgz#524af240d1a360527b730475ecfa1344aa540dde"
@@ -8215,13 +8201,13 @@ rollup-plugin-typescript2@^0.36.0:
 rollup@2:
   version "2.79.1"
   resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/rollup/-/rollup-2.79.1.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Frollup%2F-%2Frollup-2.79.1.tgz#bedee8faef7c9f93a2647ac0108748f497f081c7"
-  integrity sha1-vt7o+u98n5OiZHrAEIdI9Jfwgcc=
+  integrity sha512-uKxbd0IhMZOhjAiD5oAFp7BqvkA4Dv47qpOCtaNvng4HBwdbWtdOh8f5nZNuk2rp51PMGk3bzfWu5oayNEuYnw==
   optionalDependencies:
     fsevents "~2.3.2"
 
 rollup@^4.13.0:
   version "4.18.0"
-  resolved "https://registry.npmjs.org/rollup/-/rollup-4.18.0.tgz#497f60f0c5308e4602cf41136339fbf87d5f5dda"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/rollup/-/rollup-4.18.0.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Frollup%2F-%2Frollup-4.18.0.tgz#497f60f0c5308e4602cf41136339fbf87d5f5dda"
   integrity sha512-QmJz14PX3rzbJCN1SG4Xe/bAAX2a6NpCP8ab2vfu2GiUr8AQcr2nCV/oEO3yneFarB67zk8ShlIyWb2LGTb3Sg==
   dependencies:
     "@types/estree" "1.0.5"

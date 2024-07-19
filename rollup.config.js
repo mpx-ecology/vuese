@@ -26,7 +26,7 @@ if (PKG_DIR === 'website') {
     copy({
       targets: [
         { src: 'packages/website/theme', dest: 'packages/website/dist' }
-      ],
+      ]
     })
   )
 }
@@ -47,10 +47,8 @@ module.exports = {
     exports: 'named'
   },
   onwarn(warning, warn) {
-    console.log(warning, warn)
     if (warning.code === 'UNRESOLVED_IMPORT' && isBuiltinModule(warning.source))
       return
-    console.log('-------')
     warn(warning)
   }
 }

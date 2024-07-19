@@ -6,7 +6,7 @@
         <i
           class="cubeic cubeic-back"
           v-show="showBack"
-          @click="history.back()"
+          @click="back"
         />
         {{ title }}
       </header>
@@ -27,11 +27,25 @@
 
 <script setup>
 import { throttle } from 'lodash-es'
-import { EXAMPLE_DOC_PORT } from '../config/index'
 import { useData } from 'vitepress'
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vitepress'
+// import { getConfig } from '../../index.js'
 
+const getConfig = function() {
+  return {
+    demo: {},
+    demoPath: {}
+  }
+}
+console.log(useData())
+const websiteConfig = getConfig()
+const route = useRoute()
+const router = useRouter()
+
+const back = () => {
+  window.history.back()
+}
 /**
  * 轮询
  * @param cb
@@ -71,12 +85,13 @@ const time = ref(getTime())
 let componentName = ''
 const baseUrl =
   process.env.NODE_ENV === 'development'
-    ? `http://localhost:${EXAMPLE_DOC_PORT}/`
-    : `/mpx-cube-ui/example/index.html`
+    ? websiteConfig?.demoPath.dev
+    : websiteConfig?.demoPath.prod
+    // `http://localhost:8080/#/pages/cube/dialog/index`;`/mpx-cube-ui/example/index.html`
 
 const previewPath = computed(() => {
   if (componentName) {
-    return `${baseUrl}#/pages/${componentName}/index`
+    return `${baseUrl}#/pages/cube/${componentName}/index`
   }
   return baseUrl
 })
@@ -86,13 +101,10 @@ const getComponent = list => {
     return null
   }
   for (const item of list) {
-    if (location.href.includes(`${item.text}.html`)) {
-      return item.title
-    }
+    if (location.href.includes(`${item.text}.html`)) return item.text
+
     const title = getComponent(item.items)
-    if (title) {
-      return title
-    }
+    if (title) return title
   }
   return null
 }
@@ -100,21 +112,14 @@ const getComponent = list => {
 let flush = 1
 const { theme } = useData()
 const title = computed(() => {
-  if (!flush) {
-    return ''
-  }
-  return (
-    getComponent([theme.value.sidebar.find(item => item.text === 'button')]) ||
-    'test'
-  )
+  if (!flush) return ''
+  return getComponent([theme.value.sidebar.find(item => item.text === getComponentName())]) || ''
 })
 
 const showBack = computed(() => {
   return title !== 'test'
 })
 
-const router = useRouter()
-const route = useRoute()
 watch(
   () => route.path,
   (newPath, oldPath) => {
@@ -141,6 +146,10 @@ timer = polling(() => {
 }, 6000)()
 
 const handleMessage = e => {
+  if (websiteConfig.demo?.demoMessageCb) {
+    websiteConfig.demo?.demoMessageCb(e)
+    return
+  }
   if (e.data?.component !== undefined) {
     if (!e.data?.component) {
       router.go('/guide/button.html')
@@ -173,20 +182,10 @@ const handleMessage = e => {
 
 window.addEventListener('message', handleMessage)
 
-const getComponentName = path => {
-  let componentName = ''
-  const [_, componentPath] = path.split('mpx-ui')
-  if (!componentPath) {
-    return componentName
-  }
-  componentPath.replace(/\/(.*?).html/, (_, res) => {
-    if (res.indexOf('/') > 0) {
-      componentName = res.split('/')[1]
-    } else {
-      componentName = res
-    }
-  })
-  return componentName
+const getComponentName = () => {
+  const name = route.path.split('/').pop().replace('.html', '')
+  if (!name) return ''
+  return name
 }
 
 const containerRef = ref(null)
@@ -238,16 +237,15 @@ const calcPreviewerPosition = () => {
 
 const simulatorRef = ref(null)
 const syncChildPath = to => {
-  const componentUrl = to.split('/mpx-ui')[1]
   simulatorRef.value.contentWindow.postMessage(
     {
-      to: getComponentName(componentUrl)
+      to: getComponentName()
     },
     '*'
   )
 }
 onMounted(() => {
-  componentName = getComponentName(top.location.href)
+  componentName = getComponentName()
   handleResize()
   calcPreviewerPosition()
   window.addEventListener('resize', handleResize)

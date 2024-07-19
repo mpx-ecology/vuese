@@ -5,16 +5,17 @@ import { genSrcMd } from './gen-src-md'
 import { getFiles } from './get-files-list'
 import fs from 'fs'
 import path from 'path'
+import { WebsiteConfig } from './index'
 
 export function watch(
-  config: Record<'srcPath'|'examplePath'|'outputPath', string>
+  config: WebsiteConfig
 ) {
   const cache = getCache()
-  nodeWatch([config.srcPath, config.examplePath], { recursive: true }, async function (evt, changeFilePath) {
+  nodeWatch([config.srcDirPath, config.exampleDirPath], { recursive: true }, async function (evt, changeFilePath) {
     if (evt === 'update') {
-      const isSrcChange = changeFilePath.includes(config.srcPath)
-      const isExampleChange = changeFilePath.includes(config.examplePath)
-      const srcFiles = getFiles(config.srcPath, config.examplePath)
+      const isSrcChange = changeFilePath.includes(config.srcDirPath)
+      const isExampleChange = changeFilePath.includes(config.exampleDirPath)
+      const srcFiles = getFiles(config.srcDirPath, config.exampleDirPath)
 
       const changeFile = srcFiles.find(({ fileName }) => {
         return changeFilePath.includes(`\/${fileName}\/`)
@@ -28,7 +29,7 @@ export function watch(
         md = await genSrcMd(fileName, changeFile.fullPath)
         cache[fileName].srcMd = md
       } else if (isExampleChange){
-        md = genExampleMd(fileName, path.resolve(config.examplePath, fileName))
+        md = genExampleMd(fileName, path.resolve(config.exampleDirPath, fileName))
         cache[fileName].exampleMd = md
       }
       fs.writeFileSync(`${config.outputPath}/${fileName}.md`, cache[fileName].exampleMd + '\n' + cache[fileName].srcMd)

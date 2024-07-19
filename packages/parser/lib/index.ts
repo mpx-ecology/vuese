@@ -88,6 +88,7 @@ export interface EventResult extends CommonResult {
   isSync: boolean
   syncProp: string
   argumentsDesc?: string[]
+  arr?: EventResult[]
 }
 
 export interface MethodResult extends CommonResult {

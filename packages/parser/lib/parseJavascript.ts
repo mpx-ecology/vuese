@@ -623,7 +623,13 @@ export function processEmitCallExpression(
   processEventName(result.name, parentExpressionStatementNodePath, result)
 
   if (onEvent && (!!includeSyncEvent || !result.isSync)) {
-    onEvent(result)
+    if (result.arr) {
+      result.arr.forEach(res => {
+        onEvent(res)
+      })
+    } else {
+      onEvent(result)
+    }
   }
 }
 

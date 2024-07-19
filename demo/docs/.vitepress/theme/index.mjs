@@ -8,5 +8,8 @@ export default {
   enhanceApp({ router, app }) {
     router.go('/mpx-ui/guide/button.html'),
     app.component('Card', Card)
+  },
+  themeConfig: {
+    testa: 123
   }
 }

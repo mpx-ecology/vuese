@@ -23,9 +23,6 @@
     "@babel/parser": "7.10.3",
     "@babel/traverse": "7.10.3",
     "@babel/types": "7.3.4",
-    "@rollup/plugin-commonjs": "^26.0.1",
-    "@rollup/plugin-json": "^6.1.0",
-    "@rollup/plugin-node-resolve": "^15.2.3",
     "@typescript-eslint/eslint-plugin": "^6.8.0",
     "highlight.js": "11.9.0",
     "stylus": "^0.63.0",
@@ -35,6 +32,9 @@
     "vue-template-compiler": "^2.6.11"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@types/babel__generator": "^7.6.1",
     "@types/babel__traverse": "^7.0.12",
     "@types/fs-extra": "^8.1.0",

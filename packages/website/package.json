@@ -1,6 +1,6 @@
 {
   "name": "@mpxjs/vuese-website",
-  "version": "0.0.2-beta.8",
+  "version": "0.0.2-beta.13",
   "description": "构建示例网站",
   "author": "QiuShuiBai <1125097005@qq.com>",
   "homepage": "",
@@ -18,11 +18,11 @@
     "extractDts": true
   },
   "bin": {
-    "vuese-website": "./bin/init.js"
+    "vuese-website": "bin/init.js"
   },
   "dependencies": {
-    "@mpxjs/vuese-parser": "file:../parser",
-    "@mpxjs/vuese-markdown-render": "file:../markdown-render",
+    "@mpxjs/vuese-parser": "~1.0.2",
+    "@mpxjs/vuese-markdown-render": "~1.0.0",
     "vitepress": "^1.2.2",
     "vue": "^3.0.0",
     "highlight.js": "^11.9.0",
