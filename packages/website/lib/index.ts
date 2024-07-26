@@ -20,17 +20,27 @@ export type WebsiteConfig = {
 }
 
 function validateParams(config: WebsiteConfig) {
-  const keys: (keyof WebsiteConfig)[] = ['srcDirPath', 'exampleDirPath', 'outputPath']
-  const total: typeof keys = []
-  keys.reduce((total, key) => {
+  const keys: ['srcDirPath', 'exampleDirPath', 'outputPath'] = ['srcDirPath', 'exampleDirPath', 'outputPath']
+  const total: string[] = []
+  const dir: string[] = []
+  keys.forEach(key => {
     if (!config[key]) {
       total.push(key)
     }
-    return total
-  }, total)
+    try {
+      const stat = fs.statSync(config[key])
+      if (!stat.isDirectory()) {
+        dir.push(key)
+      }
+    } catch (error) {
+      dir.push(key)
+    }
+    
+  })
 
-  if (total.length) {
-    console.error(`请输入${total.join(', ')}参数`)
+  if (total.length || dir.length) {
+    total.length && console.error(`请输入${total.join(', ')}参数`)
+    dir.length && console.error(`请创建${dir.join(', ')}目录`)
     return false
   }
 
@@ -59,7 +69,10 @@ export default function website(config: WebsiteConfig): void {
         srcMd: text,
         exampleMd: exampleMd
       }
-      fs.writeFileSync(`${config.outputPath}/${fileName}.md`, exampleMd + '\n' + text)
+      fs.writeFile(`${config.outputPath}/${fileName}.md`,  exampleMd + '\n' + text, {
+        encoding: 'utf-8'
+      }, () => {
+      })
     })
   })
 
