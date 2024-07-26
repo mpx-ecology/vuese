@@ -27,6 +27,7 @@ import Layout from '../components/Layout.vue'
   display flex
   min-height 100vh
   min-width 100%
+  background-color #f7f8fa
 
   @media screen and (max-width: $MQMobile)
     flex-direction: column

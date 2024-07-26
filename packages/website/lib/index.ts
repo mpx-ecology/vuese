@@ -48,14 +48,7 @@ function validateParams(config: WebsiteConfig) {
 }
 
 
-let _config = {} as WebsiteConfig
-
-export function getConfig() {
-  return Object.assign({}, _config)
-}
-
-export default function website(config: WebsiteConfig): void {
-  _config = config
+export default function website(config: WebsiteConfig): void {  
   if (!validateParams(config)) return
   const srcFiles = getFiles(config.srcDirPath, config.exampleDirPath)
   
