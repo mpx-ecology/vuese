@@ -5,7 +5,9 @@
         <div class="main-container">
           <div class="main"><VPDoc></VPDoc></div>
           <ClientOnly>
-            <Preview ref="preview" class="show-absolute" />
+            <Preview ref="preview" class="show-absolute" >
+              <slot></slot>
+            </Preview>
           </ClientOnly>
         </div>
       </template>

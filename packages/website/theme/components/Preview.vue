@@ -1,18 +1,18 @@
 <template>
   <div ref="containerRef" class="preview-container">
-    <div class="preview" ref="previewRef" v-show="showSimulator">
-      <span class="current-time">{{ time }}</span>
+    <div class="preview" ref="previewRef">
+      <span class="current-time"></span>
       <header class="header">
         <i
           class="cubeic cubeic-back"
-          v-show="showBack"
+          v-show="isShowBack"
           @click="back"
         />
         {{ title }}
       </header>
       <div class="simulator-wrapper">
         <iframe
-          ref="simulatorRef"
+          ref="iframeRef"
           class="simulator"
           :src="previewPath"
           frameborder="0"
@@ -25,137 +25,70 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { throttle } from 'lodash-es'
 import { useData } from 'vitepress'
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
 import { useRouter, useRoute } from 'vitepress'
-// import { getConfig } from '../../index.js'
-
-const getConfig = function() {
-  return {
-    demo: {},
-    demoPath: {}
-  }
-}
-console.log(useData())
-const websiteConfig = getConfig()
 const route = useRoute()
 const router = useRouter()
-
 const back = () => {
   window.history.back()
 }
-/**
- * 轮询
- * @param cb
- * @param delay
- * @returns
- */
-const polling = (cb, delay = 3000) => {
-  let firstCall = true
-  const timerRef = {
-    value: -1
-  }
-  const pollingFunc = function(...args) {
-    if (firstCall) {
-      firstCall = false
-      cb.call(this, ...args)
-    }
-    clearTimeout(timerRef.value)
-    timerRef.value = setTimeout(() => {
-      cb.call(this, ...args)
-      pollingFunc(...args)
-    }, delay)
-    return timerRef
-  }
-  return pollingFunc
-}
 
-const getTime = () => {
-  const now = new Date()
-  return `${`${now.getHours()}`.padStart(
-    2,
-    0
-  )}:${`${now.getMinutes()}`.padStart(2, 0)}`
-}
+const { theme, site } = useData()
+const iframeConfig = computed(() => theme.value.iframeConfig)
 
-const time = ref(getTime())
-
-let componentName = ''
-const baseUrl =
-  process.env.NODE_ENV === 'development'
-    ? websiteConfig?.demoPath.dev
-    : websiteConfig?.demoPath.prod
-    // `http://localhost:8080/#/pages/cube/dialog/index`;`/mpx-cube-ui/example/index.html`
-
-const previewPath = computed(() => {
-  if (componentName) {
-    return `${baseUrl}#/pages/cube/${componentName}/index`
-  }
+const previewPath = (() => {
+  const baseUrl = process.env.NODE_ENV === 'development'
+    ? iframeConfig.value?.path.dev
+    : iframeConfig.value?.path.prod
   return baseUrl
-})
+})();
 
-const getComponent = list => {
-  if (!Array.isArray(list)) {
-    return null
-  }
-  for (const item of list) {
-    if (location.href.includes(`${item.text}.html`)) return item.text
-
-    const title = getComponent(item.items)
-    if (title) return title
-  }
-  return null
+const getComponentName = () => {
+  const name = route.path.split('/').pop()?.replace('.html', '')
+  if (!name) return ''
+  return name
 }
 
-let flush = 1
-const { theme } = useData()
 const title = computed(() => {
-  if (!flush) return ''
-  return getComponent([theme.value.sidebar.find(item => item.text === getComponentName())]) || ''
+  
+  return getComponentName()
 })
 
-const showBack = computed(() => {
-  return title !== 'test'
-})
-
-watch(
-  () => route.path,
-  (newPath, oldPath) => {
-    flush += 1
-    syncChildPath(newPath)
-  }
-)
-
-//created
-const showSimulator = ref(false)
-const img = new Image()
-const show = () => {
-  showSimulator.value = true
-  setTimeout(() => {
-    handleResize()
-  })
+const iframeRef = ref()
+const syncChildPath = to => {
+  iframeRef.value?.contentWindow.postMessage({
+    to: getComponentName(),
+    origin: route.path
+  }, '*')
 }
-img.src = ''
-img.onload = show
-img.onerror = show
-let timer = null
-timer = polling(() => {
-  time.value = getTime()
-}, 6000)()
+
+const isShowBack = ref(false)
+const showBackHandler = (newPath: string) => {
+  if (iframeConfig.value.showBackHandler) {
+    isShowBack.value = iframeConfig.value.showBackHandler(newPath)
+  } else {
+    isShowBack.value = !newPath.includes('/guide/intro')
+  }
+}
+
+watch(() => route.path, (newPath, oldPath) => {
+  syncChildPath(newPath)
+  showBackHandler(newPath)
+})
 
 const handleMessage = e => {
-  if (websiteConfig.demo?.demoMessageCb) {
-    websiteConfig.demo?.demoMessageCb(e)
-    return
-  }
   if (e.data?.component !== undefined) {
     if (!e.data?.component) {
       router.go('/guide/button.html')
       return
     }
     const data = e.data
+    if (data.component) {
+      router.go(`${data.component}.html`)
+    }
     const findComponent = list => {
       if (!Array.isArray(list)) {
         return null
@@ -182,14 +115,8 @@ const handleMessage = e => {
 
 window.addEventListener('message', handleMessage)
 
-const getComponentName = () => {
-  const name = route.path.split('/').pop().replace('.html', '')
-  if (!name) return ''
-  return name
-}
-
-const containerRef = ref(null)
-const previewRef = ref(null)
+const containerRef = ref()
+const previewRef = ref()
 const calcPreviewerHeight = () => {
   const el = previewRef.value
   el.style.height = `${window.innerHeight - 110}px`
@@ -211,12 +138,10 @@ const calcPreviewerTransform = () => {
   }
   // el.style.transform = `translateX(${offset}px)`
 }
-
 const handleResize = throttle(() => {
   calcPreviewerHeight()
   calcPreviewerTransform()
 })
-
 const calcPreviewerPosition = () => {
   let offset = 0
   const el = previewRef.value
@@ -235,28 +160,18 @@ const calcPreviewerPosition = () => {
   // el.style.transform = `translateX(${offset}px)`
 }
 
-const simulatorRef = ref(null)
-const syncChildPath = to => {
-  simulatorRef.value.contentWindow.postMessage(
-    {
-      to: getComponentName()
-    },
-    '*'
-  )
-}
 onMounted(() => {
-  componentName = getComponentName()
   handleResize()
   calcPreviewerPosition()
   window.addEventListener('resize', handleResize)
   window.addEventListener('scroll', calcPreviewerPosition)
-  simulatorRef.value.onload = () => {
+  iframeRef.value.onload = () => {
     syncChildPath(router.route.path)
+    showBackHandler(router.route.path)
   }
 })
 
 onUnmounted(() => {
-  clearTimeout(timer.value)
   window.removeEventListener('resize', handleResize)
   window.removeEventListener('scroll', calcPreviewerPosition)
   window.removeEventListener('message', handleMessage)
@@ -294,6 +209,8 @@ onUnmounted(() => {
       position absolute
       left 38px
       top 28px
+      width: 50px
+      height: 20px
       font-size 12px
       font-weight 700
       padding 3px 10px
