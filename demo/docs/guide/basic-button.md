@@ -23,14 +23,18 @@
 <cube-button>默认按钮</cube-button>
 
 <cube-button primary>主要按钮</cube-button>
-<!-- @example: btn-bolder -> template no-wrap @code-block:name-->
+<cube-button bolder>粗体文字</cube-button>
 <cube-button outline>细框按钮</cube-button>
 <cube-button inline>内联按钮</cube-button>
 <cube-button light>明亮按钮</cube-button>
 <cube-button outline primary>outline - primary</cube-button>
 <cube-button inline outline>inline - outline</cube-button>
 <cube-button inline primary>inline - primary</cube-button>
-<!-- @example: btn-secondary-active -> template no-wrap @code-block:first-->
+<cube-button active>激活态1234</cube-button>
+<cube-button>
+  <div>12345hhhh</div>
+</cube-button>
+<div>1234</div>
 ```
 
 </collapse-wrapper>

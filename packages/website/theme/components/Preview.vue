@@ -1,5 +1,5 @@
 <template>
-  <div ref="containerRef" class="preview-container">
+  <div ref="containerRef" class="preview-container" v-if="showPreview">
     <div class="preview" ref="previewRef">
       <span class="current-time"></span>
       <header class="header">
@@ -27,18 +27,19 @@
 
 <script setup lang="ts">
 import { throttle } from 'lodash-es'
-import { useData } from 'vitepress'
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
-import { useRouter, useRoute } from 'vitepress'
+import { useRouter, useRoute, useData } from 'vitepress'
 const route = useRoute()
 const router = useRouter()
 const back = () => {
   window.history.back()
 }
 
-const { theme, site } = useData()
+const { theme } = useData()
 const iframeConfig = computed(() => theme.value.iframeConfig)
-
+const showPreview = computed(() => {
+  return !iframeConfig.value.hide
+})
 const previewPath = (() => {
   const baseUrl = process.env.NODE_ENV === 'development'
     ? iframeConfig.value?.path.dev

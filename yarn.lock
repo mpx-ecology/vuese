@@ -1936,6 +1936,17 @@
     estree-walker "^2.0.2"
     source-map-js "^1.2.0"
 
+"@vue/compiler-core@3.4.38":
+  version "3.4.38"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/@vue/compiler-core/-/compiler-core-3.4.38.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fcompiler-core%2F-%2Fcompiler-core-3.4.38.tgz#326dfe3c92fa2b0f1dc9b39a948a231980253496"
+  integrity sha512-8IQOTCWnLFqfHzOGm9+P8OPSEDukgg3Huc92qSG49if/xI2SAwLHQO2qaPQbjCWPBcQoO1WYfXfTACUrWV3c5A==
+  dependencies:
+    "@babel/parser" "^7.24.7"
+    "@vue/shared" "3.4.38"
+    entities "^4.5.0"
+    estree-walker "^2.0.2"
+    source-map-js "^1.2.0"
+
 "@vue/compiler-dom@3.4.29":
   version "3.4.29"
   resolved "https://registry.npmjs.org/@vue/compiler-dom/-/compiler-dom-3.4.29.tgz#c8f55528c8d8c8c36687d56a19e53b268c7d6c56"
@@ -1943,6 +1954,14 @@
   dependencies:
     "@vue/compiler-core" "3.4.29"
     "@vue/shared" "3.4.29"
+
+"@vue/compiler-dom@3.4.38":
+  version "3.4.38"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/@vue/compiler-dom/-/compiler-dom-3.4.38.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fcompiler-dom%2F-%2Fcompiler-dom-3.4.38.tgz#90348fac1130e0bbd408b650635cb626b3b9df06"
+  integrity sha512-Osc/c7ABsHXTsETLgykcOwIxFktHfGSUDkb05V61rocEfsFDcjDLH/IHJSNJP+/Sv9KeN2Lx1V6McZzlSb9EhQ==
+  dependencies:
+    "@vue/compiler-core" "3.4.38"
+    "@vue/shared" "3.4.38"
 
 "@vue/compiler-sfc@3.4.29":
   version "3.4.29"
@@ -1959,6 +1978,21 @@
     postcss "^8.4.38"
     source-map-js "^1.2.0"
 
+"@vue/compiler-sfc@3.4.38":
+  version "3.4.38"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/@vue/compiler-sfc/-/compiler-sfc-3.4.38.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fcompiler-sfc%2F-%2Fcompiler-sfc-3.4.38.tgz#954c3f6777bbbcca28771ba59b795f12f76ef188"
+  integrity sha512-s5QfZ+9PzPh3T5H4hsQDJtI8x7zdJaew/dCGgqZ2630XdzaZ3AD8xGZfBqpT8oaD/p2eedd+pL8tD5vvt5ZYJQ==
+  dependencies:
+    "@babel/parser" "^7.24.7"
+    "@vue/compiler-core" "3.4.38"
+    "@vue/compiler-dom" "3.4.38"
+    "@vue/compiler-ssr" "3.4.38"
+    "@vue/shared" "3.4.38"
+    estree-walker "^2.0.2"
+    magic-string "^0.30.10"
+    postcss "^8.4.40"
+    source-map-js "^1.2.0"
+
 "@vue/compiler-ssr@3.4.29":
   version "3.4.29"
   resolved "https://registry.npmjs.org/@vue/compiler-ssr/-/compiler-ssr-3.4.29.tgz#210b0267667fe1e5ec69ca4e3c473f94da6ac37f"
@@ -1966,6 +2000,14 @@
   dependencies:
     "@vue/compiler-dom" "3.4.29"
     "@vue/shared" "3.4.29"
+
+"@vue/compiler-ssr@3.4.38":
+  version "3.4.38"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/@vue/compiler-ssr/-/compiler-ssr-3.4.38.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fcompiler-ssr%2F-%2Fcompiler-ssr-3.4.38.tgz#9ded18f6d9c8b2440039a58492cfff36fa1a7774"
+  integrity sha512-YXznKFQ8dxYpAz9zLuVvfcXhc31FSPFDcqr0kyujbOwNhlmaNvL2QfIy+RZeJgSn5Fk54CWoEUeW+NVBAogGaw==
+  dependencies:
+    "@vue/compiler-dom" "3.4.38"
+    "@vue/shared" "3.4.38"
 
 "@vue/devtools-api@^7.2.1":
   version "7.3.0"
@@ -2001,6 +2043,13 @@
   dependencies:
     "@vue/shared" "3.4.29"
 
+"@vue/reactivity@3.4.38":
+  version "3.4.38"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/@vue/reactivity/-/reactivity-3.4.38.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Freactivity%2F-%2Freactivity-3.4.38.tgz#ec2d549f4b831cd03d0baabf7d77e840b8536000"
+  integrity sha512-4vl4wMMVniLsSYYeldAKzbk72+D3hUnkw9z8lDeJacTxAkXeDAP1uE9xr2+aKIN0ipOL8EG2GPouVTH6yF7Gnw==
+  dependencies:
+    "@vue/shared" "3.4.38"
+
 "@vue/runtime-core@3.4.29":
   version "3.4.29"
   resolved "https://registry.npmjs.org/@vue/runtime-core/-/runtime-core-3.4.29.tgz#3c7d5ef00aa8ab1e1de9de0a8656f21db3cd8367"
@@ -2008,6 +2057,14 @@
   dependencies:
     "@vue/reactivity" "3.4.29"
     "@vue/shared" "3.4.29"
+
+"@vue/runtime-core@3.4.38":
+  version "3.4.38"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/@vue/runtime-core/-/runtime-core-3.4.38.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fruntime-core%2F-%2Fruntime-core-3.4.38.tgz#bead9085e9a1c5a446e27d74ffb450f9261cf097"
+  integrity sha512-21z3wA99EABtuf+O3IhdxP0iHgkBs1vuoCAsCKLVJPEjpVqvblwBnTj42vzHRlWDCyxu9ptDm7sI2ZMcWrQqlA==
+  dependencies:
+    "@vue/reactivity" "3.4.38"
+    "@vue/shared" "3.4.38"
 
 "@vue/runtime-dom@3.4.29":
   version "3.4.29"
@@ -2019,6 +2076,16 @@
     "@vue/shared" "3.4.29"
     csstype "^3.1.3"
 
+"@vue/runtime-dom@3.4.38":
+  version "3.4.38"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/@vue/runtime-dom/-/runtime-dom-3.4.38.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fruntime-dom%2F-%2Fruntime-dom-3.4.38.tgz#52678ba0b85f94400a0a9c8dd23ddef4dd65657d"
+  integrity sha512-afZzmUreU7vKwKsV17H1NDThEEmdYI+GCAK/KY1U957Ig2NATPVjCROv61R19fjZNzMmiU03n79OMnXyJVN0UA==
+  dependencies:
+    "@vue/reactivity" "3.4.38"
+    "@vue/runtime-core" "3.4.38"
+    "@vue/shared" "3.4.38"
+    csstype "^3.1.3"
+
 "@vue/server-renderer@3.4.29":
   version "3.4.29"
   resolved "https://registry.npmjs.org/@vue/server-renderer/-/server-renderer-3.4.29.tgz#7a6d322837d836dd3affa69553f9fba140f91723"
@@ -2027,10 +2094,23 @@
     "@vue/compiler-ssr" "3.4.29"
     "@vue/shared" "3.4.29"
 
+"@vue/server-renderer@3.4.38":
+  version "3.4.38"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/@vue/server-renderer/-/server-renderer-3.4.38.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fserver-renderer%2F-%2Fserver-renderer-3.4.38.tgz#457401ef2b0f969156702061e56915acecc9fe2c"
+  integrity sha512-NggOTr82FbPEkkUvBm4fTGcwUY8UuTsnWC/L2YZBmvaQ4C4Jl/Ao4HHTB+l7WnFCt5M/dN3l0XLuyjzswGYVCA==
+  dependencies:
+    "@vue/compiler-ssr" "3.4.38"
+    "@vue/shared" "3.4.38"
+
 "@vue/shared@3.4.29", "@vue/shared@^3.4.27":
   version "3.4.29"
   resolved "https://registry.npmjs.org/@vue/shared/-/shared-3.4.29.tgz#84908c284e88a269f8bceee59707b14eb4b2d284"
   integrity sha512-hQ2gAQcBO/CDpC82DCrinJNgOHI2v+FA7BDW4lMSPeBpQ7sRe2OLHWe5cph1s7D8DUQAwRt18dBDfJJ220APEA==
+
+"@vue/shared@3.4.38":
+  version "3.4.38"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/@vue/shared/-/shared-3.4.38.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2F%40vue%2Fshared%2F-%2Fshared-3.4.38.tgz#552a6770098bfd556fa3e2c686c9d3b4f4cd94c2"
+  integrity sha512-q0xCiLkuWWQLzVrecPb0RMsNWyxICOjPrcrwxTUEHb1fsnvni4dcuyG7RT/Ie7VPTvnjzIaWzRMUBsrqNj/hhw==
 
 "@vueuse/core@10.11.0", "@vueuse/core@^10.10.0":
   version "10.11.0"
@@ -7592,6 +7672,11 @@ picocolors@^1.0.0:
   resolved "https://registry.npmjs.org/picocolors/-/picocolors-1.0.1.tgz#a8ad579b571952f0e5d25892de5445bcfe25aaa1"
   integrity sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==
 
+picocolors@^1.0.1:
+  version "1.1.0"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/picocolors/-/picocolors-1.1.0.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Fpicocolors%2F-%2Fpicocolors-1.1.0.tgz#5358b76a78cde483ba5cef6a9dc9671440b27d59"
+  integrity sha512-TQ92mBOW0l3LeMeyLV6mzy/kWr8lkd/hp3mTg7wYK7zJhuBStmGMBG0BdeDZS/dZx1IukaX6Bk11zcln25o1Aw==
+
 picomatch@^2.2.2, picomatch@^2.3.1:
   version "2.3.1"
   resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/picomatch/-/picomatch-2.3.1.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Fpicomatch%2F-%2Fpicomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
@@ -7671,6 +7756,15 @@ postcss@^8.4.38:
   dependencies:
     nanoid "^3.3.7"
     picocolors "^1.0.0"
+    source-map-js "^1.2.0"
+
+postcss@^8.4.40:
+  version "8.4.45"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/postcss/-/postcss-8.4.45.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Fpostcss%2F-%2Fpostcss-8.4.45.tgz#538d13d89a16ef71edbf75d895284ae06b79e603"
+  integrity sha512-7KTLTdzdZZYscUc65XmjFiB73vBhBfbPztCYdUNvlaso9PrzjzcmjqBPR0lNGkcVlcO4BjiO5rK/qNz+XAen1Q==
+  dependencies:
+    nanoid "^3.3.7"
+    picocolors "^1.0.1"
     source-map-js "^1.2.0"
 
 preact@^10.0.0:
@@ -9445,6 +9539,17 @@ vue-template-compiler@^2.6.11:
   dependencies:
     de-indent "^1.0.2"
     he "^1.1.0"
+
+"vue3@npm:vue@3.4":
+  version "3.4.38"
+  resolved "http://artifactory.intra.xiaojukeji.com/artifactory/api/npm/npm/vue/-/vue-3.4.38.tgz?dl=https%3A%2F%2Fregistry.npmmirror.com%2Fvue%2F-%2Fvue-3.4.38.tgz#0ccbb64ed03ef3c4ab73e540793290b18e7c4236"
+  integrity sha512-f0ZgN+mZ5KFgVv9wz0f4OgVKukoXtS3nwET4c2vLBGQR50aI8G0cqbFtLlX9Yiyg3LFGBitruPHt2PxwTduJEw==
+  dependencies:
+    "@vue/compiler-dom" "3.4.38"
+    "@vue/compiler-sfc" "3.4.38"
+    "@vue/runtime-dom" "3.4.38"
+    "@vue/server-renderer" "3.4.38"
+    "@vue/shared" "3.4.38"
 
 vue@^3.0.0, vue@^3.4.27:
   version "3.4.29"

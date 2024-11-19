@@ -8,6 +8,7 @@ import { getFiles } from './get-files-list'
 import { getCache } from './cache'
 
 export type WebsiteConfig = {
+  command: 'dev'|'bulid',
   srcDirPath: string
   exampleDirPath: string
   outputPath: string
@@ -72,7 +73,10 @@ export default function website(config: WebsiteConfig): void {
   watch(config)
 
   // 启动 VitePress 开发服务器
-  spawn('npx', ['vitepress', 'dev', config.doscPath || 'docs'], { stdio: 'inherit' });
+  const child = spawn('npx', ['vitepress', config.command || 'dev', config.doscPath || 'docs'], { stdio: 'inherit' });
+  child.on('close', (code) => {
+    if (code === 0) process.exit(0)
+  })
   // 构建 VitePress 静态文件
   // spawn('npx', ['vitepress', 'build', 'docs'], { stdio: 'inherit' });
 }

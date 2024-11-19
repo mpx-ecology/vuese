@@ -5,7 +5,7 @@
         <div class="main-container">
           <div class="main"><VPDoc></VPDoc></div>
           <ClientOnly>
-            <Preview ref="preview" class="show-absolute" >
+            <Preview ref="preview" class="show-absolute"  v-if="showPreview">
               <slot></slot>
             </Preview>
           </ClientOnly>
@@ -19,6 +19,14 @@
 import Preview from '../components/Preview.vue'
 import VPDoc from '../components/VPDoc.vue'
 import Layout from '../components/Layout.vue'
+import { useData } from 'vitepress'
+import { computed } from 'vue'
+
+const { theme } = useData()
+const iframeConfig = computed(() => theme.value.iframeConfig)
+const showPreview = computed(() => {
+  return !iframeConfig.value.hide
+})
 </script>
 
 <style lang="stylus" scoped>

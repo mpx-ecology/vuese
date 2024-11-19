@@ -32,6 +32,7 @@
     "vue-template-compiler": "^2.6.11"
   },
   "devDependencies": {
+    "vue3": "npm:vue@3.4",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^15.2.3",
