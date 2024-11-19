@@ -1,8 +1,7 @@
-import { defineConfig } from 'vitepress'
-import extendMarkdown from './highlight'
-import sidebarConfig from './sidebar/sidebar'
 import fs from 'fs'
 import path from 'path'
+import { defineConfig } from 'vitepress'
+import sidebarConfig from './sidebar/sidebar'
 
 function init() {
   const dir = path.resolve(__dirname, '../guide')
@@ -24,8 +23,7 @@ function init() {
     },
     // 配置 Markdown 解析器选项
     markdown: {
-      lineNumbers: true,
-      extendMarkdown
+      lineNumbers: true
     },
     themeConfig: {
       iframeConfig: {

@@ -1,0 +1,5 @@
+/* 主题色覆盖：https://github.com/vuejs/vitepress/blob/main/src/client/theme-default/styles/vars.css */
+:root {
+  /* 主题色 */
+  --vp-c-brand-1: #ff7e33;
+}

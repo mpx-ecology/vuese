@@ -1,10 +1,10 @@
+import fs from 'fs'
+import path from 'path'
 import nodeWatch from 'node-watch'
 import { getCache } from './cache'
 import { genExampleMd } from './gen-example-md'
 import { genSrcMd } from './gen-src-md'
 import { getFiles } from './get-files-list'
-import fs from 'fs'
-import path from 'path'
 import { WebsiteConfig } from './index'
 
 export function watch(

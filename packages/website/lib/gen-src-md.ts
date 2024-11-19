@@ -1,12 +1,11 @@
 import path from 'path'
 import fs from 'fs'
+import hljs from 'highlight.js'
+import dirtyJson from 'dirty-json'
 import { parser } from '@mpxjs/vuese-parser'
 import { Render } from '@mpxjs/vuese-markdown-render'
 import { markdownRenderConfig } from './contants'
-import hljs from 'highlight.js'
-import dirtyJson from 'dirty-json'
 import { delScriptJsonBlock, delEmptyContentLineBreaks } from '../utils/index'
-
 
 export function genSrcMd(fileName: string, fullPath: string): Promise<string> {
   return new Promise(resolve => {

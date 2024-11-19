@@ -38,6 +38,7 @@ const showPreview = computed(() => {
   min-height 100vh
   min-width 100%
   background-color #f7f8fa
+  overflow: auto
 
   @media screen and (max-width: $MQMobile)
     flex-direction: column

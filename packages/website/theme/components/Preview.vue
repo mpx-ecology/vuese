@@ -1,5 +1,5 @@
 <template>
-  <div ref="containerRef" class="preview-container" v-if="showPreview">
+  <div class="preview-container" v-if="showPreview">
     <div class="preview" ref="previewRef">
       <span class="current-time"></span>
       <header class="header">
@@ -114,58 +114,21 @@ const handleMessage = e => {
   }
 }
 
-window.addEventListener('message', handleMessage)
-
-const containerRef = ref()
 const previewRef = ref()
 const calcPreviewerHeight = () => {
   const el = previewRef.value
   el.style.height = `${window.innerHeight - 110}px`
 }
-const calcPreviewerTransform = () => {
-  let offset = 0
-  const el = previewRef.value
 
-  if (!el.offsetParent) {
-    const container = containerRef.value
-    const elOffsetLeft = el.offsetLeft
-    const containerOffsetLeft = container.offsetLeft
-    offset = containerOffsetLeft - elOffsetLeft
-  } else {
-    const clientRect = el.getBoundingClientRect()
-    const innerWidth = window.innerWidth
-    offset =
-      clientRect.right < innerWidth ? 0 : clientRect.right - innerWidth + 24 // 24为右边距
-  }
-  // el.style.transform = `translateX(${offset}px)`
-}
 const handleResize = throttle(() => {
   calcPreviewerHeight()
-  calcPreviewerTransform()
 })
-const calcPreviewerPosition = () => {
-  let offset = 0
-  const el = previewRef.value
 
-  if (!el.offsetParent) {
-    const container = containerRef.value
-    const elOffsetLeft = el.offsetLeft
-    const containerOffsetLeft = container.offsetLeft
-    offset = containerOffsetLeft - elOffsetLeft
-  } else {
-    const clientRect = el.getBoundingClientRect()
-    const innerWidth = window.innerWidth
-    offset =
-      clientRect.right < innerWidth ? 0 : clientRect.right - innerWidth + 24 // 24为右边距
-  }
-  // el.style.transform = `translateX(${offset}px)`
-}
+window.addEventListener('message', handleMessage)
 
 onMounted(() => {
   handleResize()
-  calcPreviewerPosition()
   window.addEventListener('resize', handleResize)
-  window.addEventListener('scroll', calcPreviewerPosition)
   iframeRef.value.onload = () => {
     syncChildPath(router.route.path)
     showBackHandler(router.route.path)
@@ -174,7 +137,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('resize', handleResize)
-  window.removeEventListener('scroll', calcPreviewerPosition)
   window.removeEventListener('message', handleMessage)
 })
 </script>

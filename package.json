@@ -5,7 +5,7 @@
     "packages/*"
   ],
   "scripts": {
-    "demo": "node ./demo/index.js",
+    "serve": "node ./demo/index.js",
     "test": "yarn lint && jest --verbose",
     "build": "yarn lint && node ./scripts/build.js",
     "prepublishOnly": "yarn toc && yarn build",
