@@ -25,7 +25,9 @@ if (PKG_DIR === 'website') {
   plugins.push(
     copy({
       targets: [
-        { src: 'packages/website/theme', dest: 'packages/website/dist' }
+        { src: 'packages/website/theme', dest: 'packages/website/dist' },
+        { src: 'packages/website/bin', dest: 'packages/website/dist' },
+        { src: 'packages/website/template', dest: 'packages/website/dist' }
       ]
     })
   )
