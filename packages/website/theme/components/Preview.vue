@@ -214,6 +214,7 @@ onUnmounted(() => {
       border-radius 0 0 60px 60px
       background #fff
       overflow hidden
+      box-sizing: content-box
       &::after
         content ''
         left 12px
