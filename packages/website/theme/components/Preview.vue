@@ -28,6 +28,9 @@
 import { throttle } from 'lodash-es'
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
 import { useRouter, useRoute, useData } from 'vitepress'
+
+const COMPONENT_DIR_NAME = 'components'
+
 const route = useRoute()
 const router = useRouter()
 const back = () => {
@@ -83,7 +86,7 @@ const handleMessage = e => {
   if (e.data?.component !== undefined) {
     const data = e.data
     if (data.component) {
-      router.go(`${site.value.base}guide/${data.component}.html`)
+      router.go(`${site.value.base}${COMPONENT_DIR_NAME}/${data.component}.html`)
       return
     }
     const findComponent = list => {
@@ -105,7 +108,7 @@ const handleMessage = e => {
       theme.value.sidebar.find(item => item.title === '组件')
     ])
     if (component) {
-      router.go(`${site.value.base}guide/${component.path}.html`)
+      router.go(`${site.value.base}${COMPONENT_DIR_NAME}/${component.path}.html`)
     }
   }
 }

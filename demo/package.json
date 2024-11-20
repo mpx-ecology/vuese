@@ -2,7 +2,7 @@
   "name": "demo",
   "version": "1.0.0",
   "scripts": {
-    "test": "node index",
+    "serve:doc": "node index",
     "docs": "vitepress dev docs",
     "gen-doc": "vuese-website",
     "build:ali": "mpx-cli-service build --targets=ali",

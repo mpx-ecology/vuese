@@ -11,6 +11,6 @@ const path = require('path')
 website({
   srcDirPath: path.resolve(__dirname, './src'),
   exampleDirPath: path.resolve(__dirname, './pages'),
-  outputPath: path.resolve(__dirname, './docs/guide'),
+  outputPath: path.resolve(__dirname, './docs/components'),
   doscPath: path.resolve(__dirname, './docs'),
 })
