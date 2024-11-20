@@ -1,4 +1,5 @@
 import mpx, { createPage, ref, onMounted, onUnmounted } from '@mpxjs/core'
+import { syncPathToChild } from '@mpxjs/vuese-website/dist/iframe-sync'
 import demoConfig from '../common/config'
 
 const SCROLL_KEY = '___scoll_top___'
@@ -10,9 +11,7 @@ createPage({
       const component = `${item.replace(/\(.*\)/, '')}`
       const route = `./${component}/index`
       if (__mpx_mode__ === 'web' && window.parent !== window) {
-        window.parent.postMessage({
-          component
-        }, '*')
+        syncPathToChild(component)
         return
       }
       mpx.navigateTo({

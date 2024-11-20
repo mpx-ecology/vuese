@@ -28,6 +28,7 @@
 import { throttle } from 'lodash-es'
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
 import { useRouter, useRoute, useData } from 'vitepress'
+import { syncPathToParent } from '@mpxjs/vuese-website/dist/iframe-sync'
 
 const COMPONENT_DIR_NAME = 'components'
 
@@ -62,10 +63,7 @@ const title = computed(() => {
 
 const iframeRef = ref()
 const syncChildPath = to => {
-  iframeRef.value?.contentWindow.postMessage({
-    to: getComponentName(),
-    origin: route.path
-  }, '*')
+  syncPathToParent(iframeRef.value, getComponentName())
 }
 
 const isShowBack = ref(false)
@@ -83,10 +81,10 @@ watch(() => route.path, (newPath, oldPath) => {
 })
 
 const handleMessage = e => {
-  if (e.data?.component !== undefined) {
+  if (e.data?.value !== undefined) {
     const data = e.data
-    if (data.component) {
-      router.go(`${site.value.base}${COMPONENT_DIR_NAME}/${data.component}.html`)
+    if (data.value) {
+      router.go(`${site.value.base}${COMPONENT_DIR_NAME}/${data.value}.html`)
       return
     }
     const findComponent = list => {
@@ -94,7 +92,7 @@ const handleMessage = e => {
         return null
       }
       for (const item of list) {
-        if (item.path?.endsWith(data.component)) {
+        if (item.path?.endsWith(data.value)) {
           return item
         }
         const target = findComponent(item.children)

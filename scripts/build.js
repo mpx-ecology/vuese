@@ -19,6 +19,10 @@ function makeBuild() {
     if (pkgMeta.private) return
     await fs.remove(`${pkgDir}/dist`)
     await execa('rollup', ['-c', '--environment', `PKG_DIR:${pkgDirName}`], {})
+    const config = `${pkgDir}/rollup.config.js`
+    if (fs.pathExistsSync(config)) {
+      await execa('rollup', ['--config', config])
+    }
 
     const dtsOutDir = `${pkgDir}/${pkgMeta.types}`
 
