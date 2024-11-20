@@ -1,5 +1,5 @@
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
 import hljs from 'highlight.js'
 import dirtyJson from 'dirty-json'
 import { parser } from '@mpxjs/vuese-parser'

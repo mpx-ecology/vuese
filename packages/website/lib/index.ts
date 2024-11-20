@@ -1,5 +1,5 @@
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
 import { spawn } from 'child_process'
 import { genSrcMd } from './gen-src-md'
 import { genExampleMd } from './gen-example-md'
