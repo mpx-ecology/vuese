@@ -17,7 +17,7 @@ const cache = {
  * @param callback 
  * @returns
  */
-export const onChildPathchange = (callback?: (path: string) => void): () => void => {
+export const onPathchange = (callback?: (path: string) => void): () => void => {
   const handleMessage = (e: { data: { value: string } }) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
