@@ -1,7 +1,6 @@
 <template>
   <div class="preview-container" v-if="showPreview">
     <div class="preview" ref="previewRef">
-      <span class="current-time"></span>
       <header class="header">
         <i
           class="cubeic cubeic-back"
@@ -35,7 +34,7 @@ const back = () => {
   window.history.back()
 }
 
-const { theme } = useData()
+const { site, theme } = useData()
 const iframeConfig = computed(() => theme.value.iframeConfig)
 const showPreview = computed(() => {
   return !iframeConfig.value.hide
@@ -82,13 +81,10 @@ watch(() => route.path, (newPath, oldPath) => {
 
 const handleMessage = e => {
   if (e.data?.component !== undefined) {
-    if (!e.data?.component) {
-      router.go('/guide/button.html')
-      return
-    }
     const data = e.data
     if (data.component) {
-      router.go(`${data.component}.html`)
+      router.go(`${site.value.base}guide/${data.component}.html`)
+      return
     }
     const findComponent = list => {
       if (!Array.isArray(list)) {
@@ -109,7 +105,7 @@ const handleMessage = e => {
       theme.value.sidebar.find(item => item.title === '组件')
     ])
     if (component) {
-      router.go(`${component.path}.html`)
+      router.go(`${site.value.base}guide/${component.path}.html`)
     }
   }
 }
@@ -122,13 +118,13 @@ const calcPreviewerHeight = () => {
 
 const handleResize = throttle(() => {
   calcPreviewerHeight()
-})
+}, 10)
 
 window.addEventListener('message', handleMessage)
 
 onMounted(() => {
   handleResize()
-  window.addEventListener('resize', handleResize)
+  window.addEventListener('resize', handleResize as EventListenerOrEventListenerObject)
   iframeRef.value.onload = () => {
     syncChildPath(router.route.path)
     showBackHandler(router.route.path)
@@ -136,7 +132,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
-  window.removeEventListener('resize', handleResize)
+  window.removeEventListener('resize', handleResize as EventListenerOrEventListenerObject)
   window.removeEventListener('message', handleMessage)
 })
 </script>
@@ -149,36 +145,21 @@ onUnmounted(() => {
   padding-right 24px
   box-sizing border-box
   overflow hidden
-
   .preview
     margin-top: 2rem
     position fixed
     top 84px
-    // right 24px
-    // safari shit
     width 360px
     min-width 360px
     min-height 560px
     max-height 667px
     background-color #fff
     border-radius 20px 20px 100px 100px
-    // box-shadow 0 8px 12px #ebedf0
     background url(https://dpubstatic.udache.com/static/dpubimg/mTIQh7C_y7ah3bMFu0guA_iphoneX.png) no-repeat center 0
     background-size 100%
     padding 25px
     padding-top 54px
     box-sizing border-box
-    .current-time
-      position absolute
-      left 38px
-      top 28px
-      width: 50px
-      height: 20px
-      font-size 12px
-      font-weight 700
-      padding 3px 10px
-      color #a3a6a9
-      background-color #edf0f4
     .header
       position relative
       z-index 1

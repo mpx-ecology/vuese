@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-
 const path = require('path')
 const { removeSync, copySync, pathExistsSync } = require('fs-extra')
 const { default: inquirer } = require('inquirer')

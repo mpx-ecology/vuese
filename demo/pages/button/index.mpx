@@ -10,45 +10,16 @@
         <btn-bolder class="btn-in-two" />
         <btn-outline class="btn-in-two ml10" />
       </view>
-      <view class="two-btn-item">
-        <block wx:if="{{ isPassenger }}">
-          <btn-light class="btn-in-two" />
-        </block>
-      </view>
       <view-desc>内联按钮</view-desc>
       <view class="btn-item">
         <btn-inline-outline class="inline-btn-item" />
         <btn-inline-primary />
       </view>
-      <block wx:if="{{ isDriver }}">
-        <view-desc>inline with icon 按钮</view-desc>
-        <view class="btn-item">
-          <btn-inline-icon />
-        </view>
-        <view-desc>With Icon 按钮</view-desc>
-        <view class="btn-item">
-          <btn-icon />
-        </view>
-      </block>
       <view-desc>激活与置灰态</view-desc>
       <view class="btn-item">
         <btn-secondary-active class="btn-in-two" />
         <btn-disabled class="btn-in-two ml10" />
       </view>
-      <block wx:if="{{ isPassenger }}">
-        <view-desc>Loading 按钮</view-desc>
-        <view class="btn-item">
-          <btn-loading />
-        </view>
-        <view-desc>With Icon 按钮</view-desc>
-        <view class="btn-item">
-          <btn-icon />
-        </view>
-        <view-desc>With Tip 按钮</view-desc>
-        <view class="btn-item">
-          <btn-with-tip />
-        </view>
-      </block>
       <view-desc>open-type: share</view-desc>
       <view class="btn-item">
         <btn-share />
@@ -87,18 +58,8 @@
 
 <script>
 import { createPage } from '@mpxjs/core'
-import { useTheme } from '../../common/theme'
 
-createPage({
-  setup() {
-    const { isDriver, isPassenger } = useTheme()
-
-    return {
-      isDriver,
-      isPassenger
-    }
-  }
-})
+createPage({})
 </script>
 
 <style lang="stylus">

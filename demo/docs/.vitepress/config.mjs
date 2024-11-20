@@ -28,8 +28,8 @@ function init() {
     themeConfig: {
       iframeConfig: {
         path: {
-          dev: 'http://localhost:8080/#/pages/cube/index?routeCount=1',
-          prod: ''
+          dev: 'http://localhost:8090',
+          prod: '8090'
         }
       },
       aside:false,
