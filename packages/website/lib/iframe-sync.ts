@@ -9,15 +9,13 @@ export const syncPathToParent = (iframe: HTMLIFrameElement, to: string) => {
   }, '*')
 }
 
-const cache = {
-  prevPath: ''
-}
 /**
  * 监听子路由的变化
  * @param callback 
  * @returns
  */
 export const onPathchange = (callback?: (path: string) => void): () => void => {
+  const cache = { prevPath: '' }
   const handleMessage = (e: { data: { value: string } }) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
