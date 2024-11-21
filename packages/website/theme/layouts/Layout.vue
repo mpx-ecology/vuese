@@ -47,7 +47,9 @@ const showPreview = computed(() => {
   .main
     flex 1
     width: 100%
+    overflow: auto
     padding-top 64px
+    min-width: 600px
     background-color var(--bg-color)
     @media screen and (max-width: $MQMobileNarrow)
       min-width: unset
