@@ -6,7 +6,7 @@ const { default: inquirer } = require('inquirer')
 const dirname = 'docs'
 const cwd = process.cwd()
 const docsPath = path.resolve(cwd, dirname)
-const templatePath = path.resolve(__dirname, '../template/docs')
+const templatePath = path.resolve(__dirname, '../dist/template/docs')
 
 function genDocs(overwrite = false) {
   if (overwrite) {
