@@ -1,6 +1,6 @@
 {
   "name": "@mpxjs/vuese-website",
-  "version": "0.0.2-beta.22",
+  "version": "1.0.0",
   "description": "构建示例网站",
   "author": "QiuShuiBai <1125097005@qq.com>",
   "homepage": "",
@@ -13,6 +13,10 @@
   "repository": {
     "type": "git",
     "url": "git@github.com:mpx-ecology/vuese.git"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org",
+    "access": "public"
   },
   "buildOptions": {
     "extractDts": true
