@@ -8,7 +8,7 @@ import { getFiles } from './get-files-list'
 import { getCache } from './cache'
 
 export type WebsiteConfig = {
-  command: 'dev'|'bulid',
+  command: 'dev'|'build',
   srcDirPath: string
   exampleDirPath: string
   outputPath: string
