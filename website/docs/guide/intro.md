@@ -13,9 +13,22 @@ npm install @mpxjs/vuese-website -g
 
 ### 项目配置
 
-假设你所在的目录为基于组件库搭建的`example`目录，这个目录主要是为了演示组件库组件的用法，启动后的效果如右边模拟器所示。👉
+假设你的项目为`monorepo`，目录结构为：
+```plaintext
+packages
+   ├── example
+   |  └── pages
+   ├── mpx-cube-ui // 换成你的组件库
+   |  └── src
+   |     └── components
+   └── website
+      ├── package.json
+      └── website.js
+```
 
-在`example`平级目录下新建`website`文件夹，添加package.json文件：
+其中`example`目录主要是为了演示组件库组件的用法，启动后的效果如右边模拟器所示。👉
+
+`website`文件夹为文档部署相关的内容，其中package.json内容如下：
 ```json
 {
   "name": "website",
@@ -34,8 +47,8 @@ const path = require('path')
 const website = require('@mpxjs/vuese-website').default
 
 website({
-  srcDirPath: path.resolve(__dirname, '组件库src目录下的components目录'),
-  exampleDirPath: path.resolve(__dirname, 'example目录下的pages目录'),
+  srcDirPath: path.resolve(__dirname, '../mpx-cube-ui/src/components'), // 组件库src目录下的components目录
+  exampleDirPath: path.resolve(__dirname, '../example/pages'), // example目录下的pages目录
   outputPath: path.resolve(__dirname, './docs/components'),
   doscPath: path.resolve(__dirname, './docs'),
 })
@@ -44,7 +57,7 @@ website({
 
 其中`组件库src目录下的components目录`结构如下所示：
 ```plaintext
-src/components
+packages/mpx-cube-ui/src/components
 ├── button
 |  ├── index.mpx
 |  ├── index.ts
@@ -54,7 +67,7 @@ src/components
 ```
 `exampleDirPath`中的`pages`目录结构如下所示：
 ```plaintext
-example/pages
+packages/example/pages
 ├── button
 |  ├── README.md
 |  ├── btn-icon.mpx
@@ -74,16 +87,6 @@ example/pages
 |  └── index.mpx
 ├── index.mpx
 └── index.ts
-```
-
-假设你的项目为`monorepo`，此时的目录结构为：
-```plaintext
-monorepo
-├── mpx-cube-ui // 换成你的组件库
-├── example
-└── website
-   ├── website.js
-   └── package.json
 ```
 
 ### 文档生成
@@ -106,6 +109,7 @@ docs
 |  ├── sidebar
 |  |  └── sidebar.js
 |  └── theme
+|     ├── github-light.json
 |     └── index.mjs
 ├── components
 |  ├── button-group.md
@@ -143,7 +147,7 @@ iframeConfig: {
 }
 ```
 
-**注意：这里的端口要和你的`example`项目中的`vue.config.js`文件中配置的端口号一致**
+**注意：这里的端口号要和你的`example`项目中的`vue.config.js`配置的端口号一致**
 ```javascript
 devServer: {
   port: 8090
