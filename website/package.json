@@ -1,0 +1,14 @@
+{
+  "name": "website",
+  "version": "1.0.0",
+  "scripts": {
+    "serve:doc": "node website",
+    "docs": "vitepress dev docs",
+    "gen-doc": "vuese-website"
+  },
+  "browserslist": "ios >= 8, chrome >= 47",
+  "dependencies": {
+    "vue": "^3.0.0",
+    "vitepress": "^1.2.3"
+  }
+}

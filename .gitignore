@@ -10,5 +10,5 @@ packages/parser/lib/example.ts
 .vscode/launch.json
 .DS_Store
 packages/demo
-demo/docs/.vitepress/cache
+website/docs/.vitepress/cache
 .cache

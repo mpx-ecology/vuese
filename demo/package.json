@@ -2,9 +2,6 @@
   "name": "demo",
   "version": "1.0.0",
   "scripts": {
-    "serve:doc": "node website",
-    "docs": "vitepress dev docs",
-    "gen-doc": "vuese-website",
     "build:ali": "mpx-cli-service build --targets=ali",
     "build:dd": "mpx-cli-service build --targets=dd",
     "build:mp": "mpx-cli-service build",
@@ -45,7 +42,6 @@
     "stylus": "^0.55.0",
     "stylus-loader": "^6.1.0",
     "typescript": "^4.9.5",
-    "vitepress": "^1.2.3",
     "vue": "^2.6.14",
     "vue-demi": "^0.13.11",
     "vue-i18n": "^8.27.2",
