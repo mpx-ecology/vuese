@@ -101,7 +101,7 @@ function findNodeByTypeName(typeName, jsFilePath) {
       }
     })
   }
-  Object.keys(TypedocJsonIds).length || getIdMap(typedocProject.children)
+  Object.keys(TypedocJsonIds).length || getIdMap(typedocProject?.children)
 
   const sets: Typedoc.Models.DeclarationReflection[] = []
   for (const key in TypedocJsonIds) {
