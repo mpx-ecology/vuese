@@ -35,7 +35,8 @@ packages
   "version": "1.0.0",
   "dependencies": {
     "vue": "^3.0.0",
-    "vitepress": "^1.2.3"
+    "vitepress": "^1.2.3",
+    "@mpxjs/vuese-website": "^1.0.0"
   }
 }
 
@@ -93,7 +94,7 @@ packages/example/pages
 
 文档由[vitepress](https://vitepress.dev/zh/guide/what-is-vitepress)驱动，需要在`website`目录中安装对应的依赖：
 ```bash
-npm install vitepress@^1.2.3 vue@^3.0.0
+npm install vitepress@^1.2.3 vue@^3.0.0 @mpxjs/vuese-website@^1.0.0
 ```
 
 然后在`website`目录下执行以下命令：
