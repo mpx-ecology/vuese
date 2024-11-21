@@ -39,11 +39,6 @@ const showPreview = computed(() => {
   min-width 100%
   background-color #f7f8fa
   overflow: auto
-
-  @media screen and (max-width: $MQMobile)
-    flex-direction: column
-    .preview-container
-      display: none
   .main
     flex 1
     width: 100%
@@ -51,7 +46,8 @@ const showPreview = computed(() => {
     padding-top 64px
     min-width: 600px
     background-color var(--bg-color)
-    @media screen and (max-width: $MQMobileNarrow)
+    @media screen and (max-width: 960px)
+      padding-top: 0
       min-width: unset
     ::v-deep .page-edit
       display none

@@ -50,7 +50,6 @@ const handleResize = throttle(() => {
   } else {
     mainContentRef.value.style.paddingLeft = '0'
   }
-  mainContentRef.value.style.width=window.innerWidth-15+'px'
 }, 300)
 onMounted(() => {
   handleResize()
