@@ -1,8 +1,8 @@
-## Cube-Button 按钮
+# Cube-Button 按钮
+
+## 介绍
 
 <card>
-
-### 介绍
 
 操作按钮，提供了不同的样式、状态以及小程序的按钮功能，常用于触发一个点击操作。
 
@@ -21,7 +21,6 @@
 
 ```vue
 <cube-button>默认按钮</cube-button>
-
 <cube-button primary>主要按钮</cube-button>
 <cube-button bolder>粗体文字</cube-button>
 <cube-button outline>细框按钮</cube-button>
@@ -30,11 +29,253 @@
 <cube-button outline primary>outline - primary</cube-button>
 <cube-button inline outline>inline - outline</cube-button>
 <cube-button inline primary>inline - primary</cube-button>
-<cube-button active>激活态1234</cube-button>
-<cube-button>
-  <div>12345hhhh</div>
-</cube-button>
-<div>1234</div>
+<cube-button active>激活态</cube-button>
+```
+
+</collapse-wrapper>
+
+
+</card>
+
+<card>
+
+### 状态
+
+除了默认的正常状态，还可以设置激活、禁用<!-- @theme: passenger -> start -->以及加载中<!-- @theme: passenger -> end -->等状态。
+
+
+<collapse-wrapper>
+
+```vue
+<cube-button active>激活态</cube-button>
+<cube-button disabled>置灰态</cube-button>
+```
+
+</collapse-wrapper>
+
+
+<!-- @theme: passenger -> start -->
+<collapse-wrapper>
+
+```vue
+<template>
+  <cube-button
+    outline
+    loading="{{ loading }}"
+    bind:click="clickBtn"
+  >加载按钮</cube-button>
+</template>
+
+<script>
+import { createComponent } from '@mpxjs/core'
+
+createComponent({
+  data: {
+    loading: false
+  },
+  methods: {
+    clickBtn(index) {
+      if (this.loading) {
+        return
+      }
+      this.loading = true
+      setTimeout(() => {
+        this.loading = false
+      }, 5000)
+    }
+  }
+})
+</script>
+```
+
+</collapse-wrapper>
+<!-- @theme: passenger -> end -->
+
+</card>
+
+<card>
+
+### 图标<!-- @theme: passenger -> start -->、辅助文案<!-- @theme: passenger -> end -->
+
+可以设置 Icon 的 class，具体可以查看Icon demo。
+
+<!-- @theme: passenger -> start -->可以设置 Tip 属性添加辅助文案。<!-- @theme: passenger -> end -->
+
+- With Icon 按钮
+
+<collapse-wrapper>
+
+```vue
+<cube-button primary icon="like">图标按钮</cube-button>
+```
+
+</collapse-wrapper>
+
+
+<!-- @theme: passenger -> start -->
+- With Tip 按钮
+
+<collapse-wrapper>
+
+```vue
+<cube-button
+  class="mt10"
+  icon="like"
+  tip="辅助文案"
+  primary
+  outline
+>主要文案</cube-button>
+```
+
+</collapse-wrapper>
+
+<!-- @theme: passenger -> end -->
+
+</card>
+
+<card>
+
+### 功能
+
+可以通过设置 `openType`、`formType` 等属性，使用小程序的功能并绑定回调。详情参阅[微信 Button 文档](https://developers.weixin.qq.com/miniprogram/dev/component/button.html)以及[支付宝 Button 文档](https://opendocs.alipay.com/mini/component/button)。使用方式如：
+
+- 分享（微信、支付宝）
+
+<collapse-wrapper>
+
+```vue
+<cube-button
+  primary
+  open-type="share"
+  tip="需在小程序环境下预览"
+>分享</cube-button>
+```
+
+</collapse-wrapper>
+
+
+- 获取用户手机号（微信、支付宝）
+
+  微信设置 `open-type` 为 `getPhoneNumber`；支付宝设置 ` open-type` 为 `getAuthorize`，设置 `scope` 为 `phoneNumber`。
+
+  由于涉及用户隐私，手机号的获取需要满足一定的条件，详情参见[微信小程序获取手机号](https://developers.weixin.qq.com/miniprogram/dev/framework/open-ability/getPhoneNumber.html)以及[支付宝小程序获取手机号](https://opendocs.alipay.com/mini/api/getphonenumber)。
+
+
+<collapse-wrapper>
+
+```vue
+<cube-button
+  outline
+  primary
+  open-type@wx="getPhoneNumber"
+  open-type@ali="getAuthorize"
+  scope="phoneNumber"
+  tip="需在小程序环境下预览"
+  bind:getPhoneNumber="onGetPhoneNumber"
+>获取手机号</cube-button>
+```
+
+</collapse-wrapper>
+
+
+- 获取用户信息（微信、支付宝）
+
+  微信设置 `open-type` 为 `getUserInfo`；支付宝设置 ` open-type` 为 `getAuthorize`，设置 `scope` 为 `userInfo`。
+
+  功能使用有一定的限制，详情参见[支付宝小程序获取基础信息](https://opendocs.alipay.com/mini/api/ch8chh)。
+
+
+<collapse-wrapper>
+
+```vue
+<cube-button
+  outline
+  open-type@wx="getUserInfo"
+  open-type@ali="getAuthorize"
+  scope="userInfo"
+  tip="需在小程序环境下预览"
+  bind:getUserInfo="onGetUserInfo"
+>获取用户信息</cube-button>
+```
+
+</collapse-wrapper>
+
+
+- 打开授权设置页面（微信、支付宝）
+
+<collapse-wrapper>
+
+```vue
+<cube-button
+  open-type="openSetting"
+  tip="需在微信小程序环境预览"
+  bind:openSetting="onOpenSetting"
+>打开授权设置页面</cube-button>
+```
+
+</collapse-wrapper>
+
+
+- 打开客服会话（微信）
+
+<collapse-wrapper>
+
+```vue
+<cube-button
+  open-type="contact"
+  show-message-card="{{ true }}"
+  send-message-img="https://dpubstatic.udache.com/static/dpubimg/e7207fae-28de-4b5f-b082-329ff0b01ce0.png"
+  send-message-title="点击返回mpx-cube-ui组件库"
+  send-message-path="/pages/button/index"
+  tip="需在微信小程序环境预览"
+>客服会话</cube-button>
+```
+
+</collapse-wrapper>
+
+
+- 获取用户头像（微信）
+
+<collapse-wrapper>
+
+```vue
+<cube-button
+  open-type="chooseAvatar"
+  tip="需在微信小程序环境预览"
+  bind:chooseAvatar="onChooseAvatar"
+>获取头像</cube-button>
+```
+
+</collapse-wrapper>
+
+
+- 打开 APP（微信）
+
+<collapse-wrapper>
+
+```vue
+<cube-button
+  open-type="launchApp"
+  app-parameter="xxx"
+  tip="需在微信小程序环境预览"
+  bind:launchApp="onLaunchApp"
+>打开 APP</cube-button>
+```
+
+</collapse-wrapper>
+
+
+- 关注生活号（支付宝）
+
+<collapse-wrapper>
+
+```vue
+<cube-button
+  public-id="xxxxxx"
+  open-type="lifestyle"
+  tip="需在支付宝小程序环境预览"
+  bind:followLifestyle="onFollowLifestyle"
+>关注生活号</cube-button>
 ```
 
 </collapse-wrapper>

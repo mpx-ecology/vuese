@@ -30,7 +30,15 @@ function init() {
     },
     // 配置 Markdown 解析器选项
     markdown: {
-      lineNumbers: true
+      lineNumbers: true,
+      shikiSetup(shiki) {
+        const theme = fs.readFileSync(path.resolve(__dirname, 'theme/github-light.json'))
+        const themeJson = JSON.parse(theme)
+        shiki.setTheme({
+          name: 'github-light',
+          ...themeJson
+        })
+      }
     },
     themeConfig: {
       iframeConfig: {

@@ -122,4 +122,20 @@ onUnmounted(() => {
 :deep(.VPNav) {
   background-color: #fff;
 }
+@media (min-width: 1440px) {
+  .VPSidebar {
+    padding-left: 32px !important;
+    width: var(--vp-sidebar-width) !important;
+  }
+  :deep(.VPNavBar.has-sidebar .container > .title) {
+    padding-left: 32px !important;
+    width: var(--vp-sidebar-width) !important;
+  }
+  :deep(.VPNavBar.has-sidebar .container > .content) {
+    padding-left: var(--vp-sidebar-width) !important;
+  }
+  :deep(.VPNavBar.has-sidebar > .divider) {
+    padding-left: var(--vp-sidebar-width) !important;
+  }
+}
 </style>
