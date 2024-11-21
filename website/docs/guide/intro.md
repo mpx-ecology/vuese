@@ -15,14 +15,27 @@ npm install @mpxjs/vuese-website -g
 
 假设你所在的目录为基于组件库搭建的`example`目录，这个目录主要是为了演示组件库组件的用法，启动后的效果如右边模拟器所示。👉
 
-在`example`目录下新建`website.js`，并写入以下内容：
+在`example`平级目录下新建`website`文件夹，添加package.json文件：
+```json
+{
+  "name": "website",
+  "version": "1.0.0",
+  "dependencies": {
+    "vue": "^3.0.0",
+    "vitepress": "^1.2.3"
+  }
+}
+
+```
+
+在`website`文件夹下新建`website.js`文件，并写入以下内容：
 ```javascript
 const path = require('path')
 const website = require('@mpxjs/vuese-website').default
 
 website({
   srcDirPath: path.resolve(__dirname, '组件库src目录下的components目录'),
-  exampleDirPath: path.resolve(__dirname, './pages'),
+  exampleDirPath: path.resolve(__dirname, 'example目录下的pages目录'),
   outputPath: path.resolve(__dirname, './docs/components'),
   doscPath: path.resolve(__dirname, './docs'),
 })
@@ -44,38 +57,13 @@ src/components
 example/pages
 ├── button
 |  ├── README.md
-|  ├── btn-bolder.mpx
-|  ├── btn-choose-avatar.mpx
-|  ├── btn-contact.mpx
-|  ├── btn-disabled.mpx
-|  ├── btn-follow-lifestyle.mpx
-|  ├── btn-get-phone-number.mpx
-|  ├── btn-get-user-info.mpx
 |  ├── btn-icon.mpx
-|  ├── btn-inline-icon.mpx
-|  ├── btn-inline-outline.mpx
-|  ├── btn-inline-primary.mpx
 |  ├── btn-inline.mpx
-|  ├── btn-launch-app.mpx
-|  ├── btn-light-active.mpx
-|  ├── btn-light-disabled.mpx
 |  ├── btn-light.mpx
 |  ├── btn-loading.mpx
-|  ├── btn-open-setting.mpx
-|  ├── btn-outline-active.mpx
-|  ├── btn-outline-disabled.mpx
-|  ├── btn-outline-loading.mpx
-|  ├── btn-outline-primary-active.mpx
-|  ├── btn-outline-primary-disabled.mpx
-|  ├── btn-outline-primary.mpx
 |  ├── btn-outline.mpx
-|  ├── btn-primary-active.mpx
-|  ├── btn-primary-disabled.mpx
 |  ├── btn-primary.mpx
-|  ├── btn-secondary-active.mpx
 |  ├── btn-secondary.mpx
-|  ├── btn-share.mpx
-|  ├── btn-with-tip.mpx
 |  └── index.mpx
 ├── button-group
 |  ├── README.md
@@ -88,14 +76,24 @@ example/pages
 └── index.ts
 ```
 
-### 文档生成
-
-文档由[vitepress](https://vitepress.dev/zh/guide/what-is-vitepress)驱动，需要在`example`目录中安装对应的依赖：
-```bash
-npm install vitepress@^1.2.3
+假设你的项目为`monorepo`，此时的目录结构为：
+```plaintext
+monorepo
+├── mpx-cube-ui // 换成你的组件库
+├── example
+└── website
+   ├── website.js
+   └── package.json
 ```
 
-然后在`example`目录下执行以下命令：
+### 文档生成
+
+文档由[vitepress](https://vitepress.dev/zh/guide/what-is-vitepress)驱动，需要在`website`目录中安装对应的依赖：
+```bash
+npm install vitepress@^1.2.3 vue@^3.0.0
+```
+
+然后在`website`目录下执行以下命令：
 
 ```bash
 vuese-website
@@ -117,7 +115,7 @@ docs
 └── index.md
 ```
 
-在`example`的`package.json`中添加一条命令：
+在`website`的`package.json`中添加一条命令：
 ```diff
 +  "serve:doc": "node website.js"
 ```
@@ -145,7 +143,7 @@ iframeConfig: {
 }
 ```
 
-**注意：这里的端口要和你的`example`项目`vue.config.js`中配置的端口号一致**
+**注意：这里的端口要和你的`example`项目中的`vue.config.js`文件中配置的端口号一致**
 ```javascript
 devServer: {
   port: 8090
@@ -173,7 +171,7 @@ export const syncPathToChild: (to: string) => void;
 }
 ```
 
-你需要在项目的`app.ts`中，监听主窗口路由的变化：
+你需要在`example`项目的`app.ts`中，监听主窗口路由的变化：
 ```typescript
 import mpx, { createApp } from '@mpxjs/core'
 import { onPathchange } from '@mpxjs/vuese-website/dist/iframe-sync'
