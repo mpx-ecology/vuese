@@ -1566,15 +1566,15 @@
     webpackbar "^5.0.0"
     wrap-ansi "^5.1.0"
 
-"@mpxjs/vuese-markdown-render@~1.0.0":
+"@mpxjs/vuese-markdown-render@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@mpxjs/vuese-markdown-render/-/vuese-markdown-render-1.0.0.tgz#4a9096fec33286f89693f2208e9ab0f4bb17a2f1"
   integrity sha512-wYicByuGDkO9fp3LWm1p7PxkZ16oqpGrPeVsQ+SZIzZz9ExGo5NFuTB+BOu18/3EzNawCNnTkWivF682OOXhBw==
 
-"@mpxjs/vuese-parser@~1.0.2":
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/@mpxjs/vuese-parser/-/vuese-parser-1.0.3.tgz#b67afb512395e5d03c0f54f9f567ca7374435b27"
-  integrity sha512-U2zPXFcx61cBidQ2RQGKt2sVlR+WxylQi2i1KlLYREVlwT1PIVr6Jsqoi/MhKvIZ0aUUPWagwgCPlvNy9O+6SA==
+"@mpxjs/vuese-parser@^1.0.4":
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/@mpxjs/vuese-parser/-/vuese-parser-1.0.4.tgz#8d1aa6705009c59e4b9b180a8b82e0898134b13e"
+  integrity sha512-1GagXXS29CJLwQ7U+PnTdgNsW8a1Yb5KRqfwtBZ/XCs9DAjWv0rJ6E+wz1egt7NEhP4/kYo4GR3Hzoize/SESw==
   dependencies:
     "@babel/generator" "7.10.3"
     "@babel/parser" "7.10.3"
@@ -1585,10 +1585,10 @@
     vue-template-compiler "^2.6.11"
 
 "@mpxjs/vuese-website@file:../packages/website":
-  version "0.0.2-beta.22"
+  version "1.0.1"
   dependencies:
-    "@mpxjs/vuese-markdown-render" "~1.0.0"
-    "@mpxjs/vuese-parser" "~1.0.2"
+    "@mpxjs/vuese-markdown-render" "^1.0.0"
+    "@mpxjs/vuese-parser" "^1.0.4"
     dirty-json "^0.9.2"
     fs-extra "^11.2.0"
     highlight.js "^11.9.0"

@@ -9,6 +9,7 @@
   "browserslist": "ios >= 8, chrome >= 47",
   "dependencies": {
     "vue": "^3.0.0",
-    "vitepress": "^1.2.3"
+    "vitepress": "^1.2.3",
+    "@mpxjs/vuese-website": "file:../packages/website"
   }
 }
