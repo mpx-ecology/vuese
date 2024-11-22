@@ -10,7 +10,7 @@ function init() {
   const list = fs.readdirSync(dir).map(item => {
     item = item.split('.')[0]
     return { text: item, link: `/${COMPONENT_DIR_NAME}/${item}` }
-  }).reverse()
+  })
   const components = {
     text: '组件',
     collapsable: false,
