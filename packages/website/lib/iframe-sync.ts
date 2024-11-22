@@ -15,14 +15,14 @@ export const syncPathToParent = (iframe: HTMLIFrameElement, to: string) => {
  * @returns
  */
 export const onPathchange = (callback?: (path: string) => void): () => void => {
-  const cache = { prevPath: '' }
+  let prevPath = ''
   const handleMessage = (e: { data: { value: string } }) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const { value } = (typeof e.data === 'object' ? e.data || {} : {})
-    if (value !== undefined && value !== cache.prevPath) {
+    if (value !== undefined && value !== prevPath) {
       callback?.(value)
-      cache.prevPath = value
+      prevPath = value
     }
   }
   window.addEventListener('message', handleMessage)
