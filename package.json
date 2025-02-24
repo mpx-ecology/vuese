@@ -5,6 +5,7 @@
     "packages/*"
   ],
   "scripts": {
+    "website": "cd website && npm run serve:doc",
     "serve": "node ./demo/index.js",
     "test": "yarn lint && jest --verbose",
     "build": "yarn lint && node ./scripts/build.js",
