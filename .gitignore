@@ -13,3 +13,4 @@ packages/demo
 website/docs/.vitepress/cache
 website/docs/components
 .cache
+packages/.DS_Store
