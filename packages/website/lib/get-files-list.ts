@@ -21,16 +21,17 @@ function listMpxFiles(dir: string, fileName = '') {
 }
 
 
-let _cacheList: Record<"fullPath" | "fileName", string>[] = []
-export function getFiles(srcPath: string, examplePath: string) {
+const _cacheList: Record<"fullPath" | "fileName", string>[][] = []
+export function getFiles(srcPath: string[], examplePath: string[]) {
   if (_cacheList.length) return _cacheList
 
-  const srcFiles = listMpxFiles(srcPath)
-  const exapmpleFiles = fs.readdirSync(examplePath)
-
-  _cacheList = srcFiles.filter(item => {
-    return exapmpleFiles.includes(item.fileName)
+  srcPath.forEach((_, index) => {
+    const srcFiles = listMpxFiles(srcPath[index])
+    const exampleFiles = fs.readdirSync(examplePath[index])
+  
+    _cacheList.push(srcFiles.filter(item => {
+      return exampleFiles.includes(item.fileName)
+    }))
   })
-
   return _cacheList
 }

@@ -11,4 +11,5 @@ packages/parser/lib/example.ts
 .DS_Store
 packages/demo
 website/docs/.vitepress/cache
+website/docs/components
 .cache
