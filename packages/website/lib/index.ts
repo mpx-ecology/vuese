@@ -34,12 +34,12 @@ function validateParams(config: WebsiteConfig) {
     }
     try {
       if (typeof config[key] === 'string')  {
-        const stat = fs.statSync(config[key])
+        const stat = fs.statSync(config[key] as fs.PathLike)
         if (!stat.isDirectory()) {
           dir.push(key)
         }
       } else {
-        config[key].forEach(item => {
+        (config[key] as string[]).forEach(item => {
           const stat = fs.statSync(item)
           if (!stat.isDirectory()) {
             dir.push(key)
