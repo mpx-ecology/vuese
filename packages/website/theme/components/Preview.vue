@@ -28,7 +28,7 @@
 import { throttle } from 'lodash-es'
 import { ref, onMounted, computed, watch, onUnmounted } from 'vue'
 import { useRouter, useRoute, useData } from 'vitepress'
-import { syncPathToParent } from '@mpxjs/vuese-website/dist/iframe-sync'
+import { syncPathToParent } from '../../iframe-sync'
 
 const COMPONENT_DIR_NAME = 'components'
 
