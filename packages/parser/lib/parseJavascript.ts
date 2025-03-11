@@ -53,6 +53,9 @@ export function parseJavascript(
   const importDeclarationMap: {
     [key: string]: string
   } = {}
+  const importOriginNameMap: {
+    [key: string]: string
+  } = {}
   const vueComponentVisitor = {
     Decorator(path: NodePath<bt.Decorator>): void {
       if (
@@ -549,6 +552,11 @@ export function parseJavascript(
       const sourcePath = rootPath.node.source.value
       const specifiers = rootPath.node.specifiers
       specifiers.map(item => {
+        if (item.type === 'ImportSpecifier') {
+          importOriginNameMap[item.local.name] = item.imported ? item.imported.name : item.local.name
+        } else {
+          importOriginNameMap[item.local.name] = item.local.name
+        }
         importDeclarationMap[item.local.name] = sourcePath
       })
     },
@@ -571,7 +579,7 @@ export function parseJavascript(
         }
       }
       if (isHelpCreate) {
-        _helpCreateName = callee.name
+        _helpCreateName = importOriginNameMap[callee.name]
       }
     },
     VariableDeclaration(rootPath: NodePath<bt.VariableDeclaration>) {
