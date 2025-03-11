@@ -1,6 +1,6 @@
 {
   "name": "@mpxjs/vuese-website",
-  "version": "1.0.6",
+  "version": "1.0.7-alpha.0",
   "description": "构建示例网站",
   "author": "QiuShuiBai <1125097005@qq.com>",
   "homepage": "",
@@ -25,8 +25,8 @@
     "vuese-website": "bin/init.js"
   },
   "dependencies": {
-    "@mpxjs/vuese-markdown-render": "^1.0.5",
-    "@mpxjs/vuese-parser": "^1.0.5",
+    "@mpxjs/vuese-markdown-render": "^1.0.6",
+    "@mpxjs/vuese-parser": "^1.0.6",
     "dirty-json": "^0.9.2",
     "fs-extra": "^11.2.0",
     "highlight.js": "^11.9.0",
